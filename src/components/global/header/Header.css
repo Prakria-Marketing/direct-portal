@@ -1,0 +1,21 @@
+.header-bg {
+  background: linear-gradient(180deg, #fc5158, #ba070f);
+  padding: 20px 0 !important;
+  background-position: center;
+  background-size: cover;
+}
+.css-afolsc {
+  position: unset !important;
+}
+.menu-btn button {
+  font-size: 14px;
+  font-weight: 600;
+}
+.menu-btn button:hover {
+  text-decoration: none;
+}
+.menu-btn button svg {
+  height: 20px;
+  width: 20px;
+}
+
