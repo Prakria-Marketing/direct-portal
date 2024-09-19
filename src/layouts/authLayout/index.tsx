@@ -3,10 +3,10 @@ import { Outlet } from "react-router-dom";
 function AuthLayout() {
   return (
     <Flex height={"100dvh"}>
-      <Box className="sm:none md:flex-1 relative"
+      <Box
         position={"relative"}
         flex={{ md: "1" }}
-        display={{ sm: "none", md: "block" }}
+        display={{ base: "none", sm: "none", md: "block" }}
       >
         <Box
           width={"100%"}
@@ -18,9 +18,12 @@ function AuthLayout() {
         >s</Box>
       </Box>
       <Flex
-        justifyContent={"center"}
+        justify={"center"}
         alignItems={"center"}
-        flex={{ md: "1" }}>
+        flex={{ md: "1" }}
+
+        width={"100%"}
+      >
         <Outlet />
       </Flex>
     </Flex>
