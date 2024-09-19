@@ -6,9 +6,7 @@ function MainLayout() {
   return (
     <>
       <Header />
-      <WrapperLayout>
-        <Outlet />
-      </WrapperLayout>
+      <Outlet />
       <Footer />
     </>
   );

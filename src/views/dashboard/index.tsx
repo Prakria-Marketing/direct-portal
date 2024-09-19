@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   Grid,
   GridItem,
@@ -11,10 +10,12 @@ import {
 import HeroBannerCard from "../../components/dashboard/heroBannerCard";
 import CategoryCard from "../../components/dashboard/CategoryCard";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import FaqSection from "../../components/dashboard/FaqSection";
+import WrapperLayout from "../../layouts/wrapperLayout";
 
 function Dashboard() {
   return (
-    <>
+    <WrapperLayout>
       <Box my={10}>
         <Heading as="h5" size="md" pb="5">
           Hi, Rahul Arya!
@@ -65,7 +66,15 @@ function Dashboard() {
           </GridItem>
         </Grid>
       </Box>
-    </>
+
+      <Box my={10}>
+        <Box>
+          <Heading size="md">Frequently Asked Questions</Heading>
+          <Text>Time to brief your next project. We'll cover the rest!</Text>
+        </Box>
+        <FaqSection />
+      </Box>
+    </WrapperLayout>
   );
 }
 

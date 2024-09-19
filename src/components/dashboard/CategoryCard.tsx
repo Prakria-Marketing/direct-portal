@@ -6,7 +6,6 @@ import {
   Heading,
   Image,
 } from "@chakra-ui/react";
-import { BiLike } from "react-icons/bi";
 
 function CategoryCard() {
   return (

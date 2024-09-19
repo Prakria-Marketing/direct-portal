@@ -1,9 +1,11 @@
+"use client";
+
 import {
   Box,
   chakra,
   Container,
+  Flex,
   HStack,
-  Image,
   Stack,
   Text,
   useColorModeValue,
@@ -44,11 +46,21 @@ const SocialButton = ({
   );
 };
 
-export default function Footer() {
+export default function SmallCentered() {
   return (
-    <Box bg="#2d3748">
-      <Container width="100vw">
-        <Stack direction={"row"} spacing={6} alignItems={"center"} justifyContent={"center"}>
+    <Box
+      bg={useColorModeValue("#eaeaea", "gray.900")}
+      color={useColorModeValue("gray.700", "gray.200")}
+    >
+      <Container
+        as={Stack}
+        maxW={"6xl"}
+        py={4}
+        spacing={4}
+        justify={"center"}
+        align={"center"}
+      >
+        <Stack direction={"row"} spacing={6}>
           <Box as="a" href={"#"}>
             Home
           </Box>
@@ -63,7 +75,29 @@ export default function Footer() {
           </Box>
         </Stack>
       </Container>
-      <Container></Container>
+
+      <Box
+        borderTopWidth={1}
+        borderStyle={"solid"}
+        borderColor={useColorModeValue("#fff", "gray.700")}
+        px={20}
+        py={4}
+      >
+        <HStack justifyContent="space-between">
+          <Text>© 2022 Chakra Templates. All rights reserved</Text>
+          <Stack direction={"row"} spacing={6}>
+            <SocialButton label={"Twitter"} href={"#"}>
+              <FaTwitter />
+            </SocialButton>
+            <SocialButton label={"YouTube"} href={"#"}>
+              <FaYoutube />
+            </SocialButton>
+            <SocialButton label={"Instagram"} href={"#"}>
+              <FaInstagram />
+            </SocialButton>
+          </Stack>
+        </HStack>
+      </Box>
     </Box>
   );
 }

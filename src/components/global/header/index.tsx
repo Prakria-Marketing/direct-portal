@@ -30,6 +30,7 @@ import {
   HiOutlineUser,
 } from "react-icons/hi2";
 import WrapperLayout from "../../../layouts/wrapperLayout";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -134,7 +135,7 @@ function Header() {
       </Box>
 
       {/* New Section Below Header */}
-      <Box bg="white" py={2} w="100dvw">
+      <Box bg="white" py={2} w="100dvw"   border='1px' borderColor='gray.200'>
         <WrapperLayout>
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}
@@ -145,7 +146,7 @@ function Header() {
                 variant="link"
                 gap={1}
               >
-                <HiOutlineHome /> Dashboard
+                <HiOutlineHome /> <Link to="/">Dashboard</Link>
               </Button>
               <Button
                 display={"flex"}
@@ -153,7 +154,8 @@ function Header() {
                 variant="link"
                 gap={1}
               >
-                <HiOutlineBriefcase /> Project Logs
+                <HiOutlineBriefcase />{" "}
+                <Link to="/project-logs">Project Logs</Link>
               </Button>
               <Button
                 display={"flex"}
@@ -161,7 +163,8 @@ function Header() {
                 variant="link"
                 gap={1}
               >
-                <HiOutlineChatBubbleLeftRight /> Messages
+                <HiOutlineChatBubbleLeftRight />{" "}
+                <Link to="/messages">Messages</Link>
               </Button>
               <Button
                 display={"flex"}
@@ -170,7 +173,7 @@ function Header() {
                 gap={1}
               >
                 <HiOutlineCheckBadge />
-                Membership
+                <Link to="/membership">Membership</Link>
               </Button>
               <Button
                 display={"flex"}
@@ -179,7 +182,7 @@ function Header() {
                 gap={1}
               >
                 <FiHelpCircle />
-                Help
+                <Link to="/help"> Help</Link>
               </Button>
             </HStack>
 
