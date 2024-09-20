@@ -9,14 +9,22 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-interface IHeroBanner {
+interface ILogCard {
   bg: string;
   title: string;
+  border: string;
+  borderColor: string;
 }
-function LogCard({ bg, title }: IHeroBanner) {
+function LogCard({ bg, title, border, borderColor }: ILogCard) {
   return (
     <GridItem w="100%">
-      <Card rounded={"3xl"} bg={bg} shadow="none">
+      <Card
+        rounded={"3xl"}
+        bg={bg}
+        boxShadow={"lg"}
+        border={border}
+        borderColor={borderColor}
+      >
         <CardBody>
           <Heading my={3} size={"md"}>
             80%

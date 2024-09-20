@@ -1,3 +1,4 @@
+import Customers from "@/views/customers";
 import MainLayout from "../layouts/mainLayout";
 import Dashboard from "../views/dashboard";
 import Help from "../views/help";
@@ -16,6 +17,10 @@ const mainRoutes = {
     {
       path: "/project-logs",
       element: <ProjectLogs />,
+    },
+    {
+      path: "/customers",
+      element: <Customers />,
     },
     {
       path: "/messages",
