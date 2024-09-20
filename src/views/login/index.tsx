@@ -1,11 +1,11 @@
 import { AbsoluteCenter, Box, Button, Divider, Flex, Heading, Stack } from '@chakra-ui/react';
-import GoogleButton from '../components/googleButton';
-import AppleButton from '../components/appleButton';
+import GoogleButton from '@/components/(auth)/components/googleButton';
+import AppleButton from '@/components/(auth)/components/appleButton/index';
 import { Image } from '@chakra-ui/react';
-import RegisterForm from './registerForm';
+import LoginForm from '@/components/(auth)/login/LoginForm';
 import { Link } from 'react-router-dom';
-// import LoginForm from './LoginForm';
-function RegisterPage() {
+import { doSignInWithGoogle } from '@/firebase/auth';
+function LoginPage() {
     return (
         <Stack gap={"10px"} width={"100%"} maxWidth={"400px"}
         >
@@ -13,7 +13,7 @@ function RegisterPage() {
             <Heading size={"md"} textAlign={"center"}>
                 Log in to your account
             </Heading>
-            <RegisterForm />
+            <LoginForm />
             <Box position='relative' padding='4'>
                 <Divider />
                 <AbsoluteCenter bg='white' px='4'>
@@ -21,15 +21,16 @@ function RegisterPage() {
                 </AbsoluteCenter>
             </Box>
             <Stack gap={4}>
-                <GoogleButton />
+                <GoogleButton onClick={doSignInWithGoogle} />
                 <AppleButton />
 
             </Stack>
+
             <Flex gap={2} justifyContent={"center"} >
-                Already have an account?
+                No account?
                 <Button variant='link' size='xs' >
-                    <Link to="/login">
-                        login
+                    <Link to="/register">
+                        Create one
                     </Link>
                 </Button>
             </Flex>
@@ -38,4 +39,4 @@ function RegisterPage() {
     )
 }
 
-export default RegisterPage
+export default LoginPage

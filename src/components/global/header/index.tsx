@@ -31,8 +31,13 @@ import {
 } from "react-icons/hi2";
 import WrapperLayout from "../../../layouts/wrapperLayout";
 import { Link } from "react-router-dom";
+import { auth } from '@/firebase/firebase';
+
 
 function Header() {
+  const logout = async () => {
+    await auth.signOut();
+  }
   return (
     <>
       {/* Header Section */}
@@ -123,7 +128,7 @@ function Header() {
                     Business Hub
                   </MenuItem>
                   <hr />
-                  <MenuItem fontSize="14px" gap={2}>
+                  <MenuItem fontSize="14px" gap={2} onClick={logout}>
                     <HiOutlineArrowRightStartOnRectangle />
                     Sign Out
                   </MenuItem>
@@ -135,7 +140,7 @@ function Header() {
       </Box>
 
       {/* New Section Below Header */}
-      <Box bg="white" py={2} w="100dvw"   border='1px' borderColor='gray.200'>
+      <Box bg="white" py={2} w="100dvw" border='1px' borderColor='gray.200'>
         <WrapperLayout>
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}

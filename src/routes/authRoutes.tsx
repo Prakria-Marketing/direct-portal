@@ -1,6 +1,6 @@
-import LoginPage from "@/components/(auth)/login";
+import LoginPage from "@/views/login";
 import AuthLayout from "../layouts/authLayout";
-import RegisterPage from "@/components/(auth)/register";
+import RegisterPage from "@/views/register";
 
 const authRoutes = {
   path: "/",
