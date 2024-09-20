@@ -1,0 +1,15 @@
+.str-chat {
+    --str-chat__primary-color: #26a69a;
+    --str-chat__active-primary-color: #00796b;
+    --str-chat__primary-surface-color: #02695c;
+    --str-chat__own-message-bubble-color: #fff;
+
+    /* --str-chat__surface-color: #424242; */
+    /* --str-chat__secondary-surface-color: hsl(0, 0%, 100%); */
+    --str-chat__primary-surface-color-low-emphasis: #004d40;
+    /* --str-chat__avatar-background-color: #ff7043; */
+}
+
+.str-chat__message-list-scroll {
+    background-image: url("/images/bg_chat.jfif");
+}
