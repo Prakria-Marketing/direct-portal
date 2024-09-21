@@ -8,21 +8,26 @@ import {
     Channel,
     ChannelList,
     Window,
-    ChannelHeader,
+    // ChannelHeader,
     MessageList,
     MessageInput,
     Thread,
     useCreateChatClient,
+    // ChannelPreviewMessenger,
+    // useChannelListContext,
+    // useChatContext,
+
 } from 'stream-chat-react';
 import 'stream-chat-react/dist/css/v2/index.css';
-
 import "./streamChat.css"
-
+import InboxContact from './components/inboxContent';
+import { CustomChannelHeader } from './components/chatHeader';
 const apikey: string = import.meta.env.VITE_app_key!;
 
 
 export default function ChatPage() {
     const { user } = useAuth();
+
     const query = useQuery({
         queryKey: ["chat", "token"],
         queryFn: async () => {
@@ -31,14 +36,15 @@ export default function ChatPage() {
         }
     });
 
-    return <>
+    return <Box height={"500px"}>
+
         {!!query.data?.data && !!user.userId &&
             <MyChat apiKey={apikey}
                 token={query?.data?.data.token}
                 userId={user.userId}
             />
         }
-    </>
+    </Box>
 }
 function MyChat({ apiKey, token, userId }: { apiKey: string, token: string, userId: string }) {
     const client = useCreateChatClient({
@@ -53,11 +59,14 @@ function MyChat({ apiKey, token, userId }: { apiKey: string, token: string, user
     return (
         <Chat client={client} >
             <Flex gap={2} height={"100%"}  >
-                <ChannelList filters={filters} options={options} />
-                <Box flex={1}>
+                <ChannelList filters={filters} options={options}
+                    Preview={InboxContact}
+                />
+                <Box flex={1} >
                     <Channel>
                         <Window>
-                            <ChannelHeader />
+                            {/* <ChannelHeader /> */}
+                            <CustomChannelHeader />
                             <MessageList />
                             <MessageInput />
                         </Window>

@@ -12,4 +12,5 @@
 
 .str-chat__message-list-scroll {
     background-image: url("/images/bg_chat.jfif");
+    height: 100%;
 }
