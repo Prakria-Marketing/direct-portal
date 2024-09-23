@@ -1,9 +1,11 @@
+import Customers from "@/views/customers";
 import MainLayout from "../layouts/mainLayout";
 import Dashboard from "../views/dashboard";
 import Help from "../views/help";
 import Membership from "../views/memberships";
 import Messages from "../views/messages";
 import ProjectLogs from "../views/projectlogs";
+import BusinessHub from "@/views/businessHub";
 
 const mainRoutes = {
   path: "/",
@@ -18,6 +20,10 @@ const mainRoutes = {
       element: <ProjectLogs />,
     },
     {
+      path: "/customers",
+      element: <Customers />,
+    },
+    {
       path: "/messages",
       element: <Messages />,
     },
@@ -28,6 +34,10 @@ const mainRoutes = {
     {
       path: "/help",
       element: <Help />,
+    },
+    {
+      path: "/business-hub",
+      element: <BusinessHub />,
     },
   ],
 };

@@ -28,16 +28,16 @@ import {
   HiOutlineHome,
   HiOutlineTicket,
   HiOutlineUser,
+  HiUserGroup,
 } from "react-icons/hi2";
 import WrapperLayout from "../../../layouts/wrapperLayout";
 import { Link } from "react-router-dom";
-import { auth } from '@/firebase/firebase';
-
+import { auth } from "@/firebase/firebase";
 
 function Header() {
   const logout = async () => {
     await auth.signOut();
-  }
+  };
   return (
     <>
       {/* Header Section */}
@@ -125,7 +125,7 @@ function Header() {
                   </MenuItem>
                   <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineBuildingOffice />
-                    Business Hub
+                    <Link to="/business-hub"> Business Hub</Link>
                   </MenuItem>
                   <hr />
                   <MenuItem fontSize="14px" gap={2} onClick={logout}>
@@ -140,7 +140,7 @@ function Header() {
       </Box>
 
       {/* New Section Below Header */}
-      <Box bg="white" py={2} w="100dvw" border='1px' borderColor='gray.200'>
+      <Box bg="white" py={2} w="100dvw" border="1px" borderColor="gray.200">
         <WrapperLayout>
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}
@@ -152,6 +152,14 @@ function Header() {
                 gap={1}
               >
                 <HiOutlineHome /> <Link to="/">Dashboard</Link>
+              </Button>
+              <Button
+                display={"flex"}
+                alignItems={"center"}
+                variant="link"
+                gap={1}
+              >
+                <HiUserGroup /> <Link to="/customers">Customers</Link>
               </Button>
               <Button
                 display={"flex"}
