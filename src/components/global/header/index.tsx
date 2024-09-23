@@ -125,7 +125,7 @@ function Header() {
                   </MenuItem>
                   <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineBuildingOffice />
-                    Business Hub
+                    <Link to="/business-hub"> Business Hub</Link>
                   </MenuItem>
                   <hr />
                   <MenuItem fontSize="14px" gap={2} onClick={logout}>

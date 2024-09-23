@@ -5,6 +5,7 @@ import Help from "../views/help";
 import Membership from "../views/memberships";
 import Messages from "../views/messages";
 import ProjectLogs from "../views/projectlogs";
+import BusinessHub from "@/views/businessHub";
 
 const mainRoutes = {
   path: "/",
@@ -33,6 +34,10 @@ const mainRoutes = {
     {
       path: "/help",
       element: <Help />,
+    },
+    {
+      path: "/business-hub",
+      element: <BusinessHub />,
     },
   ],
 };
