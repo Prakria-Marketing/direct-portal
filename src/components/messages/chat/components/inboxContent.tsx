@@ -8,12 +8,11 @@ import {
     // MessageStatusIcon,
     MessageWrapper,
     Name,
-    Subtitle,
     Time,
     TopContent,
 } from "./styles";
 import { useAuth } from "@/hooks/auth";
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, Text } from "@chakra-ui/react";
 
 
 export default function InboxContact({ displayImage, latestMessage, channel, ...rest }: ChannelPreviewUIComponentProps<DefaultStreamChatGenerics>) {
@@ -37,15 +36,16 @@ export default function InboxContact({ displayImage, latestMessage, channel, ...
     };
 
     return (
-        <Contact isActive={isActive} onClick={handleChangeChat}>
+        <Contact isActive={isActive} onClick={handleChangeChat} width={"300px"}>
             <AvatarWrapper>
                 {/* Avatar */}
-                <Avatar name={name || title} src={displayImage} />
+                <Avatar name={name || title} src={displayImage} size={"sm"} />
                 {/* <Avatar src={displayImage ?? "https://avatars3.githubusercontent.com/u/100200?s=460&v=4"} /> */}
             </AvatarWrapper>
             <Content>
                 <TopContent>
                     <Name
+                        fontSize={"12px"}
                     >{name || title}</Name>
                     {latestMessage ? <Time>{"2:2"}</Time> : <></>}
                 </TopContent>
@@ -71,11 +71,20 @@ function Message(props: Pick<any, "messageStatus" | "lastMessage">) {
 
     return (
         <>
-            {/* <MessageStatusIcon
-                isRead={messageStatus === "READ"}
-                id={messageStatus === "SENT" ? "singleTick" : "doubleTick"}
-            /> */}
-            <Subtitle>{lastMessage}</Subtitle>
+            <Text
+                display={"inline-block"}
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+                overflow="hidden"
+                lineHeight={1}
+                width="100%"
+                maxWidth={"calc(100% - 10px)"}
+                fontSize="12px"
+            >
+
+                {lastMessage}
+            </Text>
+            {/* <Subtitle>{lastMessage}</Subtitle> */}
         </>
     );
 }

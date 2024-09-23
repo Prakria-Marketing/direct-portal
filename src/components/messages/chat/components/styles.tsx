@@ -31,8 +31,8 @@ export const Contact: FC<ContactProps> = ({ isActive, children, ...props }) => (
         borderBottom="1px solid"
         borderColor="#cdcbcb"
         cursor="pointer"
-        bg={isActive ? "#cdcbcb" : "transparent"}
-        _hover={{ backgroundColor: "#e3e3e3" }}
+        bg={isActive ? "#ededed" : "transparent"}
+        _hover={{ backgroundColor: "#ededed" }}
         {...props}
     >
         {children}
@@ -125,7 +125,13 @@ export const MessageStatusIcon: FC<MessageStatusIconProps> = ({ isRead, ...props
 
 // Subtitle Component
 export const Subtitle: FC<TextProps> = (props) => (
-    <Text marginLeft="3px" {...props} />
+    <Text
+        fontSize="12px"
+        whiteSpace="nowrap"
+        overflow="hidden"
+        textOverflow="ellipsis"
+        width="100%" // Make sure to set a width for ellipsis to work
+        {...props} />
 );
 
 // UnreadContact Component

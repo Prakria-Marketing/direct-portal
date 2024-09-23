@@ -1,27 +1,22 @@
-// import {Chat}
 import axiosInstance from '@/api/axiosinstance';
 import { useAuth } from '@/hooks/auth';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import {
     Chat,
     Channel,
     ChannelList,
     Window,
-    // ChannelHeader,
     MessageList,
     MessageInput,
     Thread,
     useCreateChatClient,
-    // ChannelPreviewMessenger,
-    // useChannelListContext,
-    // useChatContext,
-
 } from 'stream-chat-react';
 import 'stream-chat-react/dist/css/v2/index.css';
 import "./streamChat.css"
 import InboxContact from './components/inboxContent';
 import { CustomChannelHeader } from './components/chatHeader';
+import { SearchIcon } from '@chakra-ui/icons';
 const apikey: string = import.meta.env.VITE_app_key!;
 
 
@@ -58,17 +53,51 @@ function MyChat({ apiKey, token, userId }: { apiKey: string, token: string, user
     if (!client) return <div>Loading chats...</div>;
     return (
         <Chat client={client} >
-            <Flex gap={2} height={"100%"}  >
-                <ChannelList filters={filters} options={options}
-                    Preview={InboxContact}
-                />
+            <Flex height={"100%"} >
+                <Box border={"1px"} borderColor={"gray.200"}>
+                    {/* <Box height={"58px"} bg="#ededed">
+                    </Box> */}
+                    <Box flex={1} maxW="400px" p={2} height={"52px"}
+                        bg="#ededed"
+                    >
+                        <InputGroup>
+                            <InputLeftElement
+                                pointerEvents="none"
+                                children={<SearchIcon color="gray.500" w={4} h={4} />}
+                            />
+                            <Input
+                                rounded={10}
+                                placeholder="Search your chat..."
+                                fontSize="13px"
+                                bg="white"
+                            />
+                        </InputGroup>
+                    </Box>
+                    <Box maxHeight={"calc(100% - 52px)"} overflowY={"scroll"}
+                        overflowX={"hidden"}>
+                        <ChannelList filters={filters} options={options}
+                            Preview={InboxContact}
+                        />
+                    </Box>
+
+                </Box>
                 <Box flex={1} >
                     <Channel>
                         <Window>
-                            {/* <ChannelHeader /> */}
-                            <CustomChannelHeader />
-                            <MessageList />
-                            <MessageInput />
+                            <Flex flexDirection={"column"} height={"100%"}>
+
+                                {/* <ChannelHeader /> */}
+                                <CustomChannelHeader />
+                                <Box position={"relative"} flex={1} overflow={"hidden"} zIndex={1}>
+                                    <MessageList />
+                                    <Box
+                                        className='bg-wall'
+                                    ></Box>
+                                </Box>
+                                <Box >
+                                    <MessageInput />
+                                </Box>
+                            </Flex>
                         </Window>
                         <Thread />
                     </Channel>

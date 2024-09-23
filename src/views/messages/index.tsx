@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Image } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import ServiceCard from "../../components/messages/ServiceCard";
 import ChatPage from "@/components/messages/chat/chat";
 function Messages() {
