@@ -59,6 +59,7 @@ function MyChat({ apiKey, token, userId }: { apiKey: string, token: string, user
                     </Box> */}
                     <Box flex={1} maxW="400px" p={2} height={"52px"}
                         bg="#ededed"
+                        borderBottom={"1px solid #e5e5e5"}
                     >
                         <InputGroup>
                             <InputLeftElement
