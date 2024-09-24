@@ -18,9 +18,9 @@ function BusinessHub() {
                 Business hub
               </Heading>
             </Box>
-            <CreateBusinessForm />
-            <People />
+            {/* <CreateBusinessForm /> */}
             <BusinessOverview />
+            <People />
           </WrapperLayout>
         </GridItem>
       </Grid>

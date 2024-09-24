@@ -213,6 +213,7 @@ function Header() {
                 <BiPlus />
                 Start Project
               </Button>
+              <Link to="/categories">
               <Button
                 fontWeight={500}
                 fontSize="14px"
@@ -224,6 +225,7 @@ function Header() {
               >
                 Explore Categories
               </Button>
+              </Link>
             </Box>
           </Flex>
         </WrapperLayout>

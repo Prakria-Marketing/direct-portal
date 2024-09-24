@@ -16,7 +16,7 @@ import ActionButton from "./ActionButton";
 
 function MemberTable() {
   return (
-    <TableContainer mt={5}>
+    <TableContainer mt={5} mb={10}>
       <Table variant="simple" colorScheme="black">
         <Thead>
           <Tr>
