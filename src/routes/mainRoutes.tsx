@@ -6,6 +6,7 @@ import Membership from "../views/memberships";
 import Messages from "../views/messages";
 import ProjectLogs from "../views/projectlogs";
 import BusinessHub from "@/views/businessHub";
+import Categories from "@/views/categories";
 
 const mainRoutes = {
   path: "/",
@@ -38,6 +39,10 @@ const mainRoutes = {
     {
       path: "/business-hub",
       element: <BusinessHub />,
+    },
+    {
+      path: "/categories",
+      element: <Categories />,
     },
   ],
 };
