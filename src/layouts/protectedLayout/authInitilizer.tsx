@@ -31,7 +31,7 @@ function AuthInitilizer() {
     })
     const initializeUser: NextOrObserver<User> = async (user) => {
         if (user) {
-            const res = await registerMutation.mutateAsync({ token: (user as any).accessToken });
+            await registerMutation.mutateAsync({ token: (user as any).accessToken });
 
             // console.log("register ", res)
 
