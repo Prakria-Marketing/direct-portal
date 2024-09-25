@@ -69,8 +69,7 @@ export const CustomChannelHeader = () => {
               </HStack>
             </MenuButton>
             <MenuList zIndex={999}>
-             
-                <CreateProjectModal />
+              <CreateProjectModal />
             </MenuList>
           </Menu>
         </Box>

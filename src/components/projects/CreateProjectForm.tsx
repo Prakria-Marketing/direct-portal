@@ -1,7 +1,6 @@
-"use client";
-
 import { useState } from "react";
 import {
+  Progress,
   Box,
   ButtonGroup,
   Button,
@@ -11,31 +10,34 @@ import {
   FormLabel,
   Input,
   Select,
-  Text,
   Radio,
+  RadioGroup,
   Heading,
+  Textarea,
 } from "@chakra-ui/react";
 
 import { useToast } from "@chakra-ui/react";
+import { MultiSelect, useMultiSelect } from "chakra-multiselect";
+import Steps from "./Steps";
 
 const Form1 = () => {
+  const [selectedOption, setSelectedOption] = useState("organization");
+
   return (
     <>
-    <Heading as={"h3"} size={"sm"} mb={10}>You're creating this project for:</Heading>
-      <Flex>
-        <FormControl mr="5%">
-          <FormLabel htmlFor="first-name" fontWeight={"normal"}>
-            Personal
-          </FormLabel>
-          <Radio id="first-name" placeholder="First name" />
-        </FormControl>
-        <FormControl mr="5%">
-          <FormLabel htmlFor="first-name" fontWeight={"normal"}>
-           Organization
-          </FormLabel>
-          <Radio id="first-name" placeholder="First name" />
-        </FormControl>
-      </Flex>
+      <RadioGroup onChange={setSelectedOption} value={selectedOption}>
+        <Flex>
+          <FormControl mr="5%">
+            <FormLabel htmlFor="organization" fontWeight={"normal"}>
+              Project Type
+            </FormLabel>
+            <Select name="projectType">
+              <option>Personal Project</option>
+              <option>Organization's Project</option>
+            </Select>
+          </FormControl>
+        </Flex>
+      </RadioGroup>
     </>
   );
 };
@@ -45,54 +47,44 @@ const Form2 = () => {
     <>
       <FormControl as={GridItem} colSpan={[6, 3]}>
         <FormLabel
-          htmlFor="country"
+          htmlFor="category"
           fontSize="sm"
           fontWeight="md"
           color="gray.700"
-          _dark={{
-            color: "gray.50",
-          }}
         >
-          Country / Region
+          Category
         </FormLabel>
         <Select
-          id="country"
-          name="country"
-          autoComplete="country"
-          placeholder="Select option"
+          id="category"
+          placeholder="Select category"
           focusBorderColor="brand.400"
           shadow="sm"
-          size="sm"
+        //   size="sm"
           w="full"
           rounded="md"
         >
-          <option>United States</option>
-          <option>Canada</option>
-          <option>Mexico</option>
+          <option>Category 1</option>
+          <option>Category 2</option>
+          <option>Category 3</option>
         </Select>
       </FormControl>
 
       <FormControl as={GridItem} colSpan={6}>
         <FormLabel
-          htmlFor="street_address"
+          htmlFor="title"
           fontSize="sm"
           fontWeight="md"
           color="gray.700"
-          _dark={{
-            color: "gray.50",
-          }}
           mt="2%"
         >
-          Street address
+          Title
         </FormLabel>
         <Input
           type="text"
-          name="street_address"
-          id="street_address"
-          autoComplete="street-address"
+          id="title"
           focusBorderColor="brand.400"
           shadow="sm"
-          size="sm"
+        //   size="sm"
           w="full"
           rounded="md"
         />
@@ -100,101 +92,145 @@ const Form2 = () => {
 
       <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
         <FormLabel
-          htmlFor="city"
+          htmlFor="description"
           fontSize="sm"
           fontWeight="md"
           color="gray.700"
-          _dark={{
-            color: "gray.50",
-          }}
           mt="2%"
         >
-          City
+          Description
         </FormLabel>
-        <Input
-          type="text"
-          name="city"
-          id="city"
-          autoComplete="city"
+        <Textarea
+          id="description"
           focusBorderColor="brand.400"
           shadow="sm"
-          size="sm"
+        //   size="sm"
           w="full"
           rounded="md"
         />
       </FormControl>
 
+      <Flex mt={5} gap={5}>
+        <FormControl as={GridItem} colSpan={6}>
+          <FormLabel
+            htmlFor="title"
+            fontSize="sm"
+            fontWeight="md"
+            color="gray.700"
+            mt="2%"
+          >
+            Start Date
+          </FormLabel>
+          <Input
+            type="datetime-local"
+            id="title"
+            focusBorderColor="brand.400"
+            shadow="sm"
+            // size="sm"
+            w="full"
+            rounded="md"
+          />
+        </FormControl>
+        <FormControl as={GridItem} colSpan={6}>
+          <FormLabel
+            htmlFor="title"
+            fontSize="sm"
+            fontWeight="md"
+            color="gray.700"
+            mt="2%"
+          >
+            Start Date
+          </FormLabel>
+          <Input
+            type="datetime-local"
+            id="title"
+            focusBorderColor="brand.400"
+            shadow="sm"
+            // size="sm"
+            w="full"
+            rounded="md"
+          />
+        </FormControl>
+      </Flex>
+    </>
+  );
+};
+
+const Form3 = () => {
+  const { value, options, onChange } = useMultiSelect({
+    options: [
+      { label: "Option 1", value: "option1" },
+      { label: "Option 2", value: "option2" },
+      { label: "Option 3", value: "option3" },
+      { label: "Option 4", value: "option4" },
+      { label: "Option 5", value: "option5" },
+      { label: "Option 6", value: "option6" },
+      { label: "Option 7", value: "option7" },
+      { label: "Option 8", value: "option8" },
+      { label: "Option 9", value: "option9" },
+      { label: "Option 10", value: "option10" },
+    ],
+  });
+  return (
+    <>
       <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
         <FormLabel
-          htmlFor="state"
+          htmlFor="clientTeam"
           fontSize="sm"
           fontWeight="md"
           color="gray.700"
-          _dark={{
-            color: "gray.50",
-          }}
           mt="2%"
         >
-          State / Province
+          Client Team
         </FormLabel>
-        <Input
-          type="text"
-          name="state"
-          id="state"
-          autoComplete="state"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          rounded="md"
+        <MultiSelect
+          options={options}
+          placeholder="Select Members"
+          value={value}
+          onChange={onChange}
+          create
         />
       </FormControl>
-
       <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
         <FormLabel
-          htmlFor="postal_code"
+          htmlFor="clientTeam"
           fontSize="sm"
           fontWeight="md"
           color="gray.700"
-          _dark={{
-            color: "gray.50",
-          }}
           mt="2%"
         >
-          ZIP / Postal
+          Resources
         </FormLabel>
-        <Input
-          type="text"
-          name="postal_code"
-          id="postal_code"
-          autoComplete="postal-code"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          rounded="md"
+        <MultiSelect
+          options={options}
+          placeholder="Select Members"
+          value={value}
+          onChange={onChange}
+          create
         />
       </FormControl>
     </>
   );
 };
 
-export default function CreateProjectForm() {
+export default function CreateProjectForm({
+  step,
+  setStep,
+  progress,
+  setProgress,
+}: {
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  progress: number;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
 
   return (
     <>
-      <Box
-        borderWidth="1px"
-        rounded="lg"
-        maxWidth={800}
-        p={6}
-        m="10px auto"
-        as="form"
-      >
-        {step === 1 ? <Form1 /> : <Form2 />}
+      <Box rounded="lg" maxWidth={800} py={4} m="10px 0" as="form">
+        {step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />}
+
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
@@ -204,8 +240,8 @@ export default function CreateProjectForm() {
                   setProgress(progress - 33.33);
                 }}
                 isDisabled={step === 1}
-                colorScheme="red"
-                variant="solid"
+                colorScheme="teal"
+                variant="outline"
                 w="7rem"
                 mr="5%"
               >
@@ -222,8 +258,8 @@ export default function CreateProjectForm() {
                     setProgress(progress + 33.33);
                   }
                 }}
-                colorScheme="red"
-                variant="outline"
+                colorScheme="teal"
+                variant="solid"
               >
                 Next
               </Button>

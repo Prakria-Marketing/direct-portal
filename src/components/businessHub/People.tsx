@@ -6,9 +6,11 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { HiPlus } from "react-icons/hi2";
 import MemberTable from "./MemberTable";
+import InviteMember from "./InviteMember";
 
 function People() {
   return (
@@ -28,15 +30,7 @@ function People() {
             />
           </InputGroup>
         </FormControl>
-        <Button
-          fontSize={"xs"}
-          mb={15}
-          colorScheme="green"
-          variant="solid"
-          size={"sm"}
-        >
-          <HiPlus /> Invite member
-        </Button>
+        <InviteMember />
       </Flex>
 
       <MemberTable />
