@@ -37,7 +37,7 @@ function BusinessHub() {
                     &&
                     <>
                       <BusinessOverview data={orgnizationQuery.data.data! as BusinessOrginizationData} />
-                      <People />
+                      <People orgId={orgnizationQuery?.data?.data?._id as string} />
                     </>
                   }
                 </>

@@ -7,7 +7,7 @@ import Messages from "../views/messages";
 import ProjectLogs from "../views/projectlogs";
 import BusinessHub from "@/views/businessHub";
 import Categories from "@/views/categories";
-
+import InvitePage from "@/views/invite";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -44,6 +44,10 @@ const mainRoutes = {
       path: "/categories",
       element: <Categories />,
     },
+    {
+      path: "/invite",
+      element: <InvitePage />
+    }
   ],
 };
 

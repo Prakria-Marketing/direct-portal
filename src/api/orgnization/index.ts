@@ -23,13 +23,12 @@ export async function getOrgnization() {
 }
 type ITeam = {
     email: string;
-    organization: string;
 }
 export async function inviteMember(body: ITeam) {
     const response = await axiosInstance.post("/teams//invite-member", body);
     return response.data;
 }
-export async function getTeam() {
-    const response = await axiosInstance.get("/teams/fetch-team");
+export async function getTeam(orgId: string) {
+    const response = await axiosInstance.get("/teams/fetch-team?organization=" + orgId);
     return response.data;
 }
