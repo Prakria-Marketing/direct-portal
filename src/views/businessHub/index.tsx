@@ -1,20 +1,17 @@
 import { getOrgnization } from "@/api/orgnization";
-import BusinessOverview from "@/components/businessHub/BusinessOverview";
+import BusinessOverview, { BusinessOrginizationData } from "@/components/businessHub/BusinessOverview";
 import CreateBusinessForm from "@/components/businessHub/CreateBusinessForm";
 import People from "@/components/businessHub/People";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { Box, Grid, GridItem, Heading, Image } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 
 function BusinessHub() {
   const orgnizationQuery = useQuery({
     queryKey: ["orgnization"],
     queryFn: getOrgnization,
   });
-  useEffect(() => {
-    console.log("org=> ", orgnizationQuery.data)
-  }, [orgnizationQuery.data])
+
   return (
     <Box>
       <Grid templateColumns="repeat(2, 1fr)" bg="#fff">
@@ -28,9 +25,24 @@ function BusinessHub() {
                 Business hub
               </Heading>
             </Box>
-            {/* <CreateBusinessForm /> */}
-            <BusinessOverview />
-            <People />
+
+
+            {
+              orgnizationQuery.isLoading ? <>loading...</> :
+                <>
+                  {!orgnizationQuery.data?.data &&
+                    <CreateBusinessForm />
+                  }
+                  {!!orgnizationQuery.data?.data
+                    &&
+                    <>
+                      <BusinessOverview data={orgnizationQuery.data.data! as BusinessOrginizationData} />
+                      <People />
+                    </>
+                  }
+                </>
+            }
+
           </WrapperLayout>
         </GridItem>
       </Grid>

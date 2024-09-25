@@ -9,8 +9,39 @@ import {
 } from "@chakra-ui/react";
 import { HiPlus } from "react-icons/hi2";
 import MemberTable from "./MemberTable";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { inviteMember, getTeam, getOrgnization } from "@/api/orgnization";
+import { useEffect } from "react";
+import { useAuth } from "@/hooks/auth";
 
 function People() {
+
+  const { user } = useAuth()
+  const teamMutaton = useMutation({
+    mutationFn: inviteMember
+  })
+  const teamQuery = useQuery({
+    queryKey: ["teams"],
+    queryFn: getTeam
+  })
+  const org = useQuery({
+    queryFn: getOrgnization,
+    queryKey: ["orgnization"]
+  })
+
+  // console.log("org ", )
+
+  useEffect(() => {
+    console.log("team data = ", teamQuery.data)
+
+  }, [teamQuery.data])
+  const addTeam = async (data: any) => {
+    console.log(data)
+    teamMutaton.mutate({
+      email: "souravsh1234567@gmail.com",
+      organization: org.data?.data._id
+    })
+  }
   return (
     <>
       <Flex justifyContent="space-between">
@@ -34,6 +65,7 @@ function People() {
           colorScheme="green"
           variant="solid"
           size={"sm"}
+          onClick={addTeam}
         >
           <HiPlus /> Invite member
         </Button>

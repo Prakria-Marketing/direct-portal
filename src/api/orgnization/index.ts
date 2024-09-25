@@ -3,7 +3,7 @@ import axiosInstance from "@/api/axiosinstance";
 export interface IOrgnization {
     companyName: string;
     companyType: string;
-    companyHeadquarters: string;
+    companyHeadquaters: string;
     companyAddress: string;
     GST?: string;
     industry: string;
@@ -18,6 +18,18 @@ export async function createOrgnization(body: IOrgnization) {
     return response.data;
 }
 export async function getOrgnization() {
-    const response = await axiosInstance.get("/organizations");
+    const response = await axiosInstance.get("/organizations/user-organization");
+    return response.data;
+}
+type ITeam = {
+    email: string;
+    organization: string;
+}
+export async function inviteMember(body: ITeam) {
+    const response = await axiosInstance.post("/teams//invite-member", body);
+    return response.data;
+}
+export async function getTeam() {
+    const response = await axiosInstance.get("/teams/fetch-team");
     return response.data;
 }
