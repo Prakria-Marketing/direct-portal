@@ -6,19 +6,21 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { HiPlus } from "react-icons/hi2";
 import MemberTable from "./MemberTable";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { inviteMember, getTeam, getOrgnization } from "@/api/orgnization";
+import { inviteMember as inviteMemberapi, getTeam, getOrgnization } from "@/api/orgnization";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/auth";
+import InviteMember from "./InviteMember";
 
 function People() {
 
   const { user } = useAuth()
   const teamMutaton = useMutation({
-    mutationFn: inviteMember
+    mutationFn: inviteMemberapi
   })
   const teamQuery = useQuery({
     queryKey: ["teams"],
@@ -69,6 +71,7 @@ function People() {
         >
           <HiPlus /> Invite member
         </Button>
+        <InviteMember />
       </Flex>
 
       <MemberTable />

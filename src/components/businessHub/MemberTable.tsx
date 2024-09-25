@@ -1,5 +1,4 @@
 import {
-  TableCaption,
   TableContainer,
   Thead,
   Tr,
@@ -7,7 +6,6 @@ import {
   Th,
   Table,
   Tbody,
-  Tfoot,
   VStack,
   Text,
   Badge,
