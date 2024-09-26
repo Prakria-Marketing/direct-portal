@@ -25,8 +25,6 @@ function LoginForm() {
     } = useForm<LoginFormFields>();
 
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        console.log(data);
-
         try {
             setLoading(true);
             await doSignInWithEmailAndPassword(data.email, data.password);

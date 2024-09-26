@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import ActionButton from "./ActionButton";
 
-type TableData = {
+export type TableDataMember = {
   role: string,
   invitationStatus: string,
   userId: {
@@ -21,7 +21,7 @@ type TableData = {
   }
 }
 type TeamTableRowData = {
-  data: TableData[]
+  data: TableDataMember[]
 }
 function MemberTable({ data }: TeamTableRowData) {
   return (
@@ -81,7 +81,7 @@ function MemberTable({ data }: TeamTableRowData) {
   );
 }
 
-function TableRow({ row }: { row: TableData }) {
+function TableRow({ row }: { row: TableDataMember }) {
   return <Tr>
     <Td>
       <VStack gap={0} alignItems="left">

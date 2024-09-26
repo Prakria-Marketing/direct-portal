@@ -10,6 +10,7 @@ import {
     Text,
     Button,
     Flex,
+    Heading,
 } from "@chakra-ui/react";
 // import ActionButton from "./ActionButton";
 import { InvitationBody, updateOrRejectInvitation } from "@/api/invite";
@@ -34,7 +35,6 @@ function InviteTable({ data }: TeamTableRowData) {
         }
     });
     const onAction: ClickFunction = async (data) => {
-        console.log("action perfomed", data);
         acceptOrReject.mutate(data);
     }
 
@@ -49,22 +49,30 @@ function InviteTable({ data }: TeamTableRowData) {
                     </Tr>
                 </Thead>
 
-                <Tbody>
+                {
+                    data?.length > 0 &&
+                    <Tbody>
 
-                    {data?.map((row, index) => {
-                        return <TableRow row={row} key={index} onClick={onAction}
-                            isLoading={acceptOrReject.isPending}
-                        />
-                    })}
+                        {data?.map((row, index) => {
+                            return <TableRow row={row} key={index} onClick={onAction}
+                                isLoading={acceptOrReject.isPending}
+                            />
+                        })}
 
-                </Tbody>
+                    </Tbody>
+                }
             </Table>
-            <Flex width={"100%"} height={"200px"} border={"1px solid red"}
-                justifyContent={"center"}
-                alignItems={"center"}
-            >
-                No Invitations
-            </Flex>
+            {
+                !data?.length &&
+                <Flex width={"100%"} height={"200px"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                >
+                    <Heading size={"sm"}>
+                        No Invitations
+                    </Heading>
+                </Flex>
+            }
         </TableContainer>
     );
 }
