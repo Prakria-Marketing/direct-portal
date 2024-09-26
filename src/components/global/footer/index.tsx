@@ -84,7 +84,7 @@ export default function SmallCentered() {
         py={4}
       >
         <HStack justifyContent="space-between">
-          <Text>© 2022 Chakra Templates. All rights reserved</Text>
+          <Text>© 2024 Designzo | All rights reserved</Text>
           <Stack direction={"row"} spacing={6}>
             <SocialButton label={"Twitter"} href={"#"}>
               <FaTwitter />

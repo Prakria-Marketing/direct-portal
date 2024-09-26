@@ -31,21 +31,14 @@ export default function CreateProjectModal() {
     onOpen: onModalOpen,
     onClose: onModalClose,
   } = useDisclosure();
-  const {
-    isOpen: isDrawerOpen,
-    onOpen: onDrawerOpen,
-    onClose: onDrawerClose,
-  } = useDisclosure();
-  const btnRef = useRef();
+ 
 
   return (
     <>
       <MenuItem fontSize="14px" gap={1} onClick={onModalOpen}>
         <BiPlus fontSize={20} /> Create Project
       </MenuItem>
-      <MenuItem fontSize="14px" gap={1} onClick={onDrawerOpen}>
-        <BiPlus fontSize={20} /> Side Slider
-      </MenuItem>
+     
 
       {/* Modal for Create Project */}
       <Modal
