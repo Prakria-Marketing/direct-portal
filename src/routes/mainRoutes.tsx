@@ -7,6 +7,8 @@ import Messages from "../views/messages";
 import ProjectLogs from "../views/projectlogs";
 import BusinessHub from "@/views/businessHub";
 import Categories from "@/views/categories";
+import PaymentSuccess from "@/views/payments/success";
+import PaymentCancel from "@/views/payments/cancel";
 
 const mainRoutes = {
   path: "/",
@@ -43,6 +45,14 @@ const mainRoutes = {
     {
       path: "/categories",
       element: <Categories />,
+    },
+    {
+      path: "/payments/success",
+      element: <PaymentSuccess />,
+    },
+    {
+      path: "/payments/failed",
+      element: <PaymentCancel />,
     },
   ],
 };
