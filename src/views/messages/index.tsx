@@ -4,26 +4,23 @@ import ChatPage from "@/components/messages/chat/chat";
 function Messages() {
   return (
     <>
-      <Grid templateColumns="25% 75% 20%" gap={0}>
-        <Box bg="gray.700" p={4}>
+      {/* <Grid templateColumns="20% 80% 20%" gap={0}>
+        <Box bg="#dbf8c6" p={4}>
           <ServiceCard />
           <ServiceCard />
           <ServiceCard />
           <ServiceCard />
         </Box>
-        <Box p={4} bg="gray.100">
+        <Box p={0} bg="gray.100">
           <ChatPage />
-          {/* <Heading as="h5" size="md" pb="5">
-            Chat with us !
-          </Heading> */}
-          {/* <Image src="https://getstream.io/chat/get_started/assets/art-CWNStE1q.png"></Image> */}
-          {/* Second Column (70%) with white background */}
         </Box>
-        {/* Second column content */}
-        {/* <Box p={4} bg="white">
-          Second Column (70%) with white background
-        </Box> */}
-      </Grid>
+      </Grid> */}
+
+      <Box bg="#00a884" h={120}></Box>
+
+      <Box  mt={-110} px={70}>
+        <ChatPage />
+      </Box>
     </>
   );
 }

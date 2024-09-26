@@ -1,16 +1,22 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import {
-  Button,
   Flex,
   FormControl,
   Input,
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import { HiPlus } from "react-icons/hi2";
 import MemberTable from "./MemberTable";
+import { useQuery } from "@tanstack/react-query";
+import { getTeam } from "@/api/orgnization";
+import InviteMember from "./InviteMember";
 
-function People() {
+function People({ orgId }: { orgId: string }) {
+  const teamQuery = useQuery({
+    queryKey: ["teams"],
+    queryFn: async () => await getTeam(orgId),
+    enabled: !!orgId
+  })
   return (
     <>
       <Flex justifyContent="space-between">
@@ -28,18 +34,9 @@ function People() {
             />
           </InputGroup>
         </FormControl>
-        <Button
-          fontSize={"xs"}
-          mb={15}
-          colorScheme="green"
-          variant="solid"
-          size={"sm"}
-        >
-          <HiPlus /> Invite member
-        </Button>
+        <InviteMember />
       </Flex>
-
-      <MemberTable />
+      <MemberTable data={teamQuery?.data?.data} />
     </>
   );
 }

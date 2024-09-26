@@ -36,7 +36,7 @@ export default function InboxContact({ displayImage, latestMessage, channel, ...
     };
 
     return (
-        <Contact isActive={isActive} onClick={handleChangeChat} width={"300px"}>
+        <Contact isActive={isActive} onClick={handleChangeChat} width={"100%"}>
             <AvatarWrapper>
                 {/* Avatar */}
                 <Avatar name={name || title} src={displayImage} size={"sm"} />

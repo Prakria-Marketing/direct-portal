@@ -9,7 +9,7 @@ import BusinessHub from "@/views/businessHub";
 import Categories from "@/views/categories";
 import PaymentSuccess from "@/views/payments/success";
 import PaymentCancel from "@/views/payments/cancel";
-
+import InvitePage from "@/views/invite";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -53,6 +53,10 @@ const mainRoutes = {
     {
       path: "/payments/failed",
       element: <PaymentCancel />,
+    },
+    {
+      path: "/invite",
+      element: <InvitePage />,
     },
   ],
 };

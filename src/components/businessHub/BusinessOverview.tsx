@@ -1,17 +1,37 @@
+import { getOrgnization } from "@/api/orgnization";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 
-function BusinessOverview() {
+
+export type BusinessOrginizationData = {
+
+  GST: string;
+  companyAddress: string;
+  companyHeadquaters: string;
+  companyName: string;
+  companyType: string;
+  contactEmail: string;
+  contactMobile: string;
+  contactPerson: string;
+  createdAt: string;
+  industry: string;
+  owner: string;
+  status: string
+  updatedAt: string;
+  website: string;
+}
+function BusinessOverview({ data }: { data: BusinessOrginizationData }) {
   return (
     <Box
       mb={10}
       rounded="md"
       bg={"#fff"}
       p={10}
-      // style={{
-      //   background: "url(/images/bg3.jpg)",
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
+    // style={{
+    //   background: "url(/images/bg3.jpg)",
+    //   backgroundSize: "cover",
+    //   backgroundPosition: "center",
+    // }}
     >
       <Heading mb={5} size="sm">
         Organization Details
@@ -31,25 +51,42 @@ function BusinessOverview() {
         </Box>
         <Box lineHeight={7}>
           <Text fontWeight="bold" color={""}>
-            Prakria Marketing Services
+            {data?.companyName || "-"}
           </Text>
           <Text fontWeight="bold" color={""}>
-            Designing & Development
+            {data?.companyType || "-"}
+            {/* Designing & Development */}
           </Text>
           <Text fontWeight="bold" color={""}>
-            NSP, Delhi, India
+            {/* NSP, Delhi, India */}
+
+            {data?.companyAddress || "-"}
           </Text>
           <Text fontWeight="bold" color={""}>
-            NSP, New Delhi
+
+            {data?.companyHeadquaters || "-"}
+            {/* NSP, New Delhi */}
           </Text>
           <Text fontWeight="bold" color={""}>
-            XXXXXXXXXXXXXX
+            {data?.GST || "-"}
+            {/* XXXXXXXXXXXXXX */}
+            {/* {data?.industry} */}
           </Text>
           <Text fontWeight="bold" color={""}>
-            www.prakria.com
+            {data?.website || "-"}
+            {/* www.prakria.com */}
           </Text>
           <Text fontWeight="bold" color={""}>
-            Abhishek Shukla
+            {/* Abhishek Shukla */}
+            {data?.contactPerson || "-"}
+          </Text>
+          <Text fontWeight="bold" color={""}>
+            {data?.contactEmail || "-"}
+
+          </Text>
+          <Text fontWeight="bold" color={""}>
+
+            {data?.contactMobile || "-"}
           </Text>
         </Box>
       </Flex>

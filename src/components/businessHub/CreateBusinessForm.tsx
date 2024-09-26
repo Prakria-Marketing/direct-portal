@@ -12,15 +12,19 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 
 
 const required = { required: { value: true, message: "required" } };
 function CreateBusinessForm() {
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: createOrgnization
+    mutationFn: createOrgnization,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orgnization"] })
+    }
   });
   const { register, handleSubmit, formState: { errors } } = useForm<IOrgnization>();
   // console.log(errors)
@@ -93,7 +97,7 @@ function CreateBusinessForm() {
           borderColor={"darkgrey"}
           fontSize={"sm"}
           rows={2}
-          {...register("companyHeadquarters")}
+          {...register("companyHeadquaters")}
 
         />
       </FormControl>
