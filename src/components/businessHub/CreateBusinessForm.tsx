@@ -29,7 +29,6 @@ function CreateBusinessForm() {
   const { register, handleSubmit, formState: { errors } } = useForm<IOrgnization>();
   // console.log(errors)
   const onSubmit = async (data: IOrgnization) => {
-    console.log(data);
     mutate(data);
   }
 

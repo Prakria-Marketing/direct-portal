@@ -20,7 +20,7 @@ import {
   Box,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -32,14 +32,17 @@ export default function InviteMember() {
   // const [emailInput, setEmailInput] = useState<string>(""); // State to hold current email input
   // const [emails, setEmails] = useState<string[]>([]); // State to hold all added emails
   const toast = useToast();
-  const { register, formState: { errors }, handleSubmit } = useForm<InviteEmail>()
+  const { register, formState: { errors }, handleSubmit, reset } = useForm<InviteEmail>();
+  const queryClient = useQueryClient();
   const inviteMutation = useMutation({
-    mutationFn: inviteMember
+    mutationFn: inviteMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["teams"] })
+    }
   })
 
 
   const onSubmit = async (data: InviteEmail) => {
-    console.log(data);
     try {
       await inviteMutation.mutateAsync(data);
 
@@ -59,6 +62,9 @@ export default function InviteMember() {
         isClosable: true,
       });
 
+    } finally {
+      reset({ email: "" });
+      onClose();
     }
   }
 
