@@ -11,6 +11,8 @@ import Tasks from "@/views/tasks";
 import Settings from "@/views/settings";
 import Account from "@/views/account";
 
+import PaymentSuccess from "@/views/payments/success";
+import PaymentCancel from "@/views/payments/cancel";
 import InvitePage from "@/views/invite";
 const mainRoutes = {
   path: "/",
@@ -61,6 +63,18 @@ const mainRoutes = {
       element: <Account />,
     },
     { path: "/invite", element: <InvitePage /> },
+    {
+      path: "/payments/success",
+      element: <PaymentSuccess />,
+    },
+    {
+      path: "/payments/failed",
+      element: <PaymentCancel />,
+    },
+    {
+      path: "/invite",
+      element: <InvitePage />,
+    },
   ],
 };
 
