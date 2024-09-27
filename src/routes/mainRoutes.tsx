@@ -7,6 +7,9 @@ import Messages from "../views/messages";
 import ProjectLogs from "../views/projectlogs";
 import BusinessHub from "@/views/businessHub";
 import Categories from "@/views/categories";
+import Tasks from "@/views/tasks";
+import Settings from "@/views/settings";
+import Account from "@/views/account";
 
 const mainRoutes = {
   path: "/",
@@ -43,6 +46,18 @@ const mainRoutes = {
     {
       path: "/categories",
       element: <Categories />,
+    },
+    {
+      path: "/tasks",
+      element: <Tasks />,
+    },
+    {
+      path: "/settings",
+      element: <Settings />,
+    },
+    {
+      path: "/account",
+      element: <Account />,
     },
   ],
 };

@@ -113,11 +113,12 @@ function Header() {
                 </MenuButton>
                 <MenuList>
                   <MenuItem fontSize="14px" gap={2}>
-                    <HiOutlineCog8Tooth /> Settings
+                    <HiOutlineCog8Tooth />
+                    <Link to="/settings">Settings </Link>
                   </MenuItem>
                   <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineUser />
-                    Account
+                    <Link to="/account">Account</Link>
                   </MenuItem>
                   <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineTicket />
@@ -153,15 +154,15 @@ function Header() {
               >
                 <HiOutlineHome /> <Link to="/">Dashboard</Link>
               </Button>
-              <Button
+              {/* <Button
                 display={"flex"}
                 alignItems={"center"}
                 variant="link"
                 gap={1}
               >
                 <HiUserGroup /> <Link to="/customers">Customers</Link>
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 display={"flex"}
                 alignItems={"center"}
                 variant="link"
@@ -169,7 +170,7 @@ function Header() {
               >
                 <HiOutlineBriefcase />{" "}
                 <Link to="/project-logs">Project Logs</Link>
-              </Button>
+              </Button> */}
               <Button
                 display={"flex"}
                 alignItems={"center"}
@@ -179,7 +180,7 @@ function Header() {
                 <HiOutlineChatBubbleLeftRight />{" "}
                 <Link to="/messages">Messages</Link>
               </Button>
-              <Button
+              {/* <Button
                 display={"flex"}
                 alignItems={"center"}
                 variant="link"
@@ -187,6 +188,15 @@ function Header() {
               >
                 <HiOutlineCheckBadge />
                 <Link to="/membership">Membership</Link>
+              </Button> */}
+              <Button
+                display={"flex"}
+                alignItems={"center"}
+                variant="link"
+                gap={1}
+              >
+                <FiHelpCircle />
+                <Link to="/tasks"> Tasks</Link>
               </Button>
               <Button
                 display={"flex"}
@@ -214,17 +224,17 @@ function Header() {
                 Start Project
               </Button>
               <Link to="/categories">
-              <Button
-                fontWeight={500}
-                fontSize="14px"
-                variant="outline"
-                borderColor="gray.400"
-                bg="transparent"
-                _hover={{ bg: "gray.100" }} // Optional hover effect
-                color="gray.700" // Text color
-              >
-                Explore Categories
-              </Button>
+                <Button
+                  fontWeight={500}
+                  fontSize="14px"
+                  variant="outline"
+                  borderColor="gray.400"
+                  bg="transparent"
+                  _hover={{ bg: "gray.100" }} // Optional hover effect
+                  color="gray.700" // Text color
+                >
+                  Explore Categories
+                </Button>
               </Link>
             </Box>
           </Flex>
