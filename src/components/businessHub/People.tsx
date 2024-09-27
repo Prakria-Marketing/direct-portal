@@ -44,7 +44,7 @@ function People({ orgId }: { orgId: string }) {
     </>
   );
 }
-function filterTableData(data: TableDataMember[], searchString: string): TableDataMember[] {
+function filterTableData(data: TableDataMember[] = [], searchString: string = ""): TableDataMember[] {
   const lowercasedSearchString = searchString.toLowerCase();
 
   return data.filter(item => {

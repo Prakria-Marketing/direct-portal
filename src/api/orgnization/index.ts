@@ -28,7 +28,15 @@ export async function inviteMember(body: ITeam) {
     const response = await axiosInstance.post("/teams//invite-member", body);
     return response.data;
 }
-export async function getTeam(orgId: string) {
-    const response = await axiosInstance.get("/teams/fetch-team?organization=" + orgId);
+export async function getTeam(orgId: string, status?: string) {
+    const path = "/teams/fetch-team?organization=" + orgId;
+    const response = await axiosInstance.get(status ? path + "&status=" + status : path);
+    return response.data;
+
+}
+
+export async function getOrgnizationByUserId(userId: string) {
+    const response = await axiosInstance.get("/organizations/" + userId);
     return response.data;
 }
+
