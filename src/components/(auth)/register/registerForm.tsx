@@ -53,8 +53,7 @@ function RegisterForm() {
             );
             await updateProfile(response.user, { displayName: data.name });
 
-            console.log("New user", response?.user?.uid);
-            console.log("Success Fully Registered", response);
+
             const token = await auth.currentUser?.getIdToken(true);
             registerMutation.mutate({ token: token as string });
             // await doSendEmailVerification();

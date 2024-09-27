@@ -1,18 +1,24 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import {
-  Button,
   Flex,
   FormControl,
   Input,
   InputGroup,
   InputLeftElement,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { HiPlus } from "react-icons/hi2";
-import MemberTable from "./MemberTable";
+import MemberTable, { TableDataMember } from "./MemberTable";
+import { useQuery } from "@tanstack/react-query";
+import { getTeam } from "@/api/orgnization";
 import InviteMember from "./InviteMember";
+import { useState } from "react";
 
-function People() {
+function People({ orgId }: { orgId: string }) {
+  const [search, setSearch] = useState<string>("");
+  const teamQuery = useQuery({
+    queryKey: ["teams"],
+    queryFn: async () => await getTeam(orgId),
+    enabled: !!orgId
+  })
   return (
     <>
       <Flex justifyContent="space-between">
@@ -24,6 +30,8 @@ function People() {
             />
             <Input
               rounded={10}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Find a member"
               fontSize="13px"
               bg="white"
@@ -32,10 +40,20 @@ function People() {
         </FormControl>
         <InviteMember />
       </Flex>
-
-      <MemberTable />
+      <MemberTable data={filterTableData(teamQuery?.data?.data, search)} />
     </>
   );
+}
+function filterTableData(data: TableDataMember[], searchString: string): TableDataMember[] {
+  const lowercasedSearchString = searchString.toLowerCase();
+
+  return data.filter(item => {
+    const { name, email } = item.userId;
+    return (
+      name.toLowerCase().includes(lowercasedSearchString) ||
+      email.toLowerCase().includes(lowercasedSearchString)
+    );
+  });
 }
 
 export default People;

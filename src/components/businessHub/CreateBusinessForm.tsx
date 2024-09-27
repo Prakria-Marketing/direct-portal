@@ -12,13 +12,17 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 const required = { required: { value: true, message: "required" } };
 function CreateBusinessForm() {
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: createOrgnization,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orgnization"] })
+    }
   });
   const {
     register,
@@ -27,7 +31,6 @@ function CreateBusinessForm() {
   } = useForm<IOrgnization>();
   // console.log(errors)
   const onSubmit = async (data: IOrgnization) => {
-    console.log(data);
     mutate(data);
   };
 
@@ -67,7 +70,48 @@ function CreateBusinessForm() {
           </Select>
           <FormErrorMessage>{errors?.companyType?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl mb={4} isInvalid={!!errors.industry}>
+      </Flex>
+      <FormControl mb={4}>
+        <FormLabel fontSize={"sm"}>Company Address</FormLabel>
+        <Textarea
+          focusBorderColor="black"
+          border={"1px"}
+          borderColor={"darkgrey"}
+          fontSize={"sm"}
+          rows={2}
+          {...register("companyAddress")}
+
+        />
+      </FormControl>
+      <FormControl mb={4}>
+        <FormLabel fontSize={"sm"}>Company Headquarter</FormLabel>
+        <Textarea
+          focusBorderColor="black"
+          border={"1px"}
+          borderColor={"darkgrey"}
+          fontSize={"sm"}
+          rows={2}
+          {...register("companyHeadquaters")}
+
+        />
+      </FormControl>
+      <FormControl mb={4}>
+        <FormLabel fontSize={"sm"}>GST/ VAT</FormLabel>
+        <Input
+          focusBorderColor="black"
+          border={"1px"}
+          borderColor={"darkgrey"}
+          fontSize={"sm"}
+          type="text"
+          {...register("GST")}
+
+        />
+      </FormControl>
+      <Flex gap={3}>
+        <FormControl mb={4}
+          isInvalid={!!errors.industry}
+
+        >
           <FormLabel fontSize={"sm"}>Industry Type</FormLabel>
           <Select
             focusBorderColor="black"

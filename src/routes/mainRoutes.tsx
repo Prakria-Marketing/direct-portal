@@ -11,6 +11,7 @@ import Tasks from "@/views/tasks";
 import Settings from "@/views/settings";
 import Account from "@/views/account";
 
+import InvitePage from "@/views/invite";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -59,6 +60,7 @@ const mainRoutes = {
       path: "/account",
       element: <Account />,
     },
+    { path: "/invite", element: <InvitePage /> },
   ],
 };
 
