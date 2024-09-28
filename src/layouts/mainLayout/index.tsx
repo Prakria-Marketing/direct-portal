@@ -6,7 +6,7 @@ function MainLayout() {
   return (
     <>
       <Header />
-      <Box height={"80vh"} overflowY={"scroll"}>
+      <Box>
         <Outlet />
       </Box>
       <Footer />

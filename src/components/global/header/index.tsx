@@ -118,7 +118,7 @@ function Header() {
                   </MenuItem>
                   <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineUser />
-                    <Link to="/account">Account</Link>
+                    <Link to="/subscription">Subscription</Link>
                   </MenuItem>
                   <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineTicket />

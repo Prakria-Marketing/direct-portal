@@ -9,11 +9,12 @@ import BusinessHub from "@/views/businessHub";
 import Categories from "@/views/categories";
 import Tasks from "@/views/tasks";
 import Settings from "@/views/settings";
-import Account from "@/views/account";
+import Account from "@/views/subscription";
 
 import PaymentSuccess from "@/views/payments/success";
 import PaymentCancel from "@/views/payments/cancel";
 import InvitePage from "@/views/invite";
+import Subscription from "@/views/subscription";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -59,8 +60,8 @@ const mainRoutes = {
       element: <Settings />,
     },
     {
-      path: "/account",
-      element: <Account />,
+      path: "/subscription",
+      element: <Subscription />,
     },
     { path: "/invite", element: <InvitePage /> },
     {

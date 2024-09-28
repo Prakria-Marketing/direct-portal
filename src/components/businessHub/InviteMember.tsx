@@ -25,22 +25,26 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 type InviteEmail = {
-  email: string
-}
+  email: string;
+};
 export default function InviteMember() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const [emailInput, setEmailInput] = useState<string>(""); // State to hold current email input
   // const [emails, setEmails] = useState<string[]>([]); // State to hold all added emails
   const toast = useToast();
-  const { register, formState: { errors }, handleSubmit, reset } = useForm<InviteEmail>();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<InviteEmail>();
   const queryClient = useQueryClient();
   const inviteMutation = useMutation({
     mutationFn: inviteMember,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teams"] })
-    }
-  })
-
+      queryClient.invalidateQueries({ queryKey: ["teams"] });
+    },
+  });
 
   const onSubmit = async (data: InviteEmail) => {
     try {
@@ -61,12 +65,11 @@ export default function InviteMember() {
         duration: 3000,
         isClosable: true,
       });
-
     } finally {
       reset({ email: "" });
       onClose();
     }
-  }
+  };
 
   // const handleEmailInputKeyPress = (
   //   e: React.KeyboardEvent<HTMLInputElement>
@@ -159,25 +162,25 @@ export default function InviteMember() {
                     required: { value: true, message: "required" },
                     pattern: {
                       value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Invalid email"
-                    }
+                      message: "Invalid email",
+                    },
                   })}
-                // value={emailInput}
-                // onChange={(e) => setEmailInput(e.target.value)}
-                // onKeyPress={handleEmailInputKeyPress} // Handle pressing Enter
+                  // value={emailInput}
+                  // onChange={(e) => setEmailInput(e.target.value)}
+                  // onKeyPress={handleEmailInputKeyPress} // Handle pressing Enter
                 />
-                <FormErrorMessage>
-                  {errors.email?.message}
-                </FormErrorMessage>
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
-              <Box textAlign="end">
-                <Button size="sm" colorScheme="teal" type="submit"
+              <Box textAlign="end" mt={3}>
+                <Button
+                  size="sm"
+                  colorScheme="teal"
+                  type="submit"
                   isLoading={inviteMutation.isPending}
                 >
                   Send Invites
                 </Button>
               </Box>
-
             </form>
 
             {/* <Wrap mt={4}>
@@ -201,10 +204,9 @@ export default function InviteMember() {
                 Send Invites
               </Button>
             </Box> */}
-
           </ModalBody>
         </ModalContent>
-      </Modal >
+      </Modal>
     </>
   );
 }
