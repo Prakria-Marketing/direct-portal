@@ -1,4 +1,5 @@
 import CustomPlanCard from "@/components/memberships/CustomerPlanCard";
+import SubscribedCard from "@/components/memberships/SubscribedCard";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import {
   Alert,
@@ -16,13 +17,13 @@ import React from "react";
 function Membership() {
   return (
     <WrapperLayout>
+      {/* <SubscribedCard /> */}
       <VStack spacing={2} textAlign="center" pt="12">
         <Heading as="h1" fontSize="4xl">
           Plans that fit your need
         </Heading>
         <Text fontSize="lg" color={"gray.500"}>
-          Start with 7-day trial. Cancel at
-          anytime.
+          Start with 7-day trial. Cancel at anytime.
         </Text>
       </VStack>
       <CustomPlanCard />
