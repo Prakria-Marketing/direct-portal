@@ -1,7 +1,14 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, Flex, Heading, Image, Progress, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Progress, Text } from "@chakra-ui/react";
 
-function ServiceCard() {
+
+type ProjectCardType = {
+  title: string;
+  description: string;
+  deadline: string;
+  startDate: string;
+}
+function ServiceCard({ data }: { data: ProjectCardType }) {
   return (
     <>
       <Flex
@@ -14,7 +21,7 @@ function ServiceCard() {
         justifyContent={"space-between"}
       >
         <Box>
-          <Heading size={"xs"}>Website Design</Heading>
+          <Heading size={"xs"}>{data.title}</Heading>
           <Progress
             hasStripe
             value={64}
@@ -22,7 +29,7 @@ function ServiceCard() {
             size={"xs"}
             my={2}
           />
-          <Text>Deadline: 23 Aug 2024</Text>
+          <Text>Deadline: {data.deadline}</Text>
         </Box>
         <ChevronRightIcon fontSize="3xl" />
       </Flex>

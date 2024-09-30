@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import ReactSelect from 'react-select';
 import { useForm, UseFormRegister, Controller, Control, UseFormWatch, FieldErrors } from "react-hook-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCategory } from "@/api/category";
 import { getOrgnizationByUserId, getTeam } from "@/api/orgnization";
 import { useChannelStateContext } from "stream-chat-react";
@@ -375,9 +375,13 @@ export default function CreateProjectForm({
   setProgress: React.Dispatch<React.SetStateAction<number>>;
 }) {
 
+  const queryClient = useQueryClient();
   const proejctType = useProjectType();
   const createProjectMutation = useMutation({
-    mutationFn: createProject
+    mutationFn: createProject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    }
   })
   const formStepField: FormStepType[] = [
     {
