@@ -52,7 +52,7 @@ export default function ChatPage() {
   };
 
   return (
-    <Box height={"600px"} shadow="md" mb={10}>
+    <Box height={"600px"} shadow="md" mb={10} bg="white">
       {!!query.data?.data && !!user.userId && (
         <MyChat
           apiKey={apikey}

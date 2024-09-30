@@ -7,7 +7,14 @@ import Messages from "../views/messages";
 import ProjectLogs from "../views/projectlogs";
 import BusinessHub from "@/views/businessHub";
 import Categories from "@/views/categories";
+import Tasks from "@/views/tasks";
+import Settings from "@/views/settings";
+import Account from "@/views/subscription";
+
+import PaymentSuccess from "@/views/payments/success";
+import PaymentCancel from "@/views/payments/cancel";
 import InvitePage from "@/views/invite";
+import Subscription from "@/views/subscription";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -45,9 +52,30 @@ const mainRoutes = {
       element: <Categories />,
     },
     {
+      path: "/tasks",
+      element: <Tasks />,
+    },
+    {
+      path: "/settings",
+      element: <Settings />,
+    },
+    {
+      path: "/subscription",
+      element: <Subscription />,
+    },
+    { path: "/invite", element: <InvitePage /> },
+    {
+      path: "/payments/success",
+      element: <PaymentSuccess />,
+    },
+    {
+      path: "/payments/failed",
+      element: <PaymentCancel />,
+    },
+    {
       path: "/invite",
-      element: <InvitePage />
-    }
+      element: <InvitePage />,
+    },
   ],
 };
 

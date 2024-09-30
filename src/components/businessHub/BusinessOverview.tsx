@@ -2,9 +2,7 @@ import { getOrgnization } from "@/api/orgnization";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 
-
 export type BusinessOrginizationData = {
-
   GST: string;
   companyAddress: string;
   companyHeadquaters: string;
@@ -16,10 +14,10 @@ export type BusinessOrginizationData = {
   createdAt: string;
   industry: string;
   owner: string;
-  status: string
+  status: string;
   updatedAt: string;
   website: string;
-}
+};
 function BusinessOverview({ data }: { data: BusinessOrginizationData }) {
   return (
     <Box
@@ -27,11 +25,11 @@ function BusinessOverview({ data }: { data: BusinessOrginizationData }) {
       rounded="md"
       bg={"#fff"}
       p={10}
-    // style={{
-    //   background: "url(/images/bg3.jpg)",
-    //   backgroundSize: "cover",
-    //   backgroundPosition: "center",
-    // }}
+      // style={{
+      //   background: "url(/images/bg3.jpg)",
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      // }}
     >
       <Heading mb={5} size="sm">
         Organization Details
@@ -63,7 +61,6 @@ function BusinessOverview({ data }: { data: BusinessOrginizationData }) {
             {data?.companyAddress || "-"}
           </Text>
           <Text fontWeight="bold" color={""}>
-
             {data?.companyHeadquaters || "-"}
             {/* NSP, New Delhi */}
           </Text>
@@ -82,10 +79,8 @@ function BusinessOverview({ data }: { data: BusinessOrginizationData }) {
           </Text>
           <Text fontWeight="bold" color={""}>
             {data?.contactEmail || "-"}
-
           </Text>
           <Text fontWeight="bold" color={""}>
-
             {data?.contactMobile || "-"}
           </Text>
         </Box>

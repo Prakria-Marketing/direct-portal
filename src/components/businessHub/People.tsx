@@ -17,8 +17,8 @@ function People({ orgId }: { orgId: string }) {
   const teamQuery = useQuery({
     queryKey: ["teams"],
     queryFn: async () => await getTeam(orgId),
-    enabled: !!orgId
-  })
+    enabled: !!orgId,
+  });
   return (
     <>
       <Flex justifyContent="space-between">
@@ -44,10 +44,13 @@ function People({ orgId }: { orgId: string }) {
     </>
   );
 }
-function filterTableData(data: TableDataMember[] = [], searchString: string = ""): TableDataMember[] {
+function filterTableData(
+  data: TableDataMember[] = [],
+  searchString: string = ""
+): TableDataMember[] {
   const lowercasedSearchString = searchString.toLowerCase();
 
-  return data.filter(item => {
+  return data.filter((item) => {
     const { name, email } = item.userId;
     return (
       name.toLowerCase().includes(lowercasedSearchString) ||
