@@ -12,14 +12,20 @@ type ChatInfoType = {
 function ChatInfoWindow({ isSliderVisible = false, onToggleSlider }: ChatInfoType) {
     const { channel } = useChannelStateContext();
 
+    console.log("channel ", channel.data?.room_name)
+
     const clientProjectList = useQuery({
         queryKey: ["projects", channel?.id],
         queryFn: async () => await getCustomerProjects(channel?.id as string),
+        retry: 1, // Will retry failed requests 10 times before displaying an error
+
     });
 
     const projectInfo = useQuery({
         queryKey: [channel?.id],
         queryFn: async () => await getProjectById(channel?.id as string),
+        retry: 1, // Will retry failed requests 10 times before displaying an error
+
     });
     // projectInfo.data.data
     console.log("projectInfo.isSuccess ", projectInfo.isSuccess)
@@ -49,9 +55,21 @@ function ChatInfoWindow({ isSliderVisible = false, onToggleSlider }: ChatInfoTyp
                 <Box mb={10}>
                     <Heading size="sm">Project Logs</Heading>
 
-                    {clientProjectList.data?.data?.map((project: any, index: number) => {
-                        return <ServiceCard data={project} key={index} />
-                    })}
+                    {clientProjectList.isLoading || projectInfo.isLoading ? <>loading...</>
+                        :
+                        <>
+
+                            {
+                                clientProjectList.data?.data?.map((project: any, index: number) => {
+                                    return <ServiceCard data={project} key={index} />
+                                })
+                            }
+
+                            {
+                                projectInfo.isSuccess && <ServiceCard data={projectInfo?.data?.data ?? {}} />
+                            }
+                        </>
+                    }
 
                 </Box>
 
