@@ -1,5 +1,4 @@
 import {
-  Button,
   MenuItem,
   Modal,
   ModalBody,
@@ -9,18 +8,11 @@ import {
   ModalOverlay,
   Progress,
   useDisclosure,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
 } from "@chakra-ui/react";
 import CreateProjectForm from "./CreateProjectForm";
 import { BiPlus } from "react-icons/bi";
 import Steps from "./Steps";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 export default function CreateProjectModal() {
   const [step, setStep] = useState(1);
@@ -31,17 +23,19 @@ export default function CreateProjectModal() {
     onOpen: onModalOpen,
     onClose: onModalClose,
   } = useDisclosure();
- 
+
 
   return (
     <>
       <MenuItem fontSize="14px" gap={1} onClick={onModalOpen}>
         <BiPlus fontSize={20} /> Create Project
       </MenuItem>
-     
+
 
       {/* Modal for Create Project */}
       <Modal
+
+
         closeOnOverlayClick={false}
         isOpen={isModalOpen}
         onClose={onModalClose}
@@ -60,12 +54,16 @@ export default function CreateProjectModal() {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <CreateProjectForm
-              setStep={setStep}
-              step={step}
-              progress={progress}
-              setProgress={setProgress}
-            />
+            {
+              isModalOpen &&
+              <CreateProjectForm
+                onClose={onModalClose}
+                setStep={setStep}
+                step={step}
+                progress={progress}
+                setProgress={setProgress}
+              />
+            }
           </ModalBody>
         </ModalContent>
       </Modal>

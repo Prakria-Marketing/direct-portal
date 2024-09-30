@@ -23,6 +23,7 @@ export const CustomChannelHeader = ({
 }) => {
   const { user } = useAuth();
   const { channel } = useChannelStateContext();
+
   const title = channel?.data?.name;
   const name: any = (channel.data?.room_name as any)?.[user?.userId] as any;
 

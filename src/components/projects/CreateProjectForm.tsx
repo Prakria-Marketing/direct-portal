@@ -1,6 +1,4 @@
-import { useState } from "react";
 import {
-  Progress,
   Box,
   ButtonGroup,
   Button,
@@ -10,42 +8,71 @@ import {
   FormLabel,
   Input,
   Select,
-  Radio,
-  RadioGroup,
-  Heading,
   Textarea,
+  FormErrorMessage
 } from "@chakra-ui/react";
+import ReactSelect from 'react-select';
+import { useForm, UseFormRegister, Controller, Control, UseFormWatch, FieldErrors } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCategory } from "@/api/category";
+import { getOrgnizationByUserId, getTeam } from "@/api/orgnization";
+import { useChannelStateContext } from "stream-chat-react";
+import { getResource } from "@/api/users";
+import { createProject } from "@/api/project";
 
-import { useToast } from "@chakra-ui/react";
-import { MultiSelect, useMultiSelect } from "chakra-multiselect";
-import Steps from "./Steps";
+type StepFormFields = {
+  register: UseFormRegister<ProjectFields>,
+  control?: Control<ProjectFields, any>,
+  watch?: UseFormWatch<ProjectFields>,
+  errors?: FieldErrors<ProjectFields>,
+}
+type Form1 = {
 
-const Form1 = () => {
-  const [selectedOption, setSelectedOption] = useState("organization");
+} & StepFormFields;
+const Form1 = ({ register, errors }: Form1) => {
+  const { orgId, isLoading } = useProjectType();
+  if (isLoading) return <>Loading...</>
+  const list = [{ label: "Personal Project", value: "personal" }];
+  if (orgId) {
+    list.push({ label: "Organization's Project", value: "organization" });
+  }
 
   return (
     <>
-      <RadioGroup onChange={setSelectedOption} value={selectedOption}>
-        <Flex>
-          <FormControl mr="5%">
-            <FormLabel htmlFor="organization" fontWeight={"normal"}>
-              Project Type
-            </FormLabel>
-            <Select name="projectType">
-              <option>Personal Project</option>
-              <option>Organization's Project</option>
-            </Select>
-          </FormControl>
-        </Flex>
-      </RadioGroup>
+      <Flex>
+        <FormControl mr="5%" isInvalid={!!errors?.orgId}>
+          <FormLabel htmlFor="organization" fontWeight={"normal"}>
+            Project Type
+          </FormLabel>
+          <Select
+            {...register("orgId", { required: { message: "required", value: true } })}
+          >
+            {
+              list.map((option, index) => <option value={option.value} key={index}>{option.label}</option>)
+            }
+            {/* <option value={"personal"} >Personal Project</option>
+            <option value={"organization"}>Organization's Project</option> */}
+          </Select>
+          <FormErrorMessage>
+            {errors?.orgId?.message}
+          </FormErrorMessage>
+        </FormControl>
+      </Flex>
+
     </>
   );
 };
 
-const Form2 = () => {
+const Form2 = ({ register, errors }: StepFormFields) => {
+  const { data: categoryList, isLoading } = useQuery({
+    queryKey: ['category'],
+    queryFn: getCategory,
+  })
   return (
     <>
-      <FormControl as={GridItem} colSpan={[6, 3]}>
+      <FormControl as={GridItem} colSpan={[6, 3]}
+        isInvalid={!!errors?.category}
+      >
         <FormLabel
           htmlFor="category"
           fontSize="sm"
@@ -54,22 +81,32 @@ const Form2 = () => {
         >
           Category
         </FormLabel>
-        <Select
-          id="category"
-          placeholder="Select category"
-          focusBorderColor="brand.400"
-          shadow="sm"
-        //   size="sm"
-          w="full"
-          rounded="md"
-        >
-          <option>Category 1</option>
-          <option>Category 2</option>
-          <option>Category 3</option>
-        </Select>
+        {isLoading ? <>loading...</> :
+          <Select
+            id="category"
+            placeholder="Select category"
+            focusBorderColor="brand.400"
+            shadow="sm"
+            //   size="sm"
+            w="full"
+            rounded="md"
+            {...register("category", { required: { value: true, message: "required" } })}
+          >
+            {
+              categoryList?.data?.map((option: any, index: number) => {
+                return <option value={option._id} key={index} >{option.title}</option>
+              })
+            }
+          </Select>
+        }
+        <FormErrorMessage>
+          {errors?.category?.message}
+        </FormErrorMessage>
       </FormControl>
 
-      <FormControl as={GridItem} colSpan={6}>
+      <FormControl as={GridItem} colSpan={6}
+        isInvalid={!!errors?.title}
+      >
         <FormLabel
           htmlFor="title"
           fontSize="sm"
@@ -84,13 +121,20 @@ const Form2 = () => {
           id="title"
           focusBorderColor="brand.400"
           shadow="sm"
-        //   size="sm"
+          //   size="sm"
           w="full"
           rounded="md"
+          {...register("title", { required: { value: true, message: "required" } })}
+
         />
+        <FormErrorMessage>
+          {errors?.title?.message}
+        </FormErrorMessage>
       </FormControl>
 
-      <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
+      <FormControl as={GridItem} colSpan={[6, 6, null, 2]}
+        isInvalid={!!errors?.description}
+      >
         <FormLabel
           htmlFor="description"
           fontSize="sm"
@@ -104,16 +148,23 @@ const Form2 = () => {
           id="description"
           focusBorderColor="brand.400"
           shadow="sm"
-        //   size="sm"
+          //   size="sm"
           w="full"
           rounded="md"
+          {...register("description", { required: { value: true, message: "required" } })}
+
         />
+        <FormErrorMessage>
+          {errors?.description?.message}
+        </FormErrorMessage>
       </FormControl>
 
       <Flex mt={5} gap={5}>
-        <FormControl as={GridItem} colSpan={6}>
+        <FormControl as={GridItem} colSpan={6}
+          isInvalid={!!errors?.startDate}
+        >
           <FormLabel
-            htmlFor="title"
+            htmlFor="start"
             fontSize="sm"
             fontWeight="md"
             color="gray.700"
@@ -123,15 +174,23 @@ const Form2 = () => {
           </FormLabel>
           <Input
             type="datetime-local"
-            id="title"
+            id="start"
             focusBorderColor="brand.400"
             shadow="sm"
             // size="sm"
             w="full"
             rounded="md"
+            {...register("startDate", { required: { value: true, message: "required" } })}
+
+
           />
+          <FormErrorMessage>
+            {errors?.startDate?.message}
+          </FormErrorMessage>
         </FormControl>
-        <FormControl as={GridItem} colSpan={6}>
+        <FormControl as={GridItem} colSpan={6}
+          isInvalid={!!errors?.deadline}
+        >
           <FormLabel
             htmlFor="title"
             fontSize="sm"
@@ -149,30 +208,90 @@ const Form2 = () => {
             // size="sm"
             w="full"
             rounded="md"
+            {...register("deadline", { required: { value: true, message: "required" } })}
+
           />
+          <FormErrorMessage>
+            {errors?.deadline?.message}
+          </FormErrorMessage>
         </FormControl>
       </Flex>
     </>
   );
 };
+type OptionType = {
+  readonly value: string | number;  // The actual value that will be sent to the form or used in your logic
+  readonly label: string;           // The display label for the option
+};
 
-const Form3 = () => {
-  const { value, options, onChange } = useMultiSelect({
-    options: [
-      { label: "Option 1", value: "option1" },
-      { label: "Option 2", value: "option2" },
-      { label: "Option 3", value: "option3" },
-      { label: "Option 4", value: "option4" },
-      { label: "Option 5", value: "option5" },
-      { label: "Option 6", value: "option6" },
-      { label: "Option 7", value: "option7" },
-      { label: "Option 8", value: "option8" },
-      { label: "Option 9", value: "option9" },
-      { label: "Option 10", value: "option10" },
-    ],
-  });
+type Form3 = {
+  orgId: string
+} & StepFormFields
+const Form3 = ({ control, watch, orgId }: Form3) => {
+  const value = watch?.("orgId");
+  const showClientTeam = value === "organization";
+
+  const clientTeam = useQuery({
+    queryKey: [orgId],
+    queryFn: async () => await getTeam(orgId, "accepted"),
+    enabled: !!orgId && showClientTeam
+  })
+  const resourseTeam = useQuery({
+    queryKey: ["resource"],
+    queryFn: getResource,
+    // enabled: !!orgId && showClientTeam
+  })
+  let options: OptionType[] = [];
+  let resourseOptions: OptionType[] = [];
+
+  if (resourseTeam.data?.data) {
+    resourseOptions = resourseTeam.data?.data?.map((team: any) => ({ label: team?.userInfo?.name, value: team._id }));
+  }
+
+
+  if (clientTeam.data?.data) {
+    options = clientTeam.data?.data?.map((team: any) => ({ label: team?.userId?.name, value: team._id }));
+  }
+
   return (
     <>
+      {
+        showClientTeam &&
+        <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
+          <FormLabel
+            htmlFor="clientTeam"
+            fontSize="sm"
+            fontWeight="md"
+            color="gray.700"
+            mt="2%"
+          >
+            Client Team
+          </FormLabel>
+          <Controller
+            name="clientTeam"
+            control={control}
+            // rules={{ required: "Please select at least one member" }}
+            render={({ field }) => {
+              return <ReactSelect
+                {...field}
+                // options={options}
+                options={options as any}
+                isMulti
+
+                value={field.value}
+                onChange={(selectedOptions) => {
+
+                  field.onChange(selectedOptions)
+                }}
+
+                placeholder="Choose some team member's"
+
+              />
+            }
+            }
+          />
+        </FormControl>
+      }
       <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
         <FormLabel
           htmlFor="clientTeam"
@@ -181,17 +300,33 @@ const Form3 = () => {
           color="gray.700"
           mt="2%"
         >
-          Client Team
+          Resource Team
         </FormLabel>
-        <MultiSelect
-          options={options}
-          placeholder="Select Members"
-          value={value}
-          onChange={onChange}
-          create
+        <Controller
+          name="resource"
+          control={control}
+          // rules={{ required: "Please select at least one member" }}
+          render={({ field }) => {
+            return <ReactSelect
+              {...field}
+              // options={options}
+              options={resourseOptions as any}
+              isMulti
+
+              value={field.value}
+              onChange={(selectedOptions) => {
+
+                field.onChange(selectedOptions)
+              }}
+
+              placeholder="Choose some team member's"
+
+            />
+          }
+          }
         />
       </FormControl>
-      <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
+      {/* <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
         <FormLabel
           htmlFor="clientTeam"
           fontSize="sm"
@@ -208,37 +343,123 @@ const Form3 = () => {
           onChange={onChange}
           create
         />
-      </FormControl>
+      </FormControl> */}
     </>
   );
 };
 
+type ProjectFields = {
+  userId?: string;
+  orgId?: string;
+  category: string;
+  title: string;
+  description: string;
+  clientTeam: string[];
+  resource: string[];
+  startDate: Date;
+  deadline: Date;
+}
+type ProjectFormKey = keyof ProjectFields
+type FormStepType = { fields: string[] }
 export default function CreateProjectForm({
   step,
   setStep,
   progress,
   setProgress,
+  onClose
 }: {
+  onClose: () => void;
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const toast = useToast();
+
+  const queryClient = useQueryClient();
+  const proejctType = useProjectType();
+  const createProjectMutation = useMutation({
+    mutationFn: createProject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    }
+  })
+  const formStepField: FormStepType[] = [
+    {
+      fields: ["orgId"]
+    },
+    {
+      fields: ["category", "title", "description", "startDate", "deadline"]
+    },
+    { fields: ["clientTeam", "resource"] }
+  ]
+  const {
+    register,
+    handleSubmit,
+    reset,
+    trigger,
+    control,
+    watch,
+    formState: { errors }
+  } = useForm<ProjectFields>();
+  const processProjectCreation = async (data: ProjectFields) => {
+    data.userId = proejctType.userId;
+    if (data.orgId === "organization") {
+      data.orgId = proejctType.orgId;
+    } else {
+      delete data.orgId;
+    }
+    data.clientTeam = data?.clientTeam?.map((c: any) => c.value) ?? [];
+    data.resource = data?.resource?.map((r: any) => r.value) ?? [];
+    // do it here
+    // clientTeam
+    // resource
+    try {
+      await createProjectMutation.mutateAsync(data as any);
+    } catch (err) {
+      console.log(err)
+    } finally {
+      onClose?.()
+      reset();
+    }
+  }
+  const next = async () => {
+    const output = await trigger(formStepField[step - 1].fields as ProjectFormKey[], { shouldFocus: true });
+    if (!output) return;
+    setStep(step + 1);
+    if (step === 3) {
+      setProgress(100);
+    } else {
+      setProgress(progress + 33.33);
+    }
+  }
+  const prev = () => {
+    setStep(step - 1);
+    setProgress(progress - 33.33);
+  }
 
   return (
     <>
-      <Box rounded="lg" maxWidth={800} py={4} m="10px 0" as="form">
-        {step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />}
+      <Box rounded="lg" maxWidth={800} py={4} m="10px 0" as="form"
+        onSubmit={handleSubmit(processProjectCreation)}>
+
+
+
+
+        {step === 1 ?
+          <Form1 register={register} errors={errors} /> :
+          step === 2 ? <Form2 register={register} errors={errors} /> :
+            <Form3 register={register}
+              control={control}
+              watch={watch}
+              orgId={proejctType.orgId}
+            />}
+
 
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
               <Button
-                onClick={() => {
-                  setStep(step - 1);
-                  setProgress(progress - 33.33);
-                }}
+                onClick={prev}
                 isDisabled={step === 1}
                 colorScheme="teal"
                 variant="outline"
@@ -250,14 +471,7 @@ export default function CreateProjectForm({
               <Button
                 w="7rem"
                 isDisabled={step === 3}
-                onClick={() => {
-                  setStep(step + 1);
-                  if (step === 3) {
-                    setProgress(100);
-                  } else {
-                    setProgress(progress + 33.33);
-                  }
-                }}
+                onClick={next}
                 colorScheme="teal"
                 variant="solid"
               >
@@ -269,15 +483,8 @@ export default function CreateProjectForm({
                 w="7rem"
                 colorScheme="red"
                 variant="solid"
-                onClick={() => {
-                  toast({
-                    title: "Account created.",
-                    description: "We've created your account for you.",
-                    status: "success",
-                    duration: 3000,
-                    isClosable: true,
-                  });
-                }}
+                type="submit"
+                isLoading={createProjectMutation.isPending}
               >
                 Submit
               </Button>
@@ -288,3 +495,16 @@ export default function CreateProjectForm({
     </>
   );
 }
+
+function useProjectType() {
+  const { channel } = useChannelStateContext();
+  const organizationQuery = useQuery({
+    queryKey: [channel.id],
+    queryFn: async () => await getOrgnizationByUserId(channel.id!),
+    enabled: !!channel?.id
+  })
+
+  return { userId: channel.id, orgId: organizationQuery?.data?.data?._id, isLoading: organizationQuery.isLoading }
+}
+
+
