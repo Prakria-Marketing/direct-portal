@@ -7,7 +7,7 @@ import { Box, Flex, Heading } from "@chakra-ui/react";
 
 function Subscription() {
   return (
-    <Box>
+    
       <WrapperLayout>
         <Flex my={10}>
           <Box w="30%">
@@ -23,7 +23,7 @@ function Subscription() {
           </Box>
         </Flex>
       </WrapperLayout>
-    </Box>
+    
   );
 }
 
