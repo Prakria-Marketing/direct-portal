@@ -20,21 +20,20 @@ import { BiBell, BiPlus } from "react-icons/bi";
 import "./Header.css";
 import {
   HiOutlineArrowRightStartOnRectangle,
-  HiOutlineBriefcase,
   HiOutlineBuildingOffice,
   HiOutlineChatBubbleLeftRight,
-  HiOutlineCheckBadge,
   HiOutlineCog8Tooth,
   HiOutlineHome,
   HiOutlineTicket,
   HiOutlineUser,
-  HiUserGroup,
 } from "react-icons/hi2";
 import WrapperLayout from "../../../layouts/wrapperLayout";
 import { Link } from "react-router-dom";
 import { auth } from "@/firebase/firebase";
+import { useAuth } from "@/hooks/auth";
 
 function Header() {
+  const { user } = useAuth();
   const logout = async () => {
     await auth.signOut();
   };
@@ -100,12 +99,13 @@ function Header() {
                     <Avatar
                       w="40px"
                       h="40px"
-                      name="John Doe"
+                      name={user?.displayName}
                       src="https://bit.ly/dan-abramov"
                     />
                     {/* User Name */}
                     <Text fontSize="14px" color="#fff" fontWeight="medium">
-                      John Doe
+                      {user?.displayName}
+                      {/* John Doe */}
                     </Text>
                     {/* Chevron Down Icon */}
                     <ChevronDownIcon color="#fff" />

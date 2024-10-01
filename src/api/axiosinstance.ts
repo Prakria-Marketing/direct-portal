@@ -1,14 +1,14 @@
 import axios, { AxiosInstance } from "axios";
-import { useAuth } from "@/hooks/auth";
-
-export const URL = "http://localhost:5000";
+import { auth } from "@/firebase/firebase";
+export const URL = import.meta.env.VITE_api_url;
 const axiosInstance: AxiosInstance = axios.create({
     // withCredentials: true,
     baseURL: URL
 });
 
-axiosInstance.interceptors.request.use(config => {
-    const token = useAuth.getState()?.user?.accessToken;
+axiosInstance.interceptors.request.use(async (config) => {
+    const token = await auth?.currentUser?.getIdToken();
+    // useAuth.getState()?.user?.accessToken;
     // console.log("token ", token)
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;

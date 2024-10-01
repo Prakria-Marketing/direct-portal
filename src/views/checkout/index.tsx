@@ -1,4 +1,5 @@
-import React from 'react'
+import WrapperLayout from "@/layouts/wrapperLayout";
+import { Box, Heading } from "@chakra-ui/react";
 
 function Checkout() {
   return (

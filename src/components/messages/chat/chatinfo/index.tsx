@@ -11,18 +11,25 @@ type ChatInfoType = {
 }
 function ChatInfoWindow({ isSliderVisible = false, onToggleSlider }: ChatInfoType) {
     const { channel } = useChannelStateContext();
-
     const clientProjectList = useQuery({
         queryKey: ["projects", channel?.id],
         queryFn: async () => await getCustomerProjects(channel?.id as string),
-    });
+        retry: 1, // Will retry failed requests 10 times before displaying an error
 
+    });
     const projectInfo = useQuery({
         queryKey: [channel?.id],
         queryFn: async () => await getProjectById(channel?.id as string),
+        retry: 1, // Will retry failed requests 10 times before displaying an error
+
     });
-    // projectInfo.data.data
-    console.log("projectInfo.isSuccess ", projectInfo.isSuccess)
+    const memberList = useQuery({
+        queryKey: ["members", channel.id],
+        queryFn: async () => {
+            const res = await channel.queryMembers({});
+            return res.members
+        }
+    });
 
 
     return (
@@ -47,11 +54,24 @@ function ChatInfoWindow({ isSliderVisible = false, onToggleSlider }: ChatInfoTyp
             </Flex>
             <Box px={5}>
                 <Box mb={10}>
+
                     <Heading size="sm">Project Logs</Heading>
 
-                    {clientProjectList.data?.data?.map((project: any, index: number) => {
-                        return <ServiceCard data={project} key={index} />
-                    })}
+                    {clientProjectList.isLoading || projectInfo.isLoading ? <>loading...</>
+                        :
+                        <>
+
+                            {
+                                clientProjectList.data?.data?.map((project: any, index: number) => {
+                                    return <ServiceCard data={project} key={index} />
+                                })
+                            }
+
+                            {
+                                projectInfo.isSuccess && projectInfo?.data?.data && <ServiceCard data={projectInfo?.data?.data ?? {}} />
+                            }
+                        </>
+                    }
 
                 </Box>
 
@@ -101,9 +121,23 @@ function ChatInfoWindow({ isSliderVisible = false, onToggleSlider }: ChatInfoTyp
                         />
                     </Grid>
                 </Box>
+                <Box>
+                    <Heading size="sm">Members</Heading>
+                    <Box as="ul">
+
+                        {memberList?.data?.map((member: any, index: number) => (
+                            <li key={index}>
+                                <strong>{member?.user?.name}</strong> - {member?.user?.email}
+                                <>,{member?.role}</>
+                            </li>
+                        ))}
+
+                    </Box>
+                </Box>
             </Box>
         </Box>
     )
 }
+
 
 export default ChatInfoWindow;

@@ -16,7 +16,6 @@ import {
   ListItem,
   ListIcon,
   Button,
-  Heading,
   Badge,
   Stack,
 } from "@chakra-ui/react";
@@ -40,7 +39,7 @@ interface Duration {
 }
 
 function PriceWrapper(props: Props) {
-  const { children, isSubscribed, status } = props;
+  const { children, isSubscribed } = props;
   return (
     <Box
       mb={4}
@@ -88,7 +87,6 @@ export default function CustomerPlanCard() {
   const {
     data: UserSubscription,
     isLoading,
-    error,
   } = useQuery({
     queryKey: ["user-subscription"],
     queryFn: UserSubscriptionFunc,
@@ -178,7 +176,7 @@ export default function CustomerPlanCard() {
                     key={index.toString()}
                     isSubscribed={
                       UserSubscription?.data?.planId ===
-                        price.stripe_price_id &&
+                      price.stripe_price_id &&
                       UserSubscription?.data?.status === "active"
                     }
                     status={UserSubscription?.status}
@@ -192,7 +190,7 @@ export default function CustomerPlanCard() {
                       bg={
                         UserSubscription?.data?.planId ==
                           price.stripe_price_id &&
-                        UserSubscription?.data?.status === "active"
+                          UserSubscription?.data?.status === "active"
                           ? "green.200"
                           : "transparent"
                       }
@@ -239,7 +237,7 @@ export default function CustomerPlanCard() {
                       bg={
                         UserSubscription?.data?.planId ==
                           price.stripe_price_id &&
-                        UserSubscription?.data?.status === "active"
+                          UserSubscription?.data?.status === "active"
                           ? useColorModeValue("green.50", "green.700")
                           : useColorModeValue("gray.50", "gray.700")
                       }
@@ -259,7 +257,7 @@ export default function CustomerPlanCard() {
                       <Box w="80%" pt={7}>
                         {UserSubscription?.data?.planId ==
                           price.stripe_price_id &&
-                        UserSubscription?.data?.status === "active" ? (
+                          UserSubscription?.data?.status === "active" ? (
                           <>
                             <Badge
                               w="full"
@@ -292,13 +290,13 @@ export default function CustomerPlanCard() {
                             onClick={() =>
                               UserSubscription?.data == null
                                 ? checkOutSessionMutation.mutate(
-                                    price.stripe_price_id
-                                  )
+                                  price.stripe_price_id
+                                )
                                 : UserSubscription?.data?.status == "active"
-                                ? UpatePlanMutation.mutate(
+                                  ? UpatePlanMutation.mutate(
                                     price.stripe_price_id
                                   )
-                                : CreateSubscriptionMutation.mutate(
+                                  : CreateSubscriptionMutation.mutate(
                                     price.stripe_price_id
                                   )
                             }

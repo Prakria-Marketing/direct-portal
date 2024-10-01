@@ -4,7 +4,6 @@ import {
   Box,
   chakra,
   Container,
-  Flex,
   HStack,
   Stack,
   Text,

@@ -9,7 +9,6 @@ import BusinessHub from "@/views/businessHub";
 import Categories from "@/views/categories";
 import Tasks from "@/views/tasks";
 import Settings from "@/views/settings";
-import Account from "@/views/subscription";
 
 import PaymentSuccess from "@/views/payments/success";
 import PaymentCancel from "@/views/payments/cancel";

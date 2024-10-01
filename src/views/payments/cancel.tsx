@@ -1,4 +1,3 @@
-import React from "react";
 
 function PaymentCancel() {
   return <div>PaymentCancel</div>;
