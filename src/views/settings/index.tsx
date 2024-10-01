@@ -1,5 +1,6 @@
 import Account from "@/components/settings/Account";
 import Details from "@/components/settings/Details";
+import EditOrganization from "@/components/settings/EditOrganization";
 import Security from "@/components/settings/Security";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import {
@@ -29,6 +30,7 @@ function Settings() {
               <Tab>Details</Tab>
               <Tab>Account</Tab>
               <Tab>Security</Tab>
+              <Tab>Edit Organization</Tab>
             </TabList>
 
             <TabPanels py={5}>
@@ -45,6 +47,11 @@ function Settings() {
               <TabPanel>
                 <p>
                   <Security />
+                </p>
+              </TabPanel>
+              <TabPanel>
+                <p>
+                  <EditOrganization />
                 </p>
               </TabPanel>
             </TabPanels>

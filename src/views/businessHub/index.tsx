@@ -140,16 +140,16 @@ function BusinessHub() {
         </Box>
 
         <Box w={{ base: "full", lg: "6xl" }} m="auto" mb={10}>
-          <Grid
-            templateColumns={{ base: "1fr", lg: "70% 30%" }}
+          <Flex
+            // templateColumns={{ base: "1fr", lg: "70% 30%" }}
             gap={{ base: 6, lg: 10 }}
           >
             <Box>
-              <Box bg="#fff" p={6} rounded="lg">
+              <Box w="100%" bg="#fff" p={6} rounded="lg">
                 <People orgId={orgnizationQuery?.data?.data?._id as string} />
               </Box>
             </Box>
-            <Box>
+            <Box w="100%">
               <Heading as="h4" size="sm">
                 More Organization Info
               </Heading>
@@ -217,7 +217,7 @@ function BusinessHub() {
                 </Flex>
               </Box>
             </Box>
-          </Grid>
+          </Flex>
         </Box>
       </WrapperLayout>
     </Box>
