@@ -1,17 +1,9 @@
-import WrapperLayout from "@/layouts/wrapperLayout";
-import { Box, Heading } from "@chakra-ui/react";
-import React from "react";
+import React from 'react'
 
 function Checkout() {
   return (
-    <WrapperLayout>
-      <Box my={10}>
-        <Heading as="h5" size="md" pb="5">
-          Checkout
-        </Heading>
-      </Box>
-    </WrapperLayout>
-  );
+    <div>Checkout</div>
+  )
 }
 
-export default Checkout;
+export default Checkout

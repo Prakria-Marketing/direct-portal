@@ -154,15 +154,15 @@ function Header() {
               >
                 <HiOutlineHome /> <Link to="/">Dashboard</Link>
               </Button>
-              {/* <Button
+              <Button
                 display={"flex"}
                 alignItems={"center"}
                 variant="link"
                 gap={1}
               >
                 <HiUserGroup /> <Link to="/customers">Customers</Link>
-              </Button> */}
-              {/* <Button
+              </Button>
+              <Button
                 display={"flex"}
                 alignItems={"center"}
                 variant="link"
@@ -170,7 +170,7 @@ function Header() {
               >
                 <HiOutlineBriefcase />{" "}
                 <Link to="/project-logs">Project Logs</Link>
-              </Button> */}
+              </Button>
               <Button
                 display={"flex"}
                 alignItems={"center"}
@@ -180,7 +180,7 @@ function Header() {
                 <HiOutlineChatBubbleLeftRight />{" "}
                 <Link to="/messages">Messages</Link>
               </Button>
-              {/* <Button
+              <Button
                 display={"flex"}
                 alignItems={"center"}
                 variant="link"
@@ -188,7 +188,7 @@ function Header() {
               >
                 <HiOutlineCheckBadge />
                 <Link to="/membership">Membership</Link>
-              </Button> */}
+              </Button>
               <Button
                 display={"flex"}
                 alignItems={"center"}
