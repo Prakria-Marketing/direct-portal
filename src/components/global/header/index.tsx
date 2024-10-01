@@ -34,6 +34,79 @@ import WrapperLayout from "../../../layouts/wrapperLayout";
 import { Link } from "react-router-dom";
 import { auth } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/auth";
+import React from "react";
+import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
+const NavList = [
+  {
+    text: "Dashboard",
+    icon: <HiOutlineHome />,
+    link: "/",
+    permissions: ["all"]
+  },
+  {
+    text: "Customers",
+    icon: <HiUserGroup />,
+    link: "/customers",
+    permissions: ["servicing"]
+  },
+  {
+    text: "Project Logs",
+    icon: <HiOutlineBriefcase />,
+    link: "/project-logs",
+    permissions: ["servicing"]
+  },
+  {
+    text: "Messages",
+    icon: <HiOutlineChatBubbleLeftRight />,
+    link: "/messages",
+    permissions: ["servicing", "customer"]
+  },
+  {
+    text: "Membership",
+    icon: <HiOutlineCheckBadge />,
+    link: "/membership",
+    permissions: ["customer"]
+  },
+  {
+    text: "Tasks",
+    icon: <FiHelpCircle />,
+    link: "/tasks",
+    permissions: ["resource"]
+  },
+  {
+    text: "Help",
+    icon: <FiHelpCircle />,
+    link: "/help",
+    permissions: ["all"]
+  }
+];
+
+const MenuItemList = [
+  {
+    text: "Settings",
+    icon: <HiOutlineCog8Tooth />,
+    link: "/settings",
+    permissions: ["all"]
+  },
+  {
+    text: "Subscription",
+    icon: <HiOutlineUser />,
+    link: "/subscription",
+    permissions: ["customer"]
+  },
+  {
+    text: "Promotion & Offers",
+    icon: <HiOutlineTicket />,
+    link: "#",  // No link is provided for this item
+    permissions: ["customer"]
+  },
+  {
+    text: "Business Hub",
+    icon: <HiOutlineBuildingOffice />,
+    link: "/business-hub",
+    permissions: ["customer"]
+  }
+];
 
 function Header() {
   const { user } = useAuth();
@@ -115,7 +188,13 @@ function Header() {
                   </HStack>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem fontSize="14px" gap={2}>
+                  {MenuItemList
+                    .filter((nav) => nav.permissions.includes(user?.role) || nav.permissions.includes("all")).
+                    map((nav, index) => <MenuItem key={index} fontSize="14px" gap={2}>
+                      {nav.icon}
+                      <Link to={nav.link}>{nav.text} </Link>
+                    </MenuItem>)}
+                  {/* <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineCog8Tooth />
                     <Link to="/settings">Settings </Link>
                   </MenuItem>
@@ -130,7 +209,7 @@ function Header() {
                   <MenuItem fontSize="14px" gap={2}>
                     <HiOutlineBuildingOffice />
                     <Link to="/business-hub"> Business Hub</Link>
-                  </MenuItem>
+                  </MenuItem> */}
                   <hr />
                   <MenuItem fontSize="14px" gap={2} onClick={logout}>
                     <HiOutlineArrowRightStartOnRectangle />
@@ -149,102 +228,69 @@ function Header() {
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}
             <HStack className="menu-btn" align="start" spacing={10}>
-              <Button
-                display={"flex"}
-                alignItems={"center"}
-                variant="link"
-                gap={1}
-              >
-                <HiOutlineHome /> <Link to="/">Dashboard</Link>
-              </Button>
-              <Button
-                display={"flex"}
-                alignItems={"center"}
-                variant="link"
-                gap={1}
-              >
-                <HiUserGroup /> <Link to="/customers">Customers</Link>
-              </Button>
-              <Button
-                display={"flex"}
-                alignItems={"center"}
-                variant="link"
-                gap={1}
-              >
-                <HiOutlineBriefcase />{" "}
-                <Link to="/project-logs">Project Logs</Link>
-              </Button>
-              <Button
-                display={"flex"}
-                alignItems={"center"}
-                variant="link"
-                gap={1}
-              >
-                <HiOutlineChatBubbleLeftRight />{" "}
-                <Link to="/messages">Messages</Link>
-              </Button>
-              <Button
-                display={"flex"}
-                alignItems={"center"}
-                variant="link"
-                gap={1}
-              >
-                <HiOutlineCheckBadge />
-                <Link to="/membership">Membership</Link>
-              </Button>
-              <Button
-                display={"flex"}
-                alignItems={"center"}
-                variant="link"
-                gap={1}
-              >
-                <FiHelpCircle />
-                <Link to="/tasks"> Tasks</Link>
-              </Button>
-              <Button
-                display={"flex"}
-                alignItems={"center"}
-                variant="link"
-                gap={1}
-              >
-                <FiHelpCircle />
-                <Link to="/help"> Help</Link>
-              </Button>
+              {NavList
+                .filter((nav) => nav.permissions.includes(user?.role) || nav.permissions.includes("all")).
+                map((nav, index) => <NavigationButton key={index} {...nav} />)}
             </HStack>
 
             {/* Second Column: Add Button */}
-            <Box>
-              <Button
-                fontSize="14px"
-                fontWeight={500}
-                me={3}
-                bg="gray.700"
-                color="#fff"
-                _hover={{ bg: "#000" }}
-                size="md"
-              >
-                <BiPlus />
-                Start Project
-              </Button>
-              <Link to="/categories">
+            <PermissionWrapper role={["customer"]}>
+              <Box>
                 <Button
-                  fontWeight={500}
                   fontSize="14px"
-                  variant="outline"
-                  borderColor="gray.400"
-                  bg="transparent"
-                  _hover={{ bg: "gray.100" }} // Optional hover effect
-                  color="gray.700" // Text color
+                  fontWeight={500}
+                  me={3}
+                  bg="gray.700"
+                  color="#fff"
+                  _hover={{ bg: "#000" }}
+                  size="md"
                 >
-                  Explore Categories
+                  <BiPlus />
+                  Start Project
                 </Button>
-              </Link>
-            </Box>
+                <Link to="/categories">
+                  <Button
+                    fontWeight={500}
+                    fontSize="14px"
+                    variant="outline"
+                    borderColor="gray.400"
+                    bg="transparent"
+                    _hover={{ bg: "gray.100" }} // Optional hover effect
+                    color="gray.700" // Text color
+                  >
+                    Explore Categories
+                  </Button>
+                </Link>
+              </Box>
+            </PermissionWrapper>
           </Flex>
         </WrapperLayout>
       </Box>
     </>
   );
+}
+
+
+type NavLinkType = {
+  link: string,
+  icon?: React.ReactNode,
+  text?: string
+}
+function NavigationButton({ link, icon, text }: NavLinkType) {
+
+  return <Link to={link}>
+    <Button
+      display={"flex"}
+      alignItems={"center"}
+      variant="link"
+      gap={1}
+    >
+      {icon}
+      <span> {text} </span>
+    </Button>
+  </Link>
+
+
 }
 
 export default Header;

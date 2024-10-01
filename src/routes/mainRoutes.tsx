@@ -14,67 +14,114 @@ import PaymentSuccess from "@/views/payments/success";
 import PaymentCancel from "@/views/payments/cancel";
 import InvitePage from "@/views/invite";
 import Subscription from "@/views/subscription";
+import PermissionLayout from "@/layouts/protectedLayout/permissionLayout";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
   children: [
     {
       path: "",
-      element: <Dashboard />,
+      element: <PermissionLayout role={["all"]}>
+        <Dashboard />,
+      </PermissionLayout>
     },
     {
       path: "/project-logs",
-      element: <ProjectLogs />,
+      element:
+        <PermissionLayout role={["servicing"]}>
+          <ProjectLogs />,
+        </PermissionLayout>
     },
     {
       path: "/customers",
-      element: <Customers />,
+      element:
+        <PermissionLayout role={["servicing"]}>
+          <Customers />
+        </PermissionLayout>,
     },
     {
       path: "/messages",
-      element: <Messages />,
+      element:
+        <PermissionLayout role={["customer", "servicing"]} >
+          <Messages />
+        </PermissionLayout>
     },
     {
       path: "/membership",
-      element: <Membership />,
+      element:
+        <PermissionLayout role={["customer"]}>
+          <Membership />
+        </PermissionLayout>
+      ,
     },
     {
       path: "/help",
-      element: <Help />,
+      element:
+        <PermissionLayout role={["all"]}>
+          <Help />
+        </PermissionLayout>
     },
     {
       path: "/business-hub",
-      element: <BusinessHub />,
+      element:
+        <PermissionLayout role={["customer"]}>
+          <BusinessHub />
+        </PermissionLayout>
     },
     {
       path: "/categories",
-      element: <Categories />,
+      element: <PermissionLayout role={["all"]}>
+        <Categories />,
+      </PermissionLayout>
     },
     {
       path: "/tasks",
-      element: <Tasks />,
+      element:
+        <PermissionLayout role={["resource"]}>
+          <Tasks />
+        </PermissionLayout>
     },
     {
       path: "/settings",
-      element: <Settings />,
+      element: <PermissionLayout role={["all"]}>
+        <Settings />,
+      </PermissionLayout>
     },
     {
       path: "/subscription",
-      element: <Subscription />,
-    },
-    { path: "/invite", element: <InvitePage /> },
-    {
-      path: "/payments/success",
-      element: <PaymentSuccess />,
-    },
-    {
-      path: "/payments/failed",
-      element: <PaymentCancel />,
+      element:
+        <PermissionLayout role={["customer"]}>
+          <Subscription />
+        </PermissionLayout>
     },
     {
       path: "/invite",
-      element: <InvitePage />,
+      element:
+        <PermissionLayout role={["customer"]}>
+          <InvitePage />
+        </PermissionLayout>
+
     },
+    {
+      path: "/payments/success",
+      element:
+        <PermissionLayout role={["customer"]}>
+          <PaymentSuccess />
+        </PermissionLayout>
+    },
+    {
+      path: "/payments/failed",
+      element:
+        <PermissionLayout role={["customer"]}>
+          <PaymentCancel />
+        </PermissionLayout>
+    },
+    // {
+    //   path: "/invite",
+    //   element: <PermissionLayout role={["customer"]}>
+    //     <InvitePage />
+    //   </PermissionLayout>
+    // },
   ],
 };
 
