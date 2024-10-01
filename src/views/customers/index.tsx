@@ -1,7 +1,6 @@
 import CustomerCard from "@/components/customers/CustomerCard";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { Box, Grid, GridItem, Heading } from "@chakra-ui/react";
-import React from "react";
 
 function Customers() {
   return (
@@ -12,11 +11,11 @@ function Customers() {
         </Heading>
 
         <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-        <GridItem w="100%"><CustomerCard/></GridItem>
-        <GridItem w="100%"><CustomerCard/></GridItem>
-        <GridItem w="100%"><CustomerCard/></GridItem>
-        <GridItem w="100%"><CustomerCard/></GridItem>
-        <GridItem w="100%"><CustomerCard/></GridItem>
+          <GridItem w="100%"><CustomerCard /></GridItem>
+          <GridItem w="100%"><CustomerCard /></GridItem>
+          <GridItem w="100%"><CustomerCard /></GridItem>
+          <GridItem w="100%"><CustomerCard /></GridItem>
+          <GridItem w="100%"><CustomerCard /></GridItem>
         </Grid>
       </Box>
     </WrapperLayout>

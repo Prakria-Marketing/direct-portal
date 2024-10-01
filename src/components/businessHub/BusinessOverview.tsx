@@ -1,6 +1,4 @@
-import { getOrgnization } from "@/api/orgnization";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 
 export type BusinessOrginizationData = {
   GST: string;
@@ -25,11 +23,11 @@ function BusinessOverview({ data }: { data: BusinessOrginizationData }) {
       rounded="md"
       bg={"#fff"}
       p={10}
-      // style={{
-      //   background: "url(/images/bg3.jpg)",
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
+    // style={{
+    //   background: "url(/images/bg3.jpg)",
+    //   backgroundSize: "cover",
+    //   backgroundPosition: "center",
+    // }}
     >
       <Heading mb={5} size="sm">
         Organization Details

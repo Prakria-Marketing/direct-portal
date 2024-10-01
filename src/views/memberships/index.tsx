@@ -1,18 +1,10 @@
 import CustomPlanCard from "@/components/memberships/CustomerPlanCard";
-import SubscribedCard from "@/components/memberships/SubscribedCard";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  CloseButton,
   Heading,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
 
 function Membership() {
   return (

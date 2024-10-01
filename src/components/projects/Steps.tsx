@@ -1,7 +1,6 @@
 import {
   Box,
   Step,
-  StepDescription,
   StepIcon,
   StepIndicator,
   StepNumber,
@@ -10,7 +9,6 @@ import {
   StepStatus,
   StepTitle,
   Text,
-  useSteps,
 } from "@chakra-ui/react";
 
 const steps = [

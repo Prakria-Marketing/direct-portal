@@ -1,6 +1,4 @@
 import { getOrgnization } from "@/api/orgnization";
-import BusinessOverview from "@/components/businessHub/BusinessOverview";
-import CreateBusinessForm from "@/components/businessHub/CreateBusinessForm";
 import People from "@/components/businessHub/People";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { EditIcon } from "@chakra-ui/icons";
@@ -9,7 +7,6 @@ import {
   Button,
   Flex,
   Grid,
-  GridItem,
   Heading,
   HStack,
   Image,

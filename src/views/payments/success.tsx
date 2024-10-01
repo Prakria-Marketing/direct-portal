@@ -1,12 +1,10 @@
 import { fetchCheckoutSession } from "@/api/stripe";
 import {
-  Box,
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  Container,
   Flex,
   Heading,
   Text,

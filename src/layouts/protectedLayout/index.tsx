@@ -1,6 +1,6 @@
 import Loading from "@/components/Loading";
 import { useAuth } from "@/hooks/auth";
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
