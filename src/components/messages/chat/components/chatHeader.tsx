@@ -15,6 +15,9 @@ import {
 import { IoMdMore } from "react-icons/io";
 import { BiPlus } from "react-icons/bi";
 import CreateProjectModal from "@/components/projects/CreateProjectModal";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import MemberList from "./memberList";
 
 export const CustomChannelHeader = ({
   onToggleSlider,
@@ -23,6 +26,19 @@ export const CustomChannelHeader = ({
 }) => {
   const { user } = useAuth();
   const { channel } = useChannelStateContext();
+  const memberList = useQuery({
+    queryKey: ["members", channel.id],
+    queryFn: async () => {
+      const res = await channel.queryMembers({});
+      return res.members
+    }
+  });
+
+  useEffect(() => {
+    if (memberList.data) {
+      console.log("members list", memberList.data)
+    }
+  }, [memberList.data])
 
   const title = channel?.data?.name;
   const name: any = (channel.data?.room_name as any)?.[user?.userId] as any;
@@ -43,8 +59,9 @@ export const CustomChannelHeader = ({
       <Flex flexDirection={"column"} flex={1} gap={2} justifyContent={"center"}>
         <div className="header-item">
           <Heading size={"xs"} fontWeight={"500"} fontSize={"12px"}>
-            {title || name}
+            {name || title}
           </Heading>
+          <MemberList members={memberList.data as any ?? []} />
         </div>
       </Flex>
       <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
