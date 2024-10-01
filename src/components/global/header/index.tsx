@@ -20,12 +20,15 @@ import { BiBell, BiPlus } from "react-icons/bi";
 import "./Header.css";
 import {
   HiOutlineArrowRightStartOnRectangle,
+  HiOutlineBriefcase,
   HiOutlineBuildingOffice,
   HiOutlineChatBubbleLeftRight,
+  HiOutlineCheckBadge,
   HiOutlineCog8Tooth,
   HiOutlineHome,
   HiOutlineTicket,
   HiOutlineUser,
+  HiUserGroup,
 } from "react-icons/hi2";
 import WrapperLayout from "../../../layouts/wrapperLayout";
 import { Link } from "react-router-dom";
