@@ -129,10 +129,9 @@ function Header() {
           <Flex h={10} alignItems="center" justifyContent="space-between">
             {/* Logo Section */}
             <Box>
-              <img
-                src="https://www.prakria.tech/assets/img/logo-white.png"
-                alt="Logo"
-              />
+              <Link to="/">
+                <img src="/images/logo.png" width="100px" alt="Logo" />
+              </Link>
             </Box>
 
             {/* Search Bar Section */}

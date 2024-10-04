@@ -15,6 +15,8 @@ import PaymentCancel from "@/views/payments/cancel";
 import InvitePage from "@/views/invite";
 import Subscription from "@/views/subscription";
 import PermissionLayout from "@/layouts/protectedLayout/permissionLayout";
+import NotFoundPage from "@/views/notfound";
+import Innerpage from "@/views/projectlogs/Innerpage";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -122,6 +124,14 @@ const mainRoutes = {
     //     <InvitePage />
     //   </PermissionLayout>
     // },
+    {
+      path: "*",
+      element: <NotFoundPage />,
+    },
+    {
+      path: "/innerpage",
+      element: <Innerpage />,
+    },
   ],
 };
 

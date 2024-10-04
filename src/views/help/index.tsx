@@ -11,7 +11,7 @@ function Help() {
             How we can help you?
           </Heading>
         </Box>
-        <Box rounded="lg" w="100%" bg={"#fff"} p={10}>
+        <Box rounded="lg" w="100%" >
           <Faq />
         </Box>
       </Flex>
