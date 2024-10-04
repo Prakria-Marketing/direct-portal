@@ -55,6 +55,7 @@ export const CustomChannelHeader = ({
       border={"1px"}
       borderColor={"gray.200"}
     >
+
       <Avatar name={name ?? title} src={""} size={"sm"} />
       <Flex flexDirection={"column"} flex={1} gap={2} justifyContent={"center"}>
         <div className="header-item">
@@ -72,7 +73,10 @@ export const CustomChannelHeader = ({
             </HStack>
           </MenuButton>
           <MenuList zIndex={999}>
-            <CreateProjectModal />
+            {
+              user?.role === "customer" ? null :
+                <CreateProjectModal />
+            }
             <MenuItem
               fontSize="14px"
               gap={1}
