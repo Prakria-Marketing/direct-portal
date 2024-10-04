@@ -1,13 +1,12 @@
 import { Box, Button, Heading, Text, Image, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-const NotFoundPage = () => {
+function ErrorPage() {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
     navigate("/"); // Redirect to the home page or any other route
   };
-
   return (
     <Flex
       direction={["column", "row"]}
@@ -57,6 +56,6 @@ const NotFoundPage = () => {
       </Box>
     </Flex>
   );
-};
+}
 
-export default NotFoundPage;
+export default ErrorPage;

@@ -15,6 +15,7 @@ import {
 import { IoMdMore } from "react-icons/io";
 import { BiPlus } from "react-icons/bi";
 import CreateProjectModal from "@/components/projects/CreateProjectModal";
+import ClientRequirements from "@/components/projects/ClientRequirementModal";
 
 export const CustomChannelHeader = ({
   onToggleSlider,
@@ -56,6 +57,7 @@ export const CustomChannelHeader = ({
           </MenuButton>
           <MenuList zIndex={999}>
             <CreateProjectModal />
+            <ClientRequirements />
             <MenuItem
               fontSize="14px"
               gap={1}

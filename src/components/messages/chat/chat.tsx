@@ -33,8 +33,8 @@ import { useState } from "react";
 // import ServiceCard from "../ServiceCard";
 import ChatInfoWindow from "./chatinfo";
 
-const apikey: string = import.meta.env.VITE_app_key!;
 
+const apikey: string = import.meta.env.VITE_app_key!;
 export default function ChatPage() {
   const { user } = useAuth();
   const [isSliderVisible, setIsSliderVisible] = useState(false); // State to control slider visibility
