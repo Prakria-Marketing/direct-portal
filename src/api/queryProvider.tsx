@@ -5,7 +5,13 @@ type QueryClientProps = {
     children: React.ReactNode;
 };
 function QueryProvider({ children }: QueryClientProps) {
-    const [queryClient] = useState(() => new QueryClient());
+    const [queryClient] = useState(() => new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 50000,
+            },
+        },
+    }));
     return (
         <QueryClientProvider client={queryClient}>
             {children}

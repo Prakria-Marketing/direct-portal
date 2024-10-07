@@ -1,4 +1,4 @@
-import { createOrgnization, IOrgnization } from "@/api/orgnization";
+import { createOrgnization, IOrgnization, updateOrgnization } from "@/api/orgnization";
 import {
   Box,
   Button,
@@ -16,10 +16,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 const required = { required: { value: true, message: "required" } };
-function CreateBusinessForm() {
+type BusinessFormType = {
+  type?: "create" | "update";
+  defaultValues?: IOrgnization
+}
+function CreateBusinessForm({ type = "create", defaultValues }: BusinessFormType) {
+  const isUpdate = type === "update";
+
   const queryClient = useQueryClient();
+  console.log(defaultValues);
   const { mutate, isPending } = useMutation({
     mutationFn: createOrgnization,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orgnization"] });
+    },
+  });
+  const { mutate: updateOrgnizationMutation, isPending: isUpdating } = useMutation({
+    mutationFn: updateOrgnization,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orgnization"] });
     },
@@ -28,10 +41,18 @@ function CreateBusinessForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IOrgnization>();
+  } = useForm<IOrgnization>(
+    { defaultValues: type === "update" ? defaultValues : undefined }
+  );
   // console.log(errors)
   const onSubmit = async (data: IOrgnization) => {
-    mutate(data);
+    if (type === "update") {
+      delete (data as any).owner;
+      updateOrgnizationMutation({ orgId: (defaultValues as any)?._id, body: data });
+    } else {
+      mutate(data);
+
+    }
   };
 
   return (
@@ -167,12 +188,12 @@ function CreateBusinessForm() {
         </FormControl>
       </Flex>
 
-      <FormControl>
+      <FormControl display={isUpdate ? "none" : "block"}>
         <FormLabel fontSize={"xs"} fontWeight={300} my={10}>
           <Checkbox
             type="checkbox"
             me={3}
-            {...register("check", { required: true })}
+            {...register("check", { required: !isUpdate })}
           />
           I consent and understand that my information will be handled in
           accordance with Designzo and that i have rights to access and correct
@@ -185,9 +206,10 @@ function CreateBusinessForm() {
         colorScheme="green"
         variant="solid"
         type="submit"
-        isLoading={isPending}
+        isLoading={isPending || isUpdating}
       >
-        Submit
+        {isUpdate ? "update" : "submit"}
+        {/* Submit */}
       </Button>
     </Box>
   );

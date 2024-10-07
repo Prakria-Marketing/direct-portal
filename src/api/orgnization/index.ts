@@ -40,6 +40,15 @@ export async function getOrgnizationByUserId(userId: string) {
     return response.data;
 }
 
+type UpdateOrgnizationProps = {
+    body: IOrgnization;
+    orgId: string;
+}
+export async function updateOrgnization({ orgId, body }: UpdateOrgnizationProps) {
+    const res = await axiosInstance.post("/organizations/update/" + orgId, body);
+    return res.data;
+}
+
 type RemoveMember = {
     organization: string;
     userId: string;

@@ -1,5 +1,7 @@
 import { getOrgnization } from "@/api/orgnization";
+import CreateBusinessForm from "@/components/businessHub/CreateBusinessForm";
 import People from "@/components/businessHub/People";
+import Loading from "@/components/Loading";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { EditIcon } from "@chakra-ui/icons";
 import {
@@ -7,6 +9,7 @@ import {
   Button,
   Flex,
   Grid,
+  GridItem,
   Heading,
   HStack,
   Image,
@@ -37,40 +40,29 @@ function BusinessHub() {
     queryFn: getOrgnization,
   });
 
+  if (orgnizationQuery.isLoading) return <Loading />
   // Extract data from the API response
   const data: BusinessOrginizationData | undefined =
     orgnizationQuery.data?.data;
 
+  if (!data) return <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} bg="#fff">
+    <GridItem w="100%" py="4" pe="4">
+      <Image src="/images/team.png" w="100%" />
+    </GridItem>
+    <GridItem w="100%" bg="blackAlpha.50">
+      <WrapperLayout>
+        <Box my={10}>
+          <Heading as="h5" size="md">
+            Business Hub
+          </Heading>
+          <CreateBusinessForm />
+        </Box>
+      </WrapperLayout>
+    </GridItem>
+  </Grid>
+
   return (
     <Box>
-      {/* <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} bg="#fff">
-        <GridItem w="100%" py="4" pe="4">
-          <Image src="/images/team.png" w="100%" />
-        </GridItem>
-        <GridItem w="100%" bg="blackAlpha.50">
-          <WrapperLayout>
-            <Box my={10}>
-              <Heading as="h5" size="md">
-                Business Hub
-              </Heading>
-            </Box>
-            {orgnizationQuery.isLoading ? (
-              <>Loading...</>
-            ) : (
-              <>
-                {!data && <CreateBusinessForm />}
-                {data && (
-                  <>
-                    <BusinessOverview data={data} />
-                    <People orgId={orgnizationQuery?.data?.data?._id as string} />
-                  </>
-                )}
-              </>
-            )}
-          </WrapperLayout>
-        </GridItem>
-      </Grid> */}
-
       <Box
         h={170}
         backgroundImage="url(/images/teams.jpg)"
