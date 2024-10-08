@@ -72,7 +72,7 @@ const mainRoutes = {
     },
     {
       path: "/categories",
-      element: <PermissionLayout role={["all"]}>
+      element: <PermissionLayout role={["customer"]}>
         <Categories />,
       </PermissionLayout>
     },

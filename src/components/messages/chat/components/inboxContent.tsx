@@ -1,4 +1,4 @@
-import { ChannelPreviewUIComponentProps, DefaultStreamChatGenerics, useChatContext } from "stream-chat-react";
+import { ChannelPreviewUIComponentProps, DefaultStreamChatGenerics, useChannelListContext, useChatContext } from "stream-chat-react";
 import {
     // Avatar,
     AvatarWrapper,
@@ -13,37 +13,48 @@ import {
 } from "./styles";
 import { useAuth } from "@/hooks/auth";
 import { Avatar, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 
-export default function InboxContact({ displayImage, latestMessage, channel, ...rest }: ChannelPreviewUIComponentProps<DefaultStreamChatGenerics>) {
+export default function InboxContact({ displayImage, latestMessage, channel }: ChannelPreviewUIComponentProps<DefaultStreamChatGenerics>) {
 
-    console.log(rest)
+    const [searchParams] = useSearchParams();
     const { user } = useAuth()
     const { data } = channel;
     const { room_name } = data as any;
     const { channel: activeChannel, setActiveChannel } = useChatContext();
+    const { channels
+        // , setChannels 
+    } = useChannelListContext();
 
-
-    // const { channels, setChannels } = useChannelListContext();
     const isActive = activeChannel === channel;
     const name = room_name?.[user?.userId];
     const title = data?.name;
-
-    // const { name, lastMessage, image, timestamp } = props.inbox;
-    // const { onChangeChat, isActive } = props;
 
 
     const handleChangeChat = () => {
         setActiveChannel(channel);
     };
-    // console.log('channel data ', data)
+    useEffect(() => {
+        const channelId = searchParams.get("active");
+        if (!channelId) return;
+        const paramsChannel = channels.find((ch) => ch.id === channelId);
+
+        // if (activeChannel === channel) return;
+
+        // console.log("activeChannel=> ", channelId, paramsChannel?.id)
+        if (paramsChannel) {
+            // console.log("activeChannel=>  setting..")
+            setActiveChannel(paramsChannel);
+            // setSearchParams({});
+        };
+    }, [channels])
 
     return (
         <Contact isActive={isActive} onClick={handleChangeChat} width={"100%"}>
             <AvatarWrapper>
-                {/* Avatar */}
                 <Avatar name={name || title} src={displayImage} size={"sm"} />
-                {/* <Avatar src={displayImage ?? "https://avatars3.githubusercontent.com/u/100200?s=460&v=4"} /> */}
             </AvatarWrapper>
             <Content>
                 <TopContent>
@@ -67,7 +78,6 @@ export default function InboxContact({ displayImage, latestMessage, channel, ...
 
 function Message(props: Pick<any, "messageStatus" | "lastMessage">) {
     const { lastMessage,
-        //  messageStatus
     } = props;
 
     if (!lastMessage) return <></>;
