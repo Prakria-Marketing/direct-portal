@@ -22,6 +22,8 @@ export default function InboxContact({ displayImage, latestMessage, channel, ...
     const { data } = channel;
     const { room_name } = data as any;
     const { channel: activeChannel, setActiveChannel } = useChatContext();
+
+
     // const { channels, setChannels } = useChannelListContext();
     const isActive = activeChannel === channel;
     const name = room_name?.[user?.userId];
@@ -34,6 +36,7 @@ export default function InboxContact({ displayImage, latestMessage, channel, ...
     const handleChangeChat = () => {
         setActiveChannel(channel);
     };
+    // console.log('channel data ', data)
 
     return (
         <Contact isActive={isActive} onClick={handleChangeChat} width={"100%"}>

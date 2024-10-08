@@ -175,7 +175,7 @@ function Header() {
                       w="40px"
                       h="40px"
                       name={user?.displayName}
-                      src="https://bit.ly/dan-abramov"
+                      src={user?.user?.image}
                     />
                     {/* User Name */}
                     <Text fontSize="14px" color="#fff" fontWeight="medium">

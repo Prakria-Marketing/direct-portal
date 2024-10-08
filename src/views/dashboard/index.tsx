@@ -12,13 +12,15 @@ import CategoryCard from "../../components/dashboard/CategoryCard";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import FaqSection from "../../components/dashboard/FaqSection";
 import WrapperLayout from "../../layouts/wrapperLayout";
+import { useAuth } from "@/hooks/auth";
 
 function Dashboard() {
+  const { user } = useAuth()
   return (
     <WrapperLayout>
       <Box my={10}>
         <Heading as="h5" size="md" pb="5">
-          Hi, Rahul Arya!
+          Hi, {user?.displayName}!
         </Heading>
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
           <HeroBannerCard bg={"#ffe9e1"} />

@@ -13,7 +13,8 @@ export type UserData = {
 }
 type UpdateUserInfo = {
     firebaseId: string;
-    body: UserData
+    body: FormData
+    // UserData
 }
 export async function updateUserInfo(data: UpdateUserInfo) {
     const response = await axiosInstance.patch("/users/update/" + data.firebaseId, data.body);

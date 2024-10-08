@@ -35,24 +35,24 @@ function Settings() {
 
             <TabPanels py={5}>
               <TabPanel>
-                <p>
-                  <Details />
-                </p>
+
+                <Details />
+
               </TabPanel>
               <TabPanel>
-                <p>
-                  <Account />
-                </p>
+
+                <Account />
+
               </TabPanel>
               <TabPanel>
-                <p>
-                  <Security />
-                </p>
+
+                <Security />
+
               </TabPanel>
               <TabPanel>
-                <p>
-                  <EditOrganization />
-                </p>
+
+                <EditOrganization />
+
               </TabPanel>
             </TabPanels>
           </Tabs>

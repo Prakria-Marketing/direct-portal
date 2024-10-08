@@ -16,7 +16,7 @@ function Account() {
   })
 
 
-  const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
+  const { register, handleSubmit } = useForm<UserData>({
     defaultValues: {
       name: user?.user.name,
       contact: user?.user?.contact,
@@ -26,8 +26,15 @@ function Account() {
   });
   const onSubmit = async (data: UserData) => {
 
-    // console.log(data, user)
-    updateUser.mutate({ firebaseId: user.uid, body: data })
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("contact", data.contact as any);
+    formData.append("country", data?.country as any);
+    formData.append("state", data?.state as any);
+    const response = await fetch("/prakria_direct_logo.png");
+    const blob = await response.blob(); // Convert the response to a Blob
+    formData.append("image", blob, "image.jpg");
+    updateUser.mutate({ firebaseId: user.uid, body: formData })
   }
   return (
     <>
