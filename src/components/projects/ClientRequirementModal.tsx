@@ -1,4 +1,5 @@
 import {
+  Heading,
   MenuItem,
   Modal,
   ModalBody,
@@ -6,18 +7,13 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Progress,
+
   useDisclosure,
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
-import Steps from "./Steps";
-import { useState } from "react";
 import RequirementForm from "./RequirementForm";
 
 export default function CreateRequirementModal() {
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
-
   const {
     isOpen: isModalOpen,
     onOpen: onModalOpen,
@@ -34,8 +30,6 @@ export default function CreateRequirementModal() {
 
       {/* Modal for Create Project */}
       <Modal
-
-
         closeOnOverlayClick={false}
         isOpen={isModalOpen}
         onClose={onModalClose}
@@ -43,14 +37,9 @@ export default function CreateRequirementModal() {
         <ModalOverlay />
         <ModalContent maxW={800}>
           <ModalHeader bg={"gray.100"} pe={10}>
-            <Steps step={step - 1} />
-            <Progress
-              mt={3}
-              rounded={"none"}
-              colorScheme="teal"
-              h={2}
-              value={progress}
-            />
+            <Heading size={"md"}>
+              Create project requirement
+            </Heading>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
@@ -58,10 +47,6 @@ export default function CreateRequirementModal() {
               isModalOpen &&
               <RequirementForm
                 onClose={onModalClose}
-                setStep={setStep}
-                step={step}
-                progress={progress}
-                setProgress={setProgress}
               />
             }
           </ModalBody>

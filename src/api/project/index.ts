@@ -28,4 +28,33 @@ export async function getProjectById(projectId: string) {
     return res.data;
 }
 
+export type RequirementBody = {
+    // userId: string;
+    category: string;
+    title: string;
+    description: string;
+    deadline: Date;
+    files: FileList;
+}
+export async function createRequirement(body: RequirementBody) {
+    const formData = new FormData();
+    // Append basic fields
+    formData.append("category", body.category);
+    formData.append("title", body.title);
+    formData.append("description", body.description);
+    formData.append("deadline", body.deadline + ""); // Use toISOString for consistent formatting
+
+    // Append files
+    if (body.files) {
+        for (let i = 0; i < body.files.length; i++) {
+            const file = body.files[i];
+            formData.append("attach", file); // Append each file
+        }
+    }
+
+
+
+    const res = await axiosInstance.post("/requirement/create", formData)
+    return res.data;
+}
 

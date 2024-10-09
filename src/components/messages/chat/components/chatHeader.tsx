@@ -75,10 +75,10 @@ export const CustomChannelHeader = ({
           </MenuButton>
           <MenuList zIndex={999}>
             {
-              user?.role === "customer" ? null :
+              user?.role === "customer" ?
+                <ClientRequirements /> :
                 <CreateProjectModal />
             }
-            <ClientRequirements />
             <MenuItem
               fontSize="14px"
               gap={1}
