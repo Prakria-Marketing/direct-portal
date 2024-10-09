@@ -23,6 +23,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaPlus } from "react-icons/fa";
 
 type InviteEmail = {
   email: string;
@@ -135,12 +136,11 @@ export default function InviteMember() {
       <Button
         fontSize={"xs"}
         mb={15}
-        colorScheme="green"
+        colorScheme="teal"
         variant="solid"
-        size={"sm"}
         onClick={onOpen}
       >
-        Invite Member
+        <FaPlus /> &nbsp; Invite Member
       </Button>
 
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
@@ -176,6 +176,7 @@ export default function InviteMember() {
                   size="sm"
                   colorScheme="teal"
                   type="submit"
+                  fontSize={"xs"}
                   isLoading={inviteMutation.isPending}
                 >
                   Send Invites

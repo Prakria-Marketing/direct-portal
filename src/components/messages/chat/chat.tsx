@@ -33,7 +33,6 @@ import { useState } from "react";
 // import ServiceCard from "../ServiceCard";
 import ChatInfoWindow from "./chatinfo";
 
-
 const apikey: string = import.meta.env.VITE_app_key!;
 export default function ChatPage() {
   const { user } = useAuth();
@@ -149,8 +148,13 @@ function MyChat({
             </Window>
             <Thread />
 
-
-            {isSliderVisible && <ChatInfoWindow userId={userId} isSliderVisible={isSliderVisible} onToggleSlider={onToggleSlider} />}
+            {isSliderVisible && (
+              <ChatInfoWindow
+                userId={userId}
+                isSliderVisible={isSliderVisible}
+                onToggleSlider={onToggleSlider}
+              />
+            )}
           </Channel>
         </Box>
         {/* Conditionally render the slider box based on the state */}

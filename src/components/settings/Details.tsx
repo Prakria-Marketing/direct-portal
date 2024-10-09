@@ -1,5 +1,6 @@
 import { updateUserInfo } from "@/api/users";
 import { useAuth } from "@/hooks/auth";
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -131,8 +132,8 @@ function Details() {
         </Flex>
         <Flex justifyContent={"flex-end"}>
 
-          <Button type="submit" colorScheme="green" isLoading={updateUser.isPending}>
-            update
+          <Button gap={2} type="submit" colorScheme="teal" isLoading={updateUser.isPending}>
+           <EditIcon /> Update
           </Button>
         </Flex>
       </Box>
