@@ -25,6 +25,8 @@ import { useEffect, useState } from "react";
 import Loading from "../Loading";
 import "./membership.css";
 import { BiX } from "react-icons/bi";
+import confirmPaymentMethod from "@/utils/confirmPaymentMethod";
+import getCurrencySymbol from "@/utils/getCurrencySymbol";
 
 interface Props {
   children: React.ReactNode;
@@ -56,38 +58,14 @@ function PriceWrapper(props: Props) {
   );
 }
 export default function CustomerPlanCard() {
-  var currency_symbols = {
-    USD: "$", // US Dollar
-    EUR: "€", // Euro
-    CRC: "₡", // Costa Rican Colón
-    GBP: "£", // British Pound Sterling
-    ILS: "₪", // Israeli New Sheqel
-    INR: "₹", // Indian Rupee
-    JPY: "¥", // Japanese Yen
-    KRW: "₩", // South Korean Won
-    NGN: "₦", // Nigerian Naira
-    PHP: "₱", // Philippine Peso
-    PLN: "zł", // Polish Zloty
-    PYG: "₲", // Paraguayan Guarani
-    THB: "฿", // Thai Baht
-    UAH: "₴", // Ukrainian Hryvnia
-    VND: "₫", // Vietnamese Dong
-  } as const;
-
-  type CurrencyCode = keyof typeof currency_symbols;
-
-  function getCurrencySymbol(currencyCode: CurrencyCode): string | null {
-    return currency_symbols[currencyCode] || null; // Returns the symbol or null if not found
-  }
+  const [duration, setDuration] = useState("monthly");
 
   const { data: Packages } = useQuery({
     queryKey: ["package"],
     queryFn: fetchMembershipPlans,
   });
-  const {
-    data: UserSubscription,
-    isLoading,
-  } = useQuery({
+
+  const { data: UserSubscription, isLoading } = useQuery({
     queryKey: ["user-subscription"],
     queryFn: UserSubscriptionFunc,
   });
@@ -112,11 +90,20 @@ export default function CustomerPlanCard() {
   });
 
   useEffect(() => {
+    console.log("sssdfsdfsdfkj");
+    if (CreateSubscriptionMutation.isSuccess) {
+      console.log("qweqeqweuqwieoiqw");
+      confirmPaymentMethod(
+        CreateSubscriptionMutation?.data?.data?.paymentIntent?.client_secret
+      );
+    }
+  }, [CreateSubscriptionMutation.data]);
+
+  useEffect(() => {
     if (!checkOutSessionMutation.data) return;
     window.location.href = checkOutSessionMutation?.data?.data?.url;
   }, [checkOutSessionMutation.isSuccess]);
 
-  const [duration, setDuration] = useState("monthly");
   return (
     <>
       {isLoading ? (
@@ -176,7 +163,7 @@ export default function CustomerPlanCard() {
                     key={index.toString()}
                     isSubscribed={
                       UserSubscription?.data?.planId ===
-                      price.stripe_price_id &&
+                        price.stripe_price_id &&
                       UserSubscription?.data?.status === "active"
                     }
                     status={UserSubscription?.status}
@@ -190,7 +177,7 @@ export default function CustomerPlanCard() {
                       bg={
                         UserSubscription?.data?.planId ==
                           price.stripe_price_id &&
-                          UserSubscription?.data?.status === "active"
+                        UserSubscription?.data?.status === "active"
                           ? "green.200"
                           : "transparent"
                       }
@@ -237,7 +224,7 @@ export default function CustomerPlanCard() {
                       bg={
                         UserSubscription?.data?.planId ==
                           price.stripe_price_id &&
-                          UserSubscription?.data?.status === "active"
+                        UserSubscription?.data?.status === "active"
                           ? useColorModeValue("green.50", "green.700")
                           : useColorModeValue("gray.50", "gray.700")
                       }
@@ -257,7 +244,7 @@ export default function CustomerPlanCard() {
                       <Box w="80%" pt={7}>
                         {UserSubscription?.data?.planId ==
                           price.stripe_price_id &&
-                          UserSubscription?.data?.status === "active" ? (
+                        UserSubscription?.data?.status === "active" ? (
                           <>
                             <Badge
                               w="full"
@@ -290,13 +277,14 @@ export default function CustomerPlanCard() {
                             onClick={() =>
                               UserSubscription?.data == null
                                 ? checkOutSessionMutation.mutate(
-                                  price.stripe_price_id
-                                )
-                                : UserSubscription?.data?.status == "active"
-                                  ? UpatePlanMutation.mutate(
                                     price.stripe_price_id
                                   )
-                                  : CreateSubscriptionMutation.mutate(
+                                : UserSubscription?.data?.status == "active" ||
+                                  UserSubscription?.data?.status == "past_due"
+                                ? UpatePlanMutation.mutate(
+                                    price.stripe_price_id
+                                  )
+                                : CreateSubscriptionMutation.mutate(
                                     price.stripe_price_id
                                   )
                             }

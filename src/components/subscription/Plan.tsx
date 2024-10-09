@@ -1,63 +1,145 @@
+import { useSubscription } from "@/hooks/subsciption";
 import {
   Box,
-  Flex,
   Heading,
   Image,
-  Stack,
   Card,
-  CardBody,
   Text,
   Button,
+  HStack,
+  Badge,
 } from "@chakra-ui/react";
+import Loading from "../Loading";
+import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { CancelSubscriptionFunc } from "@/api/membership";
 function Plan() {
+  const { UserSubscription, UserSubscriptionLoading } = useSubscription({
+    price: null,
+  });
+
+  const subsciptionColors = [
+    {
+      title: "gold",
+      bgMain: "#b95a09",
+      bgSec: "#ffcc97",
+      image: "gold-member.png",
+    },
+    {
+      title: "bronze",
+      bgMain: "#622502",
+      bgSec: "#ebe1d7",
+      image: "bronze-member.png",
+    },
+    {
+      title: "silver",
+      bgMain: "#a6a6a6",
+      bgSec: "#ebebeb",
+      image: "silver-member.png",
+    },
+    {
+      title: "platinum",
+      bgMain: "#42425e",
+      bgSec: "#f1f1ef",
+      image: "platinum-member.png",
+    },
+  ];
+
+  var colorScheme;
+  if (UserSubscriptionLoading == false) {
+    colorScheme = subsciptionColors.find((item) =>
+      UserSubscription?.product?.name?.toLowerCase().includes(item.title)
+    );
+  }
+
+  const SubscriptionCancelMutation = useMutation({
+    mutationFn: CancelSubscriptionFunc,
+  });
+
   return (
     <>
-      <Heading as="h3" size="sm">
-        Plan
-      </Heading>
-      <Card
-        mt={5}
-        direction={{ base: "column", sm: "row" }}
-        overflow="hidden"
-        variant="outline"
-        align="center"
-        bg="#fff5e2"
-        borderColor="#ffcc97"
-      >
-        <Image
-          objectFit="cover"
-          maxW={{ base: "100%", sm: "170px" }}
-          src="/images/gold.png"
-          p={4}
-          alt="Caffe Latte"
-          bg="#ffdfa5"
-        />
+      {UserSubscriptionLoading ? (
+        <Loading />
+      ) : UserSubscription?.subscription == null ? (
+        <Box bg="gray.300" rounded="md" p="5" textAlign={"center"}>
+          <Heading size="md" as="h3" textAlign={"center"}>
+            No Designzo Subscription Found
+          </Heading>
+          <Text my="2">
+            You need a Designzo subsription to use our services
+          </Text>
+          <Link to="/membership">
+            <Button variant="solid" colorScheme={"green"}>
+              {" "}
+              Create a Designzo Subscription
+            </Button>
+          </Link>
+        </Box>
+      ) : (
+        <>
+          <Heading as="h3" size="sm">
+            Plan
+          </Heading>
+          <Card
+            mt={5}
+            direction={{ base: "column", sm: "row" }}
+            overflow="hidden"
+            variant="outline"
+            align="center"
+            bg={colorScheme?.bgSec}
+            borderColor={colorScheme?.bgSec}
+          >
+            <Image
+              objectFit="cover"
+              maxW={{ base: "100%", sm: "170px" }}
+              src={`/images/${colorScheme?.image}`}
+              p={4}
+              alt="Caffe Latte"
+              bg={colorScheme?.bgMain}
+            />
 
-        <Stack>
-          <CardBody>
-            <Flex gap={10}>
+            <HStack
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              width="3xl"
+              px="5"
+            >
               <Box>
-                <Heading size="md">Gold Plan</Heading>
-
-                <Text py="2">
-                  Caffè latte is a coffee beverage of Italian origin made with
-                  espresso and steamed milk.
-                </Text>
+                <Badge
+                  variant="subtle"
+                  mb="4"
+                  colorScheme={
+                    UserSubscription?.subscription?.status == "active"
+                      ? "green"
+                      : "red"
+                  }
+                >
+                  {UserSubscription?.subscription?.status}
+                </Badge>
+                <Heading size="md">{UserSubscription?.product?.name}</Heading>
+                <Text py="2">{UserSubscription?.product?.description}</Text>
+              </Box>
+              <Box>
+                <Heading>
+                  {UserSubscription?.price?.unit_amount / 100}{" "}
+                  {UserSubscription?.price?.currency?.toUpperCase()}
+                </Heading>
                 <Button
+                  onClick={() => SubscriptionCancelMutation.mutate()}
                   fontWeight={400}
                   fontSize="13px"
-                  size="sm"
-                  variant="solid"
+                  size="xs"
+                  my="4"
+                  variant="outline"
                   colorScheme="red"
                 >
                   Cancel Subscription
                 </Button>
               </Box>
-              <Heading>₹1100</Heading>
-            </Flex>
-          </CardBody>
-        </Stack>
-      </Card>
+            </HStack>
+          </Card>
+        </>
+      )}
     </>
   );
 }
