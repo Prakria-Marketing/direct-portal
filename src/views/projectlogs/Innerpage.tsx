@@ -1,3 +1,4 @@
+import { getProjectById } from "@/api/project";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import {
   Box,
@@ -18,6 +19,9 @@ import {
   StepTitle,
   useSteps,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const steps = [
   { title: "First", description: "Requirement Received" },
@@ -29,10 +33,22 @@ const steps = [
 ];
 
 function Innerpage() {
+
+  const { id } = useParams();
+
+  const projectInfo = useQuery({
+    queryKey: [id],
+    queryFn: async () => await getProjectById(id as string),
+    enabled: !!id
+  });
   const { activeStep } = useSteps({
     index: 1,
     count: steps.length,
   });
+
+  useEffect(() => {
+    console.log("projectInfo ", projectInfo.data)
+  }, [projectInfo.data])
 
   return (
     <WrapperLayout>

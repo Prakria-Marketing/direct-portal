@@ -24,7 +24,7 @@ export async function getCustomerProjects(userId: string) {
 
 // get customer project by id
 export async function getProjectById(projectId: string) {
-    const res = await axiosInstance.get("/projects/" + projectId)
+    const res = await axiosInstance.get("/projects/" + projectId);
     return res.data;
 }
 
@@ -57,4 +57,7 @@ export async function createRequirement(body: RequirementBody) {
     const res = await axiosInstance.post("/requirement/create", formData)
     return res.data;
 }
-
+export async function getRequirement(userId: string) {
+    const res = await axiosInstance.get("/requirement/" + userId)
+    return res.data
+}
