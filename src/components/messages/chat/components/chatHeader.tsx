@@ -18,6 +18,7 @@ import CreateProjectModal from "@/components/projects/CreateProjectModal";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import MemberList from "./memberList";
+import ClientRequirements from "@/components/projects/ClientRequirementModal";
 
 export const CustomChannelHeader = ({
   onToggleSlider,
@@ -55,6 +56,7 @@ export const CustomChannelHeader = ({
       border={"1px"}
       borderColor={"gray.200"}
     >
+
       <Avatar name={name ?? title} src={""} size={"sm"} />
       <Flex flexDirection={"column"} flex={1} gap={2} justifyContent={"center"}>
         <div className="header-item">
@@ -72,7 +74,11 @@ export const CustomChannelHeader = ({
             </HStack>
           </MenuButton>
           <MenuList zIndex={999}>
-            <CreateProjectModal />
+            {
+              user?.role === "customer" ?
+                <ClientRequirements /> :
+                <CreateProjectModal />
+            }
             <MenuItem
               fontSize="14px"
               gap={1}

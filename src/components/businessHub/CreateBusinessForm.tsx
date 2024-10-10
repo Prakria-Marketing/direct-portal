@@ -1,4 +1,9 @@
-import { createOrgnization, IOrgnization } from "@/api/orgnization";
+import {
+  createOrgnization,
+  IOrgnization,
+  updateOrgnization,
+} from "@/api/orgnization";
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -16,26 +21,53 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 const required = { required: { value: true, message: "required" } };
-function CreateBusinessForm() {
+type BusinessFormType = {
+  type?: "create" | "update";
+  defaultValues?: IOrgnization;
+};
+function CreateBusinessForm({
+  type = "create",
+  defaultValues,
+}: BusinessFormType) {
+  const isUpdate = type === "update";
+
   const queryClient = useQueryClient();
+  console.log(defaultValues);
   const { mutate, isPending } = useMutation({
     mutationFn: createOrgnization,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orgnization"] });
     },
   });
+  const { mutate: updateOrgnizationMutation, isPending: isUpdating } =
+    useMutation({
+      mutationFn: updateOrgnization,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["orgnization"] });
+      },
+    });
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IOrgnization>();
+  } = useForm<IOrgnization>({
+    defaultValues: type === "update" ? defaultValues : undefined,
+  });
   // console.log(errors)
   const onSubmit = async (data: IOrgnization) => {
-    mutate(data);
+    if (type === "update") {
+      delete (data as any).owner;
+      updateOrgnizationMutation({
+        orgId: (defaultValues as any)?._id,
+        body: data,
+      });
+    } else {
+      mutate(data);
+    }
   };
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box border="1px solid #e8e8e8" rounded="lg" m="auto" p={5} as="form" onSubmit={handleSubmit(onSubmit)}>
       <Flex mb={4} gap={5}>
         <FormControl isInvalid={!!errors.companyName}>
           <FormLabel fontSize={"sm"}>Company Name</FormLabel>
@@ -112,7 +144,7 @@ function CreateBusinessForm() {
             border={"1px"}
             borderColor={"darkgrey"}
             fontSize={"sm"}
-            placeholder="Industry Type"
+            placeholder="---Select---"
             {...register("industry", required)}
           >
             <option>Public Company</option>
@@ -167,28 +199,32 @@ function CreateBusinessForm() {
         </FormControl>
       </Flex>
 
-      <FormControl>
+      <FormControl display={isUpdate ? "none" : "block"}>
         <FormLabel fontSize={"xs"} fontWeight={300} my={10}>
           <Checkbox
             type="checkbox"
             me={3}
-            {...register("check", { required: true })}
+            {...register("check", { required: !isUpdate })}
           />
           I consent and understand that my information will be handled in
           accordance with Designzo and that i have rights to access and correct
           my data anytime.
         </FormLabel>
       </FormControl>
-      <Button
-        mb={15}
-        w="100%"
-        colorScheme="green"
-        variant="solid"
-        type="submit"
-        isLoading={isPending}
-      >
-        Submit
-      </Button>
+      <Flex textAlign="end" align="center" justifyContent="end">
+        <Button
+          mb={15}
+          colorScheme="teal"
+          variant="solid"
+          type="submit"
+          gap={2}
+          isLoading={isPending || isUpdating}
+        >
+          <EditIcon />
+          {isUpdate ? "Update" : "Submit"}
+          {/* Submit */}
+        </Button>
+      </Flex>
     </Box>
   );
 }

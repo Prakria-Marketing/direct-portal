@@ -7,9 +7,12 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { FiRefreshCw } from "react-icons/fi";
+// import { FiRefreshCw } from "react-icons/fi";
 
-function ActionButton() {
+type ActionType = {
+  onRemove?: () => void
+}
+function ActionButton(rowAction: ActionType) {
   return (
     <Menu>
       <MenuButton
@@ -18,8 +21,8 @@ function ActionButton() {
         icon={<BiDotsVerticalRounded />}
       />
       <MenuList>
-        <MenuItem icon={<CloseIcon />}>Remove</MenuItem>
-        <MenuItem icon={<FiRefreshCw />}>Change Role to Owner</MenuItem>
+        <MenuItem icon={<CloseIcon />} onClick={rowAction.onRemove} >Remove</MenuItem>
+        {/* <MenuItem icon={<FiRefreshCw />}>Change Role to Owner</MenuItem> */}
       </MenuList>
     </Menu>
   );

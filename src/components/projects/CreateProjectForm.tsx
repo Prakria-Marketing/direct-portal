@@ -374,13 +374,16 @@ export default function CreateProjectForm({
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
 }) {
-
+  // const [customField, setCustomField] = useState('');
   const queryClient = useQueryClient();
   const proejctType = useProjectType();
   const createProjectMutation = useMutation({
     mutationFn: createProject,
-    onSuccess: () => {
+    onSuccess: async () => {
+
+      // sendMessage({})
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+
     }
   })
   const formStepField: FormStepType[] = [

@@ -1,5 +1,7 @@
 import { getOrgnization } from "@/api/orgnization";
+import CreateBusinessForm from "@/components/businessHub/CreateBusinessForm";
 import People from "@/components/businessHub/People";
+import Loading from "@/components/Loading";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { EditIcon } from "@chakra-ui/icons";
 import {
@@ -7,12 +9,17 @@ import {
   Button,
   Flex,
   Grid,
+  GridItem,
   Heading,
   HStack,
   Image,
   Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
+import { BsBuildings, BsGlobe, BsTelephone } from "react-icons/bs";
+import { FaRegUser } from "react-icons/fa";
+import { IoMailUnreadOutline } from "react-icons/io5";
 
 export type BusinessOrginizationData = {
   GST: string;
@@ -37,13 +44,14 @@ function BusinessHub() {
     queryFn: getOrgnization,
   });
 
+  if (orgnizationQuery.isLoading) return <Loading />;
   // Extract data from the API response
   const data: BusinessOrginizationData | undefined =
     orgnizationQuery.data?.data;
 
-  return (
-    <Box>
-      {/* <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} bg="#fff">
+  if (!data)
+    return (
+      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} bg="#fff">
         <GridItem w="100%" py="4" pe="4">
           <Image src="/images/team.png" w="100%" />
         </GridItem>
@@ -53,24 +61,15 @@ function BusinessHub() {
               <Heading as="h5" size="md">
                 Business Hub
               </Heading>
+              <CreateBusinessForm />
             </Box>
-            {orgnizationQuery.isLoading ? (
-              <>Loading...</>
-            ) : (
-              <>
-                {!data && <CreateBusinessForm />}
-                {data && (
-                  <>
-                    <BusinessOverview data={data} />
-                    <People orgId={orgnizationQuery?.data?.data?._id as string} />
-                  </>
-                )}
-              </>
-            )}
           </WrapperLayout>
         </GridItem>
-      </Grid> */}
+      </Grid>
+    );
 
+  return (
+    <Box>
       <Box
         h={170}
         backgroundImage="url(/images/teams.jpg)"
@@ -137,76 +136,58 @@ function BusinessHub() {
         </Box>
 
         <Box w={{ base: "full", lg: "6xl" }} m="auto" mb={10}>
-          <Grid
-            templateColumns={{ base: "1fr", lg: "70% 30%" }}
+          <Flex
+            // templateColumns={{ base: "1fr", lg: "70% 30%" }}
             gap={{ base: 6, lg: 10 }}
           >
             <Box>
-              <Box bg="#fff" p={6} rounded="lg">
+              <Box w="100%" bg="#fff" p={6} rounded="lg">
                 <People orgId={orgnizationQuery?.data?.data?._id as string} />
               </Box>
             </Box>
-            <Box>
+            <Box w="100%">
               <Heading as="h4" size="sm">
                 More Organization Info
               </Heading>
 
-              <Box bg="#fff" p={5} rounded="lg" mt={5}>
-                <Flex gap={4} mb={5}>
-                  <Image
-                    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
-                    w="40px"
-                  />
+              <Box bg="#fff" p={5} rounded="lg" mt={5} id="organization-info">
+                <Flex gap={4} mb={5} pb={5} borderBottom='1px solid #eaeaea'>
+                  <HiOutlineClipboardDocumentList />
                   <Box>
                     <Text fontWeight={600}>GST/ VAT</Text>
                     <Text>{data?.GST || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5}>
-                  <Image
-                    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
-                    w="40px"
-                  />
+                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                  <BsBuildings />
                   <Box>
                     <Text fontWeight={600}>Industry Type</Text>
                     <Text>{data?.industry || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5}>
-                  <Image
-                    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
-                    w="40px"
-                  />
+                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                  <BsGlobe />
                   <Box>
                     <Text fontWeight={600}>Website</Text>
                     <Text>{data?.website || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5}>
-                  <Image
-                    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
-                    w="40px"
-                  />
+                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                  <FaRegUser />
                   <Box>
                     <Text fontWeight={600}>Contact Person</Text>
                     <Text>{data?.contactPerson || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5}>
-                  <Image
-                    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
-                    w="40px"
-                  />
+                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                  <IoMailUnreadOutline />
                   <Box>
                     <Text fontWeight={600}>Contact Email</Text>
                     <Text>{data?.contactEmail || "-"}</Text>
                   </Box>
                 </Flex>
                 <Flex gap={4}>
-                  <Image
-                    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
-                    w="40px"
-                  />
+                  <BsTelephone />
                   <Box>
                     <Text fontWeight={600}>Contact Mobile</Text>
                     <Text>{data?.contactMobile || "-"}</Text>
@@ -214,7 +195,7 @@ function BusinessHub() {
                 </Flex>
               </Box>
             </Box>
-          </Grid>
+          </Flex>
         </Box>
       </WrapperLayout>
     </Box>

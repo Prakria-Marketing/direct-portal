@@ -11,11 +11,16 @@ import {
   Badge,
 } from "@chakra-ui/react";
 import ActionButton from "./ActionButton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { removeTeamMember } from "@/api/orgnization";
 
 export type TableDataMember = {
+  _id: string;
   role: string,
+  Organization: string;
   invitationStatus: string,
   userId: {
+    _id: string;
     name: string,
     email: string,
   }
@@ -36,45 +41,9 @@ function MemberTable({ data }: TeamTableRowData) {
           </Tr>
         </Thead>
         <Tbody>
-
           {
             data?.map((row, index) => <TableRow row={row} key={index} />)
           }
-          {/* <Tr>
-            <Td>
-              <VStack gap={0} alignItems="left">
-                <Text fontSize="12px">Ronnie</Text>
-                <Text fontSize="12px">ronnie@prakria.com</Text>
-              </VStack>
-            </Td>
-            <Td>Owner</Td>
-            <Td>
-              <Badge variant="subtle" colorScheme="green">
-                Accepted
-              </Badge>
-            </Td>
-            <Td>
-              <ActionButton />
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>
-              <VStack gap={0} alignItems="left">
-                <Text fontSize="12px">Ronnie</Text>
-                <Text fontSize="12px">ronnie@prakria.com</Text>
-              </VStack>
-            </Td>
-            <Td>Member</Td>
-            <Td>
-              <Badge variant="subtle" colorScheme="orange">
-                Pending
-              </Badge>
-            </Td>
-            <Td>
-              <ActionButton />
-            </Td>
-          </Tr> */}
-
         </Tbody>
       </Table>
     </TableContainer>
@@ -82,22 +51,40 @@ function MemberTable({ data }: TeamTableRowData) {
 }
 
 function TableRow({ row }: { row: TableDataMember }) {
-  return <Tr>
-    <Td>
-      <VStack gap={0} alignItems="left">
-        <Text fontSize="12px">{row?.userId?.name}</Text>
-        <Text fontSize="12px">{row?.userId?.email}</Text>
-      </VStack>
-    </Td>
-    <Td>{row.role}</Td>
-    <Td>
-      <Badge variant="subtle" colorScheme="orange">
-        {row.invitationStatus}
-      </Badge>
-    </Td>
-    <Td>
-      <ActionButton />
-    </Td>
-  </Tr>
+
+  const queryClient = useQueryClient();
+
+  const removeMember = useMutation({
+    mutationFn: removeTeamMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["teams"] })
+    }
+  })
+
+  const onRemove = async () => {
+    removeMember.mutate({
+      organization: row.Organization,
+      userId: row.userId._id
+    });
+  }
+  return <>
+    <Tr>
+      <Td>
+        <VStack gap={0} alignItems="left">
+          <Text fontSize="12px">{row?.userId?.name}</Text>
+          <Text fontSize="12px">{row?.userId?.email}</Text>
+        </VStack>
+      </Td>
+      <Td>{row.role}</Td>
+      <Td>
+        <Badge variant="subtle" colorScheme="orange">
+          {row.invitationStatus}
+        </Badge>
+      </Td>
+      <Td>
+        <ActionButton onRemove={onRemove} />
+      </Td>
+    </Tr>
+  </>
 }
 export default MemberTable;

@@ -7,12 +7,13 @@ import {
     onAuthStateChanged,
     User,
 } from "firebase/auth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance, { URL } from "@/api/axiosinstance";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 function AuthInitilizer() {
     const { setProvider, setUser, user } = useAuth();
+    const queryClient = useQueryClient();
 
     const registerMutation = useMutation({
         mutationFn: async ({ token }: { token: string }) => {
@@ -22,6 +23,9 @@ function AuthInitilizer() {
                     'Authorization': 'Bearer ' + token,    // Example header
                 }
             });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["auth"] })
         }
     })
     const query = useQuery({
@@ -54,11 +58,16 @@ function AuthInitilizer() {
         const unsubscribe = onAuthStateChanged(auth, initializeUser);
         return unsubscribe;
     }, []);
+
     useEffect(() => {
-        if (query.data) {
-            setUser({ ...user, role: query?.data?.data?.role, userId: query?.data?.data?.userId });
+
+
+        // { ...user, role: query?.data?.data?.role, userId: query?.data?.data?.userId, user: query?.data?.data })
+        if (query.data?.data && !query.isFetching) {
+            console.log("setting the data to a user", query?.data);
+            setUser({ ...user, role: query?.data?.data?.role, userId: query?.data?.data?.userId, user: query?.data?.data });
         }
-    }, [query.data])
+    }, [query.data, query.isFetching]);
     return null;
 }
 export default AuthInitilizer;
