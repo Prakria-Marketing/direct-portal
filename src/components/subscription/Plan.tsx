@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Loading from "../Loading";
 import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CancelSubscriptionFunc } from "@/api/membership";
 function Plan() {
   const { UserSubscription, UserSubscriptionLoading } = useSubscription({
@@ -22,25 +22,25 @@ function Plan() {
     {
       title: "gold",
       bgMain: "#b95a09",
-      bgSec: "#ffcc97",
+      bgSec: "#f3f3f3",
       image: "gold-member.png",
     },
     {
       title: "bronze",
       bgMain: "#622502",
-      bgSec: "#ebe1d7",
+      bgSec: "#f3f3f3",
       image: "bronze-member.png",
     },
     {
       title: "silver",
       bgMain: "#a6a6a6",
-      bgSec: "#ebebeb",
+      bgSec: "#f3f3f3",
       image: "silver-member.png",
     },
     {
       title: "platinum",
       bgMain: "#42425e",
-      bgSec: "#f1f1ef",
+      bgSec: "#f3f3f3",
       image: "platinum-member.png",
     },
   ];
@@ -51,14 +51,16 @@ function Plan() {
       UserSubscription?.product?.name?.toLowerCase().includes(item.title)
     );
   }
-
+  const query = useQueryClient();
   const SubscriptionCancelMutation = useMutation({
     mutationFn: CancelSubscriptionFunc,
+    onSuccess: () =>
+      query.invalidateQueries({ queryKey: ["user-subscriptions"] }),
   });
 
   return (
     <>
-      {UserSubscriptionLoading ? (
+      {UserSubscriptionLoading || SubscriptionCancelMutation.isPending ? (
         <Loading />
       ) : UserSubscription?.subscription == null ? (
         <Box bg="gray.300" rounded="md" p="5" textAlign={"center"}>
@@ -87,11 +89,11 @@ function Plan() {
             variant="outline"
             align="center"
             bg={colorScheme?.bgSec}
-            borderColor={colorScheme?.bgSec}
+            shadow={"lg"}
           >
             <Image
               objectFit="cover"
-              maxW={{ base: "100%", sm: "170px" }}
+              maxW={{ base: "100%", sm: "120px" }}
               src={`/images/${colorScheme?.image}`}
               p={4}
               alt="Caffe Latte"
@@ -119,8 +121,8 @@ function Plan() {
                 <Heading size="md">{UserSubscription?.product?.name}</Heading>
                 <Text py="2">{UserSubscription?.product?.description}</Text>
               </Box>
-              <Box>
-                <Heading>
+              <Box textAlign={"center"}>
+                <Heading color="teal.900">
                   {UserSubscription?.price?.unit_amount / 100}{" "}
                   {UserSubscription?.price?.currency?.toUpperCase()}
                 </Heading>
@@ -130,7 +132,7 @@ function Plan() {
                   fontSize="13px"
                   size="xs"
                   my="4"
-                  variant="outline"
+                  variant="solid"
                   colorScheme="red"
                 >
                   Cancel Subscription

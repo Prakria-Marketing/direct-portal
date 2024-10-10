@@ -1,4 +1,3 @@
-// import CustomPlanCard from "@/components/memberships/CustomerPlanCard";
 import PricingCards from "@/components/memberships/PricingCards";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { Heading, Text, VStack } from "@chakra-ui/react";
@@ -14,7 +13,6 @@ function Membership() {
           Get Unlimited changes at any time
         </Text>
       </VStack>
-      {/* <CustomPlanCard /> */}
       <PricingCards />
     </WrapperLayout>
   );
