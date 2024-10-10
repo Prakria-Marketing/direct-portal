@@ -6,7 +6,7 @@ interface IHeroBanner {
 function HeroBannerCard({ bg }: IHeroBanner) {
   return (
     <GridItem w="100%">
-      <Card rounded={"3xl"} bg={bg} shadow="none">
+      <Card rounded={"lg"} bg={bg} shadow="none">
         <CardBody>
           <Text>Total No. of Projects</Text>
           <Heading>1200</Heading>
