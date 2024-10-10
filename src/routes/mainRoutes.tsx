@@ -30,13 +30,13 @@ const mainRoutes = {
     {
       path: "/project-logs",
       element:
-        <PermissionLayout role={["servicing"]}>
+        <PermissionLayout role={["servicing", "customer"]}>
           <ProjectLogs />,
         </PermissionLayout>
     },
     {
       path: "/project-logs/:id",
-      element: <PermissionLayout role={["servicing"]}>
+      element: <PermissionLayout role={["servicing", "customer"]}>
         <Innerpage />
       </PermissionLayout>
     },

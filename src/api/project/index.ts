@@ -17,6 +17,11 @@ export async function createProject(body: ProjectBody) {
     const res = await axiosInstance.post("/projects", body)
     return res.data;
 }
+export async function getAllAssignedProjects() {
+    const res = await axiosInstance.get("/projects/assigned-projects")
+    return res.data;
+}
+
 export async function getCustomerProjects(userId: string) {
     const res = await axiosInstance.get("/projects/client?userId=" + userId);
     return res.data;

@@ -53,7 +53,7 @@ const NavList = [
     text: "Project Logs",
     icon: <HiOutlineBriefcase />,
     link: "/project-logs",
-    permissions: ["servicing"],
+    permissions: ["servicing", "customer"]
   },
   {
     text: "Messages",
