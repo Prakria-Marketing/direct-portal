@@ -35,7 +35,7 @@ function Dashboard() {
           Hi, {user?.displayName}!
         </Heading>
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          <HeroBannerCard bg={"#ffe9e1"} />
+          <HeroBannerCard bg={"#d8d8d8"} />
           <HeroBannerCard bg={"#f0d7ed"} />
           <HeroBannerCard bg={"#eaefe8"} />
         </Grid>

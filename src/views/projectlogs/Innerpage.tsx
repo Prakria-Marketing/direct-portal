@@ -39,47 +39,51 @@ function Innerpage() {
   const projectInfo = useQuery({
     queryKey: [id],
     queryFn: async () => await getProjectById(id as string),
-    enabled: !!id
+    enabled: !!id,
   });
   const { activeStep } = useSteps({
     index: 1,
     count: steps.length,
   });
-  if (projectInfo.isLoading) return <Loading />
-  if (projectInfo?.data?.data === null) return <NotFoundPage />
+  if (projectInfo.isLoading) return <Loading />;
+  if (projectInfo?.data?.data === null) return <NotFoundPage />;
 
   return (
     <WrapperLayout>
       <Flex gap={6}>
         <Box w="70%" my={10}>
-          <Heading as="h5" size="md" pb="5">
+          <Heading as="h5" size="md">
             Project Details
           </Heading>
-          <Box bg="#fff" p={8} rounded="lg">
+          <Text>
+            It is a long established fact that a reader will be distracted by
+            the readable content of a page when looking at its layout.{" "}
+          </Text>
+          <Box
+            bg="#fff"
+            p={8}
+            rounded="lg"
+            my="5"
+            border="1px"
+            borderColor={"gray.300"}
+          >
             <Stack gap={2}>
-              <Heading size={"lg"}>
-                {projectInfo?.data?.data?.title}
-              </Heading>
-              <Text>
-                {projectInfo?.data?.data?.description}
-              </Text>
+              <Heading size={"md"}>{projectInfo?.data?.data?.title}</Heading>
+              <Text>{projectInfo?.data?.data?.description}</Text>
               <Flex gap={10} alignItems={"center"}>
                 <Flex>
                   <FormLabel>start Date</FormLabel>
-                  <Tag size='sm' colorScheme='pink' borderRadius='full'>
+                  <Tag size="sm" colorScheme="pink" borderRadius="full">
                     {formatDate(projectInfo?.data?.data?.startDate)}
                   </Tag>
                 </Flex>
                 <Flex>
                   <FormLabel>Deadline</FormLabel>
-                  <Tag size='sm' colorScheme='pink' borderRadius='full'>
+                  <Tag size="sm" colorScheme="pink" borderRadius="full">
                     {formatDate(projectInfo?.data?.data?.deadline)}
-
                   </Tag>
                 </Flex>
-
               </Flex>
-
             </Stack>
           </Box>
         </Box>
@@ -87,7 +91,13 @@ function Innerpage() {
           <Heading as="h5" size="md" pb="5">
             Project Stages
           </Heading>
-          <Box bg="#fff" p={8} rounded="lg">
+          <Box
+            bg="#fff"
+            p={8}
+            rounded="lg"
+            border={"1px"}
+            borderColor={"gray.300"}
+          >
             <Stepper
               index={activeStep}
               orientation="vertical"
