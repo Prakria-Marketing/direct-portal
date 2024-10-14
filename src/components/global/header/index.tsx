@@ -18,6 +18,8 @@ import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { FiHelpCircle } from "react-icons/fi";
 import { BiBell, BiPlus } from "react-icons/bi";
 import "./Header.css";
+import { GoTasklist } from "react-icons/go";
+
 import {
   HiOutlineArrowRightStartOnRectangle,
   HiOutlineBriefcase,
@@ -53,13 +55,13 @@ const NavList = [
     text: "Project Logs",
     icon: <HiOutlineBriefcase />,
     link: "/project-logs",
-    permissions: ["servicing", "customer"]
+    permissions: ["servicing", "customer"],
   },
   {
     text: "Messages",
     icon: <HiOutlineChatBubbleLeftRight />,
     link: "/messages",
-    permissions: ["servicing", "customer"],
+    permissions: ["servicing", "customer", "resource"],
   },
   {
     text: "Membership",
@@ -69,7 +71,7 @@ const NavList = [
   },
   {
     text: "Tasks",
-    icon: <FiHelpCircle />,
+    icon: <GoTasklist />,
     link: "/tasks",
     permissions: ["resource"],
   },
@@ -208,7 +210,7 @@ function Header() {
       </Box>
 
       {/* New Section Below Header */}
-      <Box bg="#f1ff00" py={2} w="100dvw" border="1px" borderColor="gray.200">
+      <Box bg="#f1ff00" py={2} w="100dvw" border="0px" borderColor="gray.200">
         <WrapperLayout>
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}

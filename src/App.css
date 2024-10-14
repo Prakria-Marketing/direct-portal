@@ -8,9 +8,10 @@ body {
   position: fixed;
   top:0;
   font-size: 13px;
-  background-size: cover !important;
+  /* background-size: cover !important;
   background-repeat: no-repeat !important;
-  background-image: url("/images/wavey-fingerprint.png") !important;
+  background-image: url("/images/wavey-fingerprint.png") !important; */
+  background: #f3f3f3 !important;
   overflow-x: hidden;
 }
 

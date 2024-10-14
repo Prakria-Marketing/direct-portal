@@ -20,6 +20,10 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingWrapper from "@/components/global/loadingWrapper";
 import { Link } from "react-router-dom";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
+import TaskCards from "@/components/dashboard/TaskCards";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { KanbanBoard } from "@/components/tasks/KanbanBoard";
 
 function Dashboard() {
   const { user } = useAuth();
@@ -34,11 +38,45 @@ function Dashboard() {
         <Heading as="h5" size="md" pb="5">
           Hi, {user?.displayName}!
         </Heading>
-        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          <HeroBannerCard bg={"#d8d8d8"} />
-          <HeroBannerCard bg={"#f0d7ed"} />
-          <HeroBannerCard bg={"#eaefe8"} />
-        </Grid>
+        <PermissionWrapper role={["resource"]}>
+          <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+            <TaskCards
+              borderColor="purple.300"
+              bg={"white"}
+              title={"Total No. of Tasks"}
+              number={2}
+            />
+            <TaskCards
+              borderColor="orange.300"
+              bg={"white"}
+              title={" In Progress Tasks"}
+              number={2}
+            />
+            <TaskCards
+              borderColor="blue.300"
+              bg={"white"}
+              title={"Revision Tasks"}
+              number={2}
+            />
+            <TaskCards
+              borderColor="red.300"
+              bg={"white"}
+              title={"Approved Tasks"}
+              number={2}
+            />
+          </Grid>
+
+          <DndProvider backend={HTML5Backend}>
+            <KanbanBoard />
+          </DndProvider>
+        </PermissionWrapper>
+        <PermissionWrapper role={["customer"]}>
+          <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+            <HeroBannerCard bg={"#d8d8d8"} />
+            <HeroBannerCard bg={"#f0d7ed"} />
+            <HeroBannerCard bg={"#eaefe8"} />
+          </Grid>
+        </PermissionWrapper>
       </Box>
       <PermissionWrapper role={["customer"]}>
         <Box my={10}>
@@ -82,15 +120,15 @@ function Dashboard() {
             </Grid>
           </LoadingWrapper>
         </Box>
-      </PermissionWrapper>
 
-      <Box my={10}>
-        <Box>
-          <Heading size="md">Frequently Asked Questions</Heading>
-          <Text>Time to brief your next project. We'll cover the rest!</Text>
+        <Box my={10}>
+          <Box>
+            <Heading size="md">Frequently Asked Questions</Heading>
+            <Text>Time to brief your next project. We'll cover the rest!</Text>
+          </Box>
+          <FaqSection />
         </Box>
-        <FaqSection />
-      </Box>
+      </PermissionWrapper>
     </WrapperLayout>
   );
 }
