@@ -27,10 +27,12 @@ import Loading from "@/components/Loading";
 import { useState } from "react";
 import ChatInfoWindow from "./chatinfo";
 import ChatMessageInput from "./components/messageInput/messageInput";
+import CustomSearchResultItem, { CustomMessageInput, CustomResultItemsList } from "./components/search/customSearchResultItems";
 
 const apikey: string = import.meta.env.VITE_app_key!;
 export default function ChatPage() {
   const { user } = useAuth();
+  console.log("user=>", user)
   const [isSliderVisible, setIsSliderVisible] = useState(false); // State to control slider visibility
 
   const query = useQuery({
@@ -82,7 +84,6 @@ function MyChat({
   const options = { presence: true, state: true };
 
   if (!client) return <Loading />;
-
   return (
     <Chat client={client}>
       <Flex height={"100%"}>
@@ -119,6 +120,16 @@ function MyChat({
               filters={filters}
               options={options}
               Preview={InboxContact}
+              showChannelSearch
+              additionalChannelSearchProps={{
+                searchForChannels: true,
+                // SearchResultItem: CustomSearchResultItem,
+                SearchResultsList: CustomResultItemsList
+                // SearchInput: CustomMessageInput,
+                // searchFunction: () => { console.log("sourav") }
+
+              }}
+
             />
           </Box>
         </Box>
