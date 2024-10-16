@@ -6,18 +6,15 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
 import QueryProvider from "@/api/queryProvider";
 import ProtectedRoute from "@/layouts/protectedLayout/index.tsx";
-import {  MultiSelectTheme } from 'chakra-multiselect'
+import { MultiSelectTheme } from "chakra-multiselect";
 
 const theme = extendTheme({
   components: {
-    MultiSelect: MultiSelectTheme
-  }
-})
+    MultiSelect: MultiSelectTheme,
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
-
-
-  
   <StrictMode>
     <QueryProvider>
       <BrowserRouter>

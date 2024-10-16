@@ -18,6 +18,8 @@ import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { FiHelpCircle } from "react-icons/fi";
 import { BiBell, BiPlus } from "react-icons/bi";
 import "./Header.css";
+import { GoTasklist } from "react-icons/go";
+
 import {
   HiOutlineArrowRightStartOnRectangle,
   HiOutlineBriefcase,
@@ -41,44 +43,44 @@ const NavList = [
     text: "Dashboard",
     icon: <HiOutlineHome />,
     link: "/",
-    permissions: ["all"]
+    permissions: ["all"],
   },
   {
     text: "Customers",
     icon: <HiUserGroup />,
     link: "/customers",
-    permissions: ["servicing"]
+    permissions: ["servicing"],
   },
   {
     text: "Project Logs",
     icon: <HiOutlineBriefcase />,
     link: "/project-logs",
-    permissions: ["servicing"]
+    permissions: ["servicing", "customer"],
   },
   {
     text: "Messages",
     icon: <HiOutlineChatBubbleLeftRight />,
     link: "/messages",
-    permissions: ["servicing", "customer"]
+    permissions: ["servicing", "customer", "resource"],
   },
   {
     text: "Membership",
     icon: <HiOutlineCheckBadge />,
     link: "/membership",
-    permissions: ["customer"]
+    permissions: ["customer"],
   },
   {
     text: "Tasks",
-    icon: <FiHelpCircle />,
+    icon: <GoTasklist />,
     link: "/tasks",
-    permissions: ["resource"]
+    permissions: ["resource"],
   },
   {
     text: "Help",
     icon: <FiHelpCircle />,
     link: "/help",
-    permissions: ["all"]
-  }
+    permissions: ["all"],
+  },
 ];
 
 const MenuItemList = [
@@ -86,26 +88,26 @@ const MenuItemList = [
     text: "Settings",
     icon: <HiOutlineCog8Tooth />,
     link: "/settings",
-    permissions: ["all"]
+    permissions: ["all"],
   },
   {
     text: "Subscription",
     icon: <HiOutlineUser />,
     link: "/subscription",
-    permissions: ["customer"]
+    permissions: ["customer"],
   },
   {
     text: "Promotion & Offers",
     icon: <HiOutlineTicket />,
-    link: "#",  // No link is provided for this item
-    permissions: ["customer"]
+    link: "#", // No link is provided for this item
+    permissions: ["customer"],
   },
   {
     text: "Business Hub",
     icon: <HiOutlineBuildingOffice />,
     link: "/business-hub",
-    permissions: ["customer"]
-  }
+    permissions: ["customer"],
+  },
 ];
 
 function Header() {
@@ -178,37 +180,23 @@ function Header() {
                       src={user?.user?.image}
                     />
                     {/* User Name */}
-                    <Text fontSize="14px" color="#fff" fontWeight="medium">
+                    <Text fontSize="12px" color="#fff" fontWeight="medium">
                       {user?.displayName}
-                      {/* John Doe */}
                     </Text>
-                    {/* Chevron Down Icon */}
                     <ChevronDownIcon color="#fff" />
                   </HStack>
                 </MenuButton>
                 <MenuList>
-                  {MenuItemList
-                    .filter((nav) => nav.permissions.includes(user?.role) || nav.permissions.includes("all")).
-                    map((nav, index) => <MenuItem key={index} fontSize="14px" gap={2}>
+                  {MenuItemList.filter(
+                    (nav) =>
+                      nav.permissions.includes(user?.role) ||
+                      nav.permissions.includes("all")
+                  ).map((nav, index) => (
+                    <MenuItem key={index} fontSize="14px" gap={2}>
                       {nav.icon}
                       <Link to={nav.link}>{nav.text} </Link>
-                    </MenuItem>)}
-                  {/* <MenuItem fontSize="14px" gap={2}>
-                    <HiOutlineCog8Tooth />
-                    <Link to="/settings">Settings </Link>
-                  </MenuItem>
-                  <MenuItem fontSize="14px" gap={2}>
-                    <HiOutlineUser />
-                    <Link to="/subscription">Subscription</Link>
-                  </MenuItem>
-                  <MenuItem fontSize="14px" gap={2}>
-                    <HiOutlineTicket />
-                    Promotion & Offers
-                  </MenuItem>
-                  <MenuItem fontSize="14px" gap={2}>
-                    <HiOutlineBuildingOffice />
-                    <Link to="/business-hub"> Business Hub</Link>
-                  </MenuItem> */}
+                    </MenuItem>
+                  ))}
                   <hr />
                   <MenuItem fontSize="14px" gap={2} onClick={logout}>
                     <HiOutlineArrowRightStartOnRectangle />
@@ -222,14 +210,18 @@ function Header() {
       </Box>
 
       {/* New Section Below Header */}
-      <Box bg="white" py={2} w="100dvw" border="1px" borderColor="gray.200">
+      <Box bg="#f1ff00" py={2} w="100dvw" border="0px" borderColor="gray.200">
         <WrapperLayout>
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}
             <HStack className="menu-btn" align="start" spacing={10}>
-              {NavList
-                .filter((nav) => nav.permissions.includes(user?.role) || nav.permissions.includes("all")).
-                map((nav, index) => <NavigationButton key={index} {...nav} />)}
+              {NavList.filter(
+                (nav) =>
+                  nav.permissions.includes(user?.role) ||
+                  nav.permissions.includes("all")
+              ).map((nav, index) => (
+                <NavigationButton key={index} {...nav} />
+              ))}
             </HStack>
 
             {/* Second Column: Add Button */}
@@ -239,9 +231,9 @@ function Header() {
                   fontSize="14px"
                   fontWeight={500}
                   me={3}
-                  bg="gray.700"
+                  bg="#f05"
                   color="#fff"
-                  _hover={{ bg: "#000" }}
+                  _hover={{ bg: "#f07" }}
                   size="md"
                 >
                   <BiPlus />
@@ -251,11 +243,11 @@ function Header() {
                   <Button
                     fontWeight={500}
                     fontSize="14px"
-                    variant="outline"
+                    variant="solid"
                     borderColor="gray.400"
-                    bg="transparent"
-                    _hover={{ bg: "gray.100" }} // Optional hover effect
-                    color="gray.700" // Text color
+                    bg="black"
+                    _hover={{ bg: "yellow.900" }} // Optional hover effect
+                    color="white" // Text color
                   >
                     Explore Categories
                   </Button>
@@ -269,27 +261,26 @@ function Header() {
   );
 }
 
-
 type NavLinkType = {
-  link: string,
-  icon?: React.ReactNode,
-  text?: string
-}
+  link: string;
+  icon?: React.ReactNode;
+  text?: string;
+};
 function NavigationButton({ link, icon, text }: NavLinkType) {
-
-  return <Link to={link}>
-    <Button
-      display={"flex"}
-      alignItems={"center"}
-      variant="link"
-      gap={1}
-    >
-      {icon}
-      <span> {text} </span>
-    </Button>
-  </Link>
-
-
+  return (
+    <Link to={link}>
+      <Button
+        color="#000"
+        display={"flex"}
+        alignItems={"center"}
+        variant="link"
+        gap={1}
+      >
+        {icon}
+        <span> {text} </span>
+      </Button>
+    </Link>
+  );
 }
 
 export default Header;

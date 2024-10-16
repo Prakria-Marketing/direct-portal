@@ -16,7 +16,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   useLayoutEffect(() => {
-    // it's protect user from going to a register and login screen after login
+    // it protects user from going to a register and login screen after login
     if (user && authRoutes.includes(location.pathname)) return navigate("/");
   }, [user, location]);
   if (user === undefined)

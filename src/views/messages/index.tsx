@@ -3,9 +3,9 @@ import ChatPage from "@/components/messages/chat/chat";
 function Messages() {
   return (
     <>
-      <Box bg="#00a884" h={120}></Box>
+      <Box bg="#f1ff00" h={120}></Box>
 
-      <Box mt={-110} px={70}>
+      <Box mt={-100} px={70}>
         <ChatPage />
       </Box>
     </>

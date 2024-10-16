@@ -1,12 +1,11 @@
 import { getProjectById } from "@/api/project";
 import WrapperLayout from "@/layouts/wrapperLayout";
+import { formatDate } from "@/utils/formateDate";
 import {
   Box,
   Flex,
-  FormControl,
   FormLabel,
   Heading,
-  Input,
   Stack,
   Step,
   StepDescription,
@@ -17,11 +16,14 @@ import {
   StepSeparator,
   StepStatus,
   StepTitle,
+  Tag,
+  Text,
   useSteps,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import NotFoundPage from "../notfound";
+import Loading from "@/components/Loading";
 
 const steps = [
   { title: "First", description: "Requirement Received" },
@@ -33,66 +35,54 @@ const steps = [
 ];
 
 function Innerpage() {
-
   const { id } = useParams();
-
   const projectInfo = useQuery({
     queryKey: [id],
     queryFn: async () => await getProjectById(id as string),
-    enabled: !!id
+    enabled: !!id,
   });
   const { activeStep } = useSteps({
     index: 1,
     count: steps.length,
   });
-
-  useEffect(() => {
-    console.log("projectInfo ", projectInfo.data)
-  }, [projectInfo.data])
+  if (projectInfo.isLoading) return <Loading />;
+  if (projectInfo?.data?.data === null) return <NotFoundPage />;
 
   return (
     <WrapperLayout>
       <Flex gap={6}>
         <Box w="70%" my={10}>
-          <Heading as="h5" size="md" pb="5">
+          <Heading as="h5" size="md">
             Project Details
           </Heading>
-          <Box bg="#fff" p={8} rounded="lg">
-            <Stack spacing={4}>
-              <Flex gap={4}>
-                <FormControl width="50%">
-                  <FormLabel fontSize="14px">Name</FormLabel>
-                  <Input placeholder="Dheeraj Singh" type="email" />
-                </FormControl>
-
-                <FormControl width="50%">
-                  <FormLabel fontSize="14px">Email</FormLabel>
-                  <Input placeholder="info@prakria.com" type="email" />
-                </FormControl>
-              </Flex>
-
-              <Flex gap={4}>
-                <FormControl width="50%">
-                  <FormLabel fontSize="14px">Role</FormLabel>
-                  <Input placeholder="Front-end Developer" type="email" />
-                </FormControl>
-
-                <FormControl width="50%">
-                  <FormLabel fontSize="14px">Contact</FormLabel>
-                  <Input placeholder="+91 8368100458" type="email" />
-                </FormControl>
-              </Flex>
-
-              <Flex gap={4}>
-                <FormControl width="50%">
-                  <FormLabel fontSize="14px">State</FormLabel>
-                  <Input placeholder="Delhi" type="email" />
-                </FormControl>
-
-                <FormControl width="50%">
-                  <FormLabel fontSize="14px">Country</FormLabel>
-                  <Input placeholder="India" type="email" />
-                </FormControl>
+          <Text>
+            It is a long established fact that a reader will be distracted by
+            the readable content of a page when looking at its layout.{" "}
+          </Text>
+          <Box
+            bg="#fff"
+            p={8}
+            rounded="lg"
+            my="5"
+            border="1px"
+            borderColor={"gray.300"}
+          >
+            <Stack gap={2}>
+              <Heading size={"md"}>{projectInfo?.data?.data?.title}</Heading>
+              <Text>{projectInfo?.data?.data?.description}</Text>
+              <Flex gap={10} alignItems={"center"}>
+                <Flex>
+                  <FormLabel>start Date</FormLabel>
+                  <Tag size="sm" colorScheme="pink" borderRadius="full">
+                    {formatDate(projectInfo?.data?.data?.startDate)}
+                  </Tag>
+                </Flex>
+                <Flex>
+                  <FormLabel>Deadline</FormLabel>
+                  <Tag size="sm" colorScheme="pink" borderRadius="full">
+                    {formatDate(projectInfo?.data?.data?.deadline)}
+                  </Tag>
+                </Flex>
               </Flex>
             </Stack>
           </Box>
@@ -101,7 +91,13 @@ function Innerpage() {
           <Heading as="h5" size="md" pb="5">
             Project Stages
           </Heading>
-          <Box bg="#fff" p={8} rounded="lg">
+          <Box
+            bg="#fff"
+            p={8}
+            rounded="lg"
+            border={"1px"}
+            borderColor={"gray.300"}
+          >
             <Stepper
               index={activeStep}
               orientation="vertical"

@@ -58,7 +58,8 @@ function PricingCards() {
             mt="5"
           >
             <Button
-              colorScheme="teal"
+              bg={duration == "monthly" ? "#f05" : "transparent"}
+              color={duration == "monthly" ? "#fff" : "#000"}
               variant={duration == "monthly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("monthly")}
@@ -66,7 +67,8 @@ function PricingCards() {
               Monthly
             </Button>
             <Button
-              colorScheme="teal"
+              bg={duration == "quarterly" ? "#f05" : "transparent"}
+              color={duration == "quarterly" ? "#fff" : "#000"}
               variant={duration == "quarterly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("quarterly")}
@@ -74,7 +76,8 @@ function PricingCards() {
               Quarterly
             </Button>
             <Button
-              colorScheme="teal"
+              bg={duration == "yearly" ? "#f05" : "transparent"}
+              color={duration == "yearly" ? "#fff" : "#000"}
               variant={duration == "yearly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("yearly")}
@@ -104,7 +107,8 @@ function PricingCards() {
                     alignSelf={{ base: "center", lg: "flex-start" }}
                     borderRadius={"lg"}
                     position={"relative"}
-                    bg="purple.900"
+                    bg="#f05"
+                    shadow={"lg"}
                   >
                     <Box
                       py={4}
@@ -123,7 +127,7 @@ function PricingCards() {
                         >
                           <Text
                             textTransform="uppercase"
-                            bg={useColorModeValue("yellow.300", "yellow.700")}
+                            bg={"#f1ff00"}
                             px={3}
                             py={1}
                             color={useColorModeValue("gray.900", "gray.300")}
@@ -140,7 +144,7 @@ function PricingCards() {
                         {item?.title}
                       </Text>
                       <Flex justifyContent="center" alignItems={"center"}>
-                        <Text fontSize="2xl" fontWeight="700" color={"orange"}>
+                        <Text fontSize="2xl" fontWeight="700" color={" #f1ff00"}>
                           {price.price} {item.currency}
                         </Text>
                       </Flex>
@@ -163,7 +167,7 @@ function PricingCards() {
                         price.stripe_price_id ? (
                           <Button
                             w="full"
-                            colorScheme="yellow"
+                            bg=" #f1ff00"
                             variant="solid"
                             onClick={() => {
                               setPrice(price.stripe_price_id);

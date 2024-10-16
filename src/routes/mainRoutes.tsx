@@ -23,106 +23,123 @@ const mainRoutes = {
   children: [
     {
       path: "",
-      element: <PermissionLayout role={["all"]}>
-        <Dashboard />,
-      </PermissionLayout>
+      element: (
+        <PermissionLayout role={["all"]}>
+          <Dashboard />,
+        </PermissionLayout>
+      ),
     },
     {
       path: "/project-logs",
-      element:
-        <PermissionLayout role={["servicing"]}>
+      element: (
+        <PermissionLayout role={["servicing", "customer"]}>
           <ProjectLogs />,
         </PermissionLayout>
+      ),
     },
     {
       path: "/project-logs/:id",
-      element: <PermissionLayout role={["servicing"]}>
-        <Innerpage />
-      </PermissionLayout>
+      element: (
+        <PermissionLayout role={["servicing", "customer"]}>
+          <Innerpage />
+        </PermissionLayout>
+      ),
     },
     {
       path: "/customers",
-      element:
+      element: (
         <PermissionLayout role={["servicing"]}>
           <Customers />
-        </PermissionLayout>,
+        </PermissionLayout>
+      ),
     },
     {
       path: "/messages",
-      element:
-        <PermissionLayout role={["customer", "servicing"]} >
+      element: (
+        <PermissionLayout role={["customer", "servicing", "resource"]}>
           <Messages />
         </PermissionLayout>
+      ),
     },
     {
       path: "/membership",
-      element:
+      element: (
         <PermissionLayout role={["customer"]}>
           <Membership />
         </PermissionLayout>
-      ,
+      ),
     },
     {
       path: "/help",
-      element:
+      element: (
         <PermissionLayout role={["all"]}>
           <Help />
         </PermissionLayout>
+      ),
     },
     {
       path: "/business-hub",
-      element:
+      element: (
         <PermissionLayout role={["customer"]}>
           <BusinessHub />
         </PermissionLayout>
+      ),
     },
     {
       path: "/categories",
-      element: <PermissionLayout role={["customer"]}>
-        <Categories />,
-      </PermissionLayout>
+      element: (
+        <PermissionLayout role={["customer"]}>
+          <Categories />,
+        </PermissionLayout>
+      ),
     },
     {
       path: "/tasks",
-      element:
+      element: (
         <PermissionLayout role={["resource"]}>
           <Tasks />
         </PermissionLayout>
+      ),
     },
     {
       path: "/settings",
-      element: <PermissionLayout role={["all"]}>
-        <Settings />,
-      </PermissionLayout>
+      element: (
+        <PermissionLayout role={["all"]}>
+          <Settings />,
+        </PermissionLayout>
+      ),
     },
     {
       path: "/subscription",
-      element:
+      element: (
         <PermissionLayout role={["customer"]}>
           <Subscription />
         </PermissionLayout>
+      ),
     },
     {
       path: "/invite",
-      element:
+      element: (
         <PermissionLayout role={["customer"]}>
           <InvitePage />
         </PermissionLayout>
-
+      ),
     },
     {
       path: "/payments/success",
-      element:
+      element: (
         <PermissionLayout role={["customer"]}>
           <PaymentSuccess />
         </PermissionLayout>
+      ),
     },
     {
       path: "/payments/failed",
-      element:
+      element: (
         <PermissionLayout role={["customer"]}>
           <PaymentCancel />
         </PermissionLayout>
+      ),
     },
     // {
     //   path: "/invite",
