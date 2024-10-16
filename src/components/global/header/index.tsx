@@ -38,6 +38,7 @@ import { auth } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/auth";
 import React from "react";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
+import { FaDollarSign, FaUsers, FaUserSecret } from "react-icons/fa";
 const NavList = [
   {
     text: "Dashboard",
@@ -49,7 +50,7 @@ const NavList = [
     text: "Customers",
     icon: <HiUserGroup />,
     link: "/customers",
-    permissions: ["servicing"],
+    permissions: ["servicing", "admin", "superadmin"],
   },
   {
     text: "Project Logs",
@@ -70,6 +71,24 @@ const NavList = [
     permissions: ["customer"],
   },
   {
+    text: "Staff",
+    icon: <FaUserSecret/>,
+    link: "/staff",
+    permissions: ["admin", "superadmin"],
+  },
+  {
+    text: "Internal Users",
+    icon: <FaUserSecret/>,
+    link: "/users",
+    permissions: ["admin", "superadmin"],
+  },
+  {
+    text: "Pricing Plans",
+    icon: <FaDollarSign />,
+    link: "/pricing",
+    permissions: ["superadmin"],
+  },
+  {
     text: "Tasks",
     icon: <GoTasklist />,
     link: "/tasks",
@@ -79,7 +98,7 @@ const NavList = [
     text: "Help",
     icon: <FiHelpCircle />,
     link: "/help",
-    permissions: ["all"],
+    permissions: ["customer", "resource", "servicing"],
   },
 ];
 

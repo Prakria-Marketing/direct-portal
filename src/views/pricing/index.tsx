@@ -1,15 +1,15 @@
-import CustomerList from "@/components/customers/CustomerList";
+import PricingList from "@/components/pricing/PricingList";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { Box } from "@chakra-ui/react";
 
-function Customers() {
+function Pricing() {
   return (
     <WrapperLayout>
       <Box my={10}>
-        <CustomerList />
+        <PricingList />
       </Box>
     </WrapperLayout>
   );
 }
 
-export default Customers;
+export default Pricing;

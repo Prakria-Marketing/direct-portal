@@ -107,7 +107,7 @@ function PricingCards() {
                     alignSelf={{ base: "center", lg: "flex-start" }}
                     borderRadius={"lg"}
                     position={"relative"}
-                    bg="#f05"
+                    bg="purple.900"
                     shadow={"lg"}
                   >
                     <Box
@@ -116,7 +116,7 @@ function PricingCards() {
                       position="relative"
                       roundedTopLeft="lg"
                       roundedTopRight="lg"
-                      bg="transparent"
+                      // bg="transparent"
                     >
                       {index == 1 ? (
                         <Box

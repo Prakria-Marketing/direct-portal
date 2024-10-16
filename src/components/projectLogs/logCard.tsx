@@ -54,7 +54,7 @@ function LogCard({
             h={2}
             hasStripe
             value={64}
-            colorScheme="blue"
+            colorScheme="red"
             rounded={"3xl"}
           />
           <Heading as={"h4"} size={"sm"}>

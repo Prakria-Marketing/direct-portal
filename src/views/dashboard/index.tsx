@@ -72,9 +72,21 @@ function Dashboard() {
         </PermissionWrapper>
         <PermissionWrapper role={["customer"]}>
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-            <HeroBannerCard bg={"#d8d8d8"} />
-            <HeroBannerCard bg={"#f0d7ed"} />
-            <HeroBannerCard bg={"#eaefe8"} />
+            <HeroBannerCard
+              bg={"#d8d8d8"}
+              title="Total no. of Projects"
+              number={124}
+            />
+            <HeroBannerCard
+              bg={"#f0d7ed"}
+              title="Total no. of Completed projects"
+              number={100}
+            />
+            <HeroBannerCard
+              bg={"#eaefe8"}
+              title="Total no. of Ongoing projects"
+              number={24}
+            />
           </Grid>
         </PermissionWrapper>
       </Box>

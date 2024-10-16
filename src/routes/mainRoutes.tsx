@@ -17,6 +17,9 @@ import Subscription from "@/views/subscription";
 import PermissionLayout from "@/layouts/protectedLayout/permissionLayout";
 import NotFoundPage from "@/views/notfound";
 import Innerpage from "@/views/projectlogs/Innerpage";
+import UsersList from "@/components/users/UsersList";
+import Staffs from "@/views/staff";
+import Pricing from "@/views/pricing";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -48,8 +51,24 @@ const mainRoutes = {
     {
       path: "/customers",
       element: (
-        <PermissionLayout role={["servicing"]}>
+        <PermissionLayout role={["servicing", "admin", "superadmin"]}>
           <Customers />
+        </PermissionLayout>
+      ),
+    },
+    {
+      path: "/pricing",
+      element: (
+        <PermissionLayout role={["superadmin"]}>
+          <Pricing />
+        </PermissionLayout>
+      ),
+    },
+    {
+      path: "/staff",
+      element: (
+        <PermissionLayout role={["servicing", "admin", "superadmin"]}>
+          <Staffs />
         </PermissionLayout>
       ),
     },
@@ -72,7 +91,7 @@ const mainRoutes = {
     {
       path: "/help",
       element: (
-        <PermissionLayout role={["all"]}>
+        <PermissionLayout role={["customer", "resource", "servicing"]}>
           <Help />
         </PermissionLayout>
       ),
@@ -98,6 +117,14 @@ const mainRoutes = {
       element: (
         <PermissionLayout role={["resource"]}>
           <Tasks />
+        </PermissionLayout>
+      ),
+    },
+    {
+      path: "/users",
+      element: (
+        <PermissionLayout role={["admin", "superadmin"]}>
+          <UsersList />
         </PermissionLayout>
       ),
     },
@@ -141,12 +168,6 @@ const mainRoutes = {
         </PermissionLayout>
       ),
     },
-    // {
-    //   path: "/invite",
-    //   element: <PermissionLayout role={["customer"]}>
-    //     <InvitePage />
-    //   </PermissionLayout>
-    // },
     {
       path: "*",
       element: <NotFoundPage />,

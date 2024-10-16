@@ -1,15 +1,12 @@
-import TaskList from "@/components/tasks/TaskList";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import { Box } from "@chakra-ui/react";
 
-function Tasks() {
+function Users() {
   return (
     <WrapperLayout>
-      <Box my={10}>
-        <TaskList />
-      </Box>
+      <Box my={10}></Box>
     </WrapperLayout>
   );
 }
 
-export default Tasks;
+export default Users;
