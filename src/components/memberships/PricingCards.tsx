@@ -58,7 +58,7 @@ function PricingCards() {
             mt="5"
           >
             <Button
-              colorScheme="green"
+              colorScheme="teal"
               variant={duration == "monthly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("monthly")}
@@ -66,7 +66,7 @@ function PricingCards() {
               Monthly
             </Button>
             <Button
-              colorScheme="green"
+              colorScheme="teal"
               variant={duration == "quarterly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("quarterly")}
@@ -74,7 +74,7 @@ function PricingCards() {
               Quarterly
             </Button>
             <Button
-              colorScheme="green"
+              colorScheme="teal"
               variant={duration == "yearly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("yearly")}

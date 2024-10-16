@@ -1,5 +1,5 @@
 import {
-  Heading,
+    Heading,
   MenuItem,
   Modal,
   ModalBody,
@@ -7,26 +7,30 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-
+  Progress,
   useDisclosure,
 } from "@chakra-ui/react";
+import CreateProjectForm from "./CreateProjectForm";
 import { BiPlus } from "react-icons/bi";
-import RequirementForm from "./RequirementForm";
+import Steps from "./Steps";
+import { useState } from "react";
+import CreateTaskForm from "./CreateTaskForm";
 
-export default function CreateRequirementModal() {
+export default function CreateTaskModal() {
+  const [step, setStep] = useState(1);
+  const [progress, setProgress] = useState(33.33);
+
   const {
     isOpen: isModalOpen,
     onOpen: onModalOpen,
     onClose: onModalClose,
   } = useDisclosure();
 
-
   return (
     <>
       <MenuItem fontSize="14px" gap={1} onClick={onModalOpen}>
-        <BiPlus fontSize={20} /> Create Requirements
+        <BiPlus fontSize={20} /> Create Task
       </MenuItem>
-
 
       {/* Modal for Create Project */}
       <Modal
@@ -36,19 +40,12 @@ export default function CreateRequirementModal() {
       >
         <ModalOverlay />
         <ModalContent maxW={800}>
-          <ModalHeader bg={"gray.100"} pe={10}>
-            <Heading size={"md"}>
-              Create Project Requirements
-            </Heading>
+          <ModalHeader bg={"gray.100"} py={5}>
+            <Heading as="h4" fontSize="md">Task Details</Heading>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {
-              isModalOpen &&
-              <RequirementForm
-                onClose={onModalClose}
-              />
-            }
+            {isModalOpen && <CreateTaskForm onClose={onModalClose} />}
           </ModalBody>
         </ModalContent>
       </Modal>

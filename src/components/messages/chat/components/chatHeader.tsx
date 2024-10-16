@@ -19,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import MemberList from "./memberList";
 import ClientRequirements from "@/components/projects/ClientRequirementModal";
+import CreateTaskModal from "@/components/projects/CreateTaskModal";
 
 export const CustomChannelHeader = ({
   onToggleSlider,
@@ -84,8 +85,9 @@ export const CustomChannelHeader = ({
               gap={1}
               onClick={onToggleSlider} // Call the passed prop on click
             >
-              <BiPlus fontSize={20} /> Side Slider
+              <BiPlus fontSize={20} /> More Info
             </MenuItem>
+            <CreateTaskModal />
           </MenuList>
         </Menu>
       </Box>

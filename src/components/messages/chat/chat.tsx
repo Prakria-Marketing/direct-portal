@@ -3,6 +3,10 @@ import { useAuth } from "@/hooks/auth";
 import {
   Box,
   Flex,
+  // Grid,
+  // Heading,
+  // IconButton,
+  // Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -17,6 +21,7 @@ import {
   MessageInput,
   Thread,
   useCreateChatClient,
+  // CloseIcon,
 } from "stream-chat-react";
 import "stream-chat-react/dist/css/v2/index.css";
 import "./streamChat.css";
@@ -25,8 +30,9 @@ import { CustomChannelHeader } from "./components/chatHeader";
 import { SearchIcon } from "@chakra-ui/icons";
 import Loading from "@/components/Loading";
 import { useState } from "react";
+// import ServiceCard from "../ServiceCard";
 import ChatInfoWindow from "./chatinfo";
-import ChatMessageInput from "./components/messageInput/messageInput";
+
 
 const apikey: string = import.meta.env.VITE_app_key!;
 export default function ChatPage() {
@@ -137,20 +143,14 @@ function MyChat({
                   <Box className="bg-wall"></Box>
                 </Box>
                 <Box>
-                  <MessageInput Input={ChatMessageInput} />
-                  {/* <CustomMessageInput /> */}
+                  <MessageInput />
                 </Box>
               </Flex>
             </Window>
             <Thread />
 
-            {isSliderVisible && (
-              <ChatInfoWindow
-                userId={userId}
-                isSliderVisible={isSliderVisible}
-                onToggleSlider={onToggleSlider}
-              />
-            )}
+
+            {isSliderVisible && <ChatInfoWindow userId={userId} isSliderVisible={isSliderVisible} onToggleSlider={onToggleSlider} />}
           </Channel>
         </Box>
         {/* Conditionally render the slider box based on the state */}

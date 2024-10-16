@@ -118,7 +118,7 @@ export default function CustomerPlanCard() {
             mt="5"
           >
             <Button
-              colorScheme="green"
+              colorScheme="teal"
               variant={duration == "monthly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("monthly")}
@@ -126,7 +126,7 @@ export default function CustomerPlanCard() {
               Monthly
             </Button>
             <Button
-              colorScheme="green"
+              colorScheme="teal"
               variant={duration == "quarterly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("quarterly")}
@@ -134,7 +134,7 @@ export default function CustomerPlanCard() {
               Quarterly
             </Button>
             <Button
-              colorScheme="green"
+              colorScheme="teal"
               variant={duration == "yearly" ? "solid" : "outline"}
               borderRadius={"3xl"}
               onClick={() => setDuration("yearly")}

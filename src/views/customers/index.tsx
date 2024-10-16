@@ -1,22 +1,24 @@
 import CustomerCard from "@/components/customers/CustomerCard";
+import CustomerDataTable from "@/components/customers/CustomerDataTable";
 import WrapperLayout from "@/layouts/wrapperLayout";
-import { Box, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Heading } from "@chakra-ui/react";
 
 function Customers() {
   return (
     <WrapperLayout>
       <Box my={10}>
-        <Heading as="h5" size="md" pb="5">
-          Customers
-        </Heading>
+        
 
-        <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+        {/* <Grid templateColumns="repeat(4, 1fr)" gap={4}>
           <GridItem w="100%"><CustomerCard /></GridItem>
           <GridItem w="100%"><CustomerCard /></GridItem>
           <GridItem w="100%"><CustomerCard /></GridItem>
           <GridItem w="100%"><CustomerCard /></GridItem>
           <GridItem w="100%"><CustomerCard /></GridItem>
-        </Grid>
+        </Grid> */}
+        <Box >
+          <CustomerDataTable />
+        </Box>
       </Box>
     </WrapperLayout>
   );

@@ -107,7 +107,7 @@ function TableRow({ row, onClick, isLoading }: { row: TableData, onClick?: Click
                 >
                     reject
                 </Button>
-                <Button colorScheme="green" size={"sm"} onClick={onAccpet}
+                <Button colorScheme="teal" size={"sm"} onClick={onAccpet}
                     disabled={isLoading}
                 >
                     Accept
