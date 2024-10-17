@@ -26,7 +26,7 @@ export default function InboxContact({ displayImage, latestMessage, channel }: C
     const { channels } = useChannelListContext();
     const members = Object.values(state.members);
     let name = "";
-    members.length === 2 ?
+    members.length === 2 && data?.room_type !== "group" ?
         name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string
     const isActive = activeChannel === channel;
     // console.log("channel", activeChannel)

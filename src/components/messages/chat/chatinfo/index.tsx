@@ -3,7 +3,6 @@ import {
   Card,
   Flex,
   Grid,
-  Heading,
   IconButton,
   Image,
   Tab,
@@ -14,12 +13,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { CloseIcon, useChannelStateContext } from "stream-chat-react";
-import ServiceCard from "../../ServiceCard";
-
 import { useQuery } from "@tanstack/react-query";
-import { getCustomerProjects, getProjectById, getRequirement } from "@/api/project";
 import ClientChatInfo from "./clientChatInfo";
-import { useAuth } from "@/hooks/auth";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 import ServicingChatInfo from "./servisingChatInfo";
 type ChatInfoType = {
@@ -80,6 +75,7 @@ function ChatInfoWindow({
 
             </Box>
           </TabPanel>
+
           <TabPanel>
             <Box>
               <Grid templateColumns="repeat(4, 1fr)" gap={2}>
@@ -127,6 +123,7 @@ function ChatInfoWindow({
               </Grid>
             </Box>
           </TabPanel>
+
           <TabPanel>
             <Box>
               <Box>

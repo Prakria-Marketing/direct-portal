@@ -1,4 +1,4 @@
-import { getCustomerProjects, getRequirement } from '@/api/project';
+import { getCustomerProjects, getProjectById, getRequirement } from '@/api/project';
 import { useAuth } from '@/hooks/auth';
 import { useQuery } from '@tanstack/react-query';
 import { useChannelStateContext } from 'stream-chat-react';
@@ -25,26 +25,40 @@ function ServicingChatInfo() {
         enabled: !!customer && data?.room_type !== "group",
         retry: 2,
     });
+    const ProjectInfo = useQuery({
+        queryKey: [channel.id],
+        queryFn: async () => await getProjectById(data?.project_id as string),
+        enabled: !!data?.project_id
+
+    });
 
     return (
-        <div>
-            {clientProjectList.data?.data?.map(
-                (project: any, index: number) => {
-                    return <ServiceCard data={project} key={index} />;
-                }
-            )}
-            {clientRequirement.data?.data?.length > 0 &&
-                <Heading size={"sm"}>
-                    Requiremen's
-                </Heading>
-            }
-            {clientRequirement.data?.data?.map(
-                (req: any, index: number) => {
-                    return <ServiceCard data={req} key={index} />;
-                }
-            )}
+        <>
+            {
+                data?.room_type === "group" ?
+                    <div>
+                        {!!ProjectInfo?.data?.data && <ServiceCard data={ProjectInfo?.data?.data} />}
+                    </div> :
+                    <div>
+                        {clientProjectList.data?.data?.map(
+                            (project: any, index: number) => {
+                                return <ServiceCard data={project} key={index} />;
+                            }
+                        )}
+                        {clientRequirement.data?.data?.length > 0 &&
+                            <Heading size={"sm"}>
+                                Requiremen's
+                            </Heading>
+                        }
+                        {clientRequirement.data?.data?.map(
+                            (req: any, index: number) => {
+                                return <ServiceCard data={req} key={index} />;
+                            }
+                        )}
 
-        </div>
+                    </div>
+            }
+        </>
     )
 }
 

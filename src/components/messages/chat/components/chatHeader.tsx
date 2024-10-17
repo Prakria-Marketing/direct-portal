@@ -46,8 +46,8 @@ export const CustomChannelHeader = ({
   }, [memberList.data])
 
   let name = "";
-  // members.length === 2 ?
-  //   name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string;
+  members.length === 2 && data?.room_type !== "group" ?
+    name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string;
   return (
     <Flex
       className="str-chat__header-livestream"
