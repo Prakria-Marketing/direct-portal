@@ -28,7 +28,7 @@ export default function CustomSearchResultItem({ result, selectResult }: any) {
 export function CustomMessageInput(props: any) {
     console.log("search Input", props)
 
-    return <Input ref={props.inputRef} onChange={props.onSearch} />
+    return <Input ref={props.inputRef} />
 }
 export function CustomResultItemsList(props: any) {
     console.log("list>>", props)

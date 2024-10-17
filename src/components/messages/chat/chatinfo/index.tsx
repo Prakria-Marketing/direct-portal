@@ -18,6 +18,10 @@ import ServiceCard from "../../ServiceCard";
 
 import { useQuery } from "@tanstack/react-query";
 import { getCustomerProjects, getProjectById, getRequirement } from "@/api/project";
+import ClientChatInfo from "./clientChatInfo";
+import { useAuth } from "@/hooks/auth";
+import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
+import ServicingChatInfo from "./servisingChatInfo";
 type ChatInfoType = {
   isSliderVisible: boolean;
   onToggleSlider: () => void;
@@ -28,16 +32,6 @@ function ChatInfoWindow({
   onToggleSlider,
 }: ChatInfoType) {
   const { channel } = useChannelStateContext();
-  const clientProjectList = useQuery({
-    queryKey: ["projects", channel?.id],
-    queryFn: async () => await getCustomerProjects(channel?.id as string),
-    retry: 1, // Will retry failed requests 10 times before displaying an error
-  });
-  const projectInfo = useQuery({
-    queryKey: [channel?.id],
-    queryFn: async () => await getProjectById(channel?.id as string),
-    retry: 1, // Will retry failed requests 10 times before displaying an error
-  });
   const memberList = useQuery({
     queryKey: ["members", channel.id],
     queryFn: async () => {
@@ -45,11 +39,6 @@ function ChatInfoWindow({
       return res.members;
     },
   });
-  const clientRequirement = useQuery({
-    queryKey: ["req", channel.id],
-    queryFn: async () => await getRequirement(channel?.id as string),
-    retry: 2,
-  })
 
   return (
     <Box
@@ -81,31 +70,13 @@ function ChatInfoWindow({
         <TabPanels py={5}>
           <TabPanel>
             <Box mb={10}>
-              {clientProjectList.isLoading || projectInfo.isLoading ? (
-                <>loading...</>
-              ) : (
-                <>
-                  {clientProjectList.data?.data?.map(
-                    (project: any, index: number) => {
-                      return <ServiceCard data={project} key={index} />;
-                    }
-                  )}
 
-                  {projectInfo.isSuccess && projectInfo?.data?.data && (
-                    <ServiceCard data={projectInfo?.data?.data ?? {}} />
-                  )}
-                </>
-              )}
-              {clientRequirement.data?.data?.length > 0 &&
-                <Heading size={"sm"}>
-                  Requiremen's
-                </Heading>
-              }
-              {clientRequirement.data?.data?.map(
-                (req: any, index: number) => {
-                  return <ServiceCard data={req} key={index} />;
-                }
-              )}
+              <PermissionWrapper role={["customer"]}>
+                <ClientChatInfo />
+              </PermissionWrapper>
+              <PermissionWrapper role={["servicing"]}>
+                <ServicingChatInfo />
+              </PermissionWrapper>
 
             </Box>
           </TabPanel>

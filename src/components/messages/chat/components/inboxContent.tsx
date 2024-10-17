@@ -18,9 +18,8 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function InboxContact({ displayImage, latestMessage, channel }: ChannelPreviewUIComponentProps<DefaultStreamChatGenerics>) {
-
     const [searchParams] = useSearchParams();
-    const { client } = useChatContext();
+    // const { client } = useChatContext();
     const { user } = useAuth()
     const { data, state } = channel;
     const { channel: activeChannel, setActiveChannel } = useChatContext();
@@ -30,11 +29,8 @@ export default function InboxContact({ displayImage, latestMessage, channel }: C
     members.length === 2 ?
         name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string
     const isActive = activeChannel === channel;
-
-
     // console.log("channel", activeChannel)
     const handleChangeChat = async () => {
-
         setActiveChannel(channel);
     };
     useEffect(() => {

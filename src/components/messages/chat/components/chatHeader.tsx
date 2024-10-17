@@ -27,6 +27,10 @@ export const CustomChannelHeader = ({
 }) => {
   const { user } = useAuth();
   const { channel } = useChannelStateContext();
+  const data = channel.data;
+  // const da
+  const members = Object.values(channel?.state?.members);
+
   const memberList = useQuery({
     queryKey: ["members", channel.id],
     queryFn: async () => {
@@ -41,9 +45,9 @@ export const CustomChannelHeader = ({
     }
   }, [memberList.data])
 
-  const title = channel?.data?.name;
-  const name: any = (channel.data?.room_name as any)?.[user?.userId] as any;
-
+  let name = "";
+  // members.length === 2 ?
+  //   name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string;
   return (
     <Flex
       className="str-chat__header-livestream"
@@ -57,11 +61,11 @@ export const CustomChannelHeader = ({
       borderColor={"gray.200"}
     >
 
-      <Avatar name={name ?? title} src={""} size={"sm"} />
+      <Avatar name={name} src={""} size={"sm"} />
       <Flex flexDirection={"column"} flex={1} gap={2} justifyContent={"center"}>
         <div className="header-item">
           <Heading size={"xs"} fontWeight={"500"} fontSize={"12px"}>
-            {name || title}
+            {name}
           </Heading>
           <MemberList members={memberList.data as any ?? []} />
         </div>

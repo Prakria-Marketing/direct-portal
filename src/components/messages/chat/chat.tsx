@@ -82,8 +82,8 @@ function MyChat({
   });
   const filters = { members: { $in: [userId] }, type: "messaging" };
   const options = { presence: true, state: true };
-
   if (!client) return <Loading />;
+
   return (
     <Chat client={client}>
       <Flex height={"100%"}>
@@ -120,11 +120,11 @@ function MyChat({
               filters={filters}
               options={options}
               Preview={InboxContact}
-              showChannelSearch
+              // showChannelSearch
               additionalChannelSearchProps={{
                 searchForChannels: true,
                 // SearchResultItem: CustomSearchResultItem,
-                SearchResultsList: CustomResultItemsList
+                SearchResultsList: CustomResultItemsList,
                 // SearchInput: CustomMessageInput,
                 // searchFunction: () => { console.log("sourav") }
 

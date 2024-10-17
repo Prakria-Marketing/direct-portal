@@ -229,7 +229,7 @@ export default function RequirementForm({
   const createRequirementMutation = useMutation({
     mutationFn: createRequirement,
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["req"] });
     }
   })
   const {

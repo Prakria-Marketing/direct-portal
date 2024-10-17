@@ -19,6 +19,7 @@ import { getOrgnizationByUserId, getTeam } from "@/api/orgnization";
 import { useChannelStateContext } from "stream-chat-react";
 import { getResource } from "@/api/users";
 import { createProject } from "@/api/project";
+import { useAuth } from "@/hooks/auth";
 
 type StepFormFields = {
   register: UseFormRegister<ProjectFields>,
@@ -501,13 +502,21 @@ export default function CreateProjectForm({
 
 function useProjectType() {
   const { channel } = useChannelStateContext();
+  const { user } = useAuth();
+  const state = channel.state;
+  const members = Object.values(state.members);
+  const customer: any = members?.find((member) => member.user_id !== user?.userId) as string;
+  console.log("members=", customer.user_id)
+  // console.log(customerId)
+
+  // userId
   const organizationQuery = useQuery({
-    queryKey: [channel.id],
-    queryFn: async () => await getOrgnizationByUserId(channel.id!),
-    enabled: !!channel?.id
+    queryKey: [customer.user_id],
+    queryFn: async () => await getOrgnizationByUserId(customer.user_id!),
+    enabled: !!customer
   })
 
-  return { userId: channel.id, orgId: organizationQuery?.data?.data?._id, isLoading: organizationQuery.isLoading }
+  return { userId: customer.user_id, orgId: organizationQuery?.data?.data?._id, isLoading: organizationQuery.isLoading }
 }
 
 
