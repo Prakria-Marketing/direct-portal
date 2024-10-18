@@ -27,7 +27,9 @@ import Loading from "@/components/Loading";
 import { useState } from "react";
 import ChatInfoWindow from "./chatinfo";
 import ChatMessageInput from "./components/messageInput/messageInput";
-import CustomSearchResultItem, { CustomMessageInput, CustomResultItemsList } from "./components/search/customSearchResultItems";
+import { CustomResultItemsList } from "./components/search/customSearchResultItems";
+import CustomSearchInput from "./components/search/customSearchInput";
+import ChannelListWrapper from "./components/channelList/ChannelListWrapper";
 
 const apikey: string = import.meta.env.VITE_app_key!;
 export default function ChatPage() {
@@ -97,7 +99,9 @@ function MyChat({
             bg="#ededed"
             borderBottom={"1px solid #e5e5e5"}
           >
-            <InputGroup>
+            <CustomSearchInput />
+
+            {/* <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
                 children={<SearchIcon color="gray.500" w={4} h={4} />}
@@ -108,7 +112,7 @@ function MyChat({
                 fontSize="13px"
                 bg="white"
               />
-            </InputGroup>
+            </InputGroup> */}
           </Box>
           <Box
             height={"calc(600px - 52px)"}
@@ -116,21 +120,16 @@ function MyChat({
             overflowX={"hidden"}
             width="400px"
           >
-            <ChannelList
+            <ChannelListWrapper
+              filters={filters}
+              options={options}
+            />
+            {/* <ChannelList
               filters={filters}
               options={options}
               Preview={InboxContact}
-              // showChannelSearch
-              additionalChannelSearchProps={{
-                searchForChannels: true,
-                // SearchResultItem: CustomSearchResultItem,
-                SearchResultsList: CustomResultItemsList,
-                // SearchInput: CustomMessageInput,
-                // searchFunction: () => { console.log("sourav") }
 
-              }}
-
-            />
+            /> */}
           </Box>
         </Box>
         <Box flex={1}>

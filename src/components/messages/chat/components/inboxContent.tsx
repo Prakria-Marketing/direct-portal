@@ -20,7 +20,7 @@ import { useSearchParams } from "react-router-dom";
 export default function InboxContact({ displayImage, latestMessage, channel }: ChannelPreviewUIComponentProps<DefaultStreamChatGenerics>) {
     const [searchParams] = useSearchParams();
     // const { client } = useChatContext();
-    const { user } = useAuth()
+    const { user } = useAuth();
     const { data, state } = channel;
     const { channel: activeChannel, setActiveChannel } = useChatContext();
     const { channels } = useChannelListContext();
