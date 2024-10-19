@@ -1,29 +1,33 @@
-import { ChannelList, useChatContext } from 'stream-chat-react'
+import { ChannelList } from 'stream-chat-react'
 import InboxContact from '../inboxContent'
 import { useChatSearch } from '@/hooks/chatSearch';
-import CustomSearchResultItem from '../search/customSearchItem';
-import { Text } from '@chakra-ui/react';
-import CustomSearchInput from '../search/customSearchInput';
+import { CustomSearchResultChannelItem, CustomSearchResultUserItem } from '../search/customSearchItem';
+import { Box, Text } from '@chakra-ui/react';
+// import { useMutation } from '@tanstack/react-query';
+// import { createPersonalChat } from '@/api/chat';
 function ChannelListWrapper({ filters, options }: any) {
-    const { channels, query, users } = useChatSearch()
-    // const { client, setActiveChannel } = useChatContext();
+    const { channels, query, users } = useChatSearch();
 
-    // console.log("wrapper ", setActiveChannel)
     return (
         <>
-            {
-                !!query ? <>
-                    <Text>search result : {channels?.length}</Text>
-                    {channels?.map((channel: any, index: number) => <CustomSearchResultItem key={index} {...channel} />)}
-                    <Text>user's</Text>
-                    {users?.map((user: any, index: number) => <CustomSearchResultItem key={index} {...user} />)}
 
-                </> : <ChannelList
+            <Box display={!!query ? "block" : "none"}>
+                <Text>search result : {channels?.length}</Text>
+                {channels?.map((channel: any, index: number) => <CustomSearchResultChannelItem key={index} {...channel} />)}
+                <Text>user's</Text>
+                {users?.map((user: any, index: number) => <CustomSearchResultUserItem key={index} {...user} />)}
+
+            </Box >
+            <Box
+                display={!!query ? "none" : "block"} >
+
+                <ChannelList
                     filters={filters}
                     options={options}
                     Preview={InboxContact}
                 />
-            }
+            </Box>
+
         </>
     )
 }

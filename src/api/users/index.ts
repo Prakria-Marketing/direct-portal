@@ -20,3 +20,8 @@ export async function updateUserInfo(data: UpdateUserInfo) {
     const response = await axiosInstance.patch("/users/update/" + data.firebaseId, data.body);
     return response.data;
 }
+
+export async function searchUserInChat(query: string) {
+    const response = await axiosInstance.post("/users/search", { query });
+    return response.data;
+}

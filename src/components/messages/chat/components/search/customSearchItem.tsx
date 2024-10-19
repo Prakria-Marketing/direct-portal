@@ -1,4 +1,5 @@
 // import { ChannelPreviewUIComponentProps, DefaultStreamChatGenerics, useChannelListContext, useChatContext } from "stream-chat-react";
+import { createPersonalChat } from "@/api/chat";
 import {
     // Avatar,
     AvatarWrapper,
@@ -10,13 +11,14 @@ import {
 
     TopContent,
 } from "../styles";
-import { useAuth } from "@/hooks/auth";
 import { useChatSearch } from "@/hooks/chatSearch";
-import { Avatar, Text } from "@chakra-ui/react";
+import { Avatar } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import { useChatContext } from "stream-chat-react";
 
 
-type SearchResultItem = {
+
+type SearchResultItemChannel = {
     cid: string;
     isTyping: boolean;
     name: string;
@@ -33,20 +35,17 @@ type SearchResultItem = {
 }
 
 
-export default function CustomSearchResultItem(channel: Partial<SearchResultItem>) {
-    const { user } = useAuth();
-    const { setQuery } = useChatSearch()
+export function CustomSearchResultChannelItem(channel: Partial<SearchResultItemChannel>) {
+    const { setQuery } = useChatSearch();
     const { data, cid } = channel;
     const isChannel = !!cid;
-    const { client, channel: activeChannel, setActiveChannel } = useChatContext();
-
-
-
-    // console.log("wrapper=> ", channel)
+    const { client, setActiveChannel } = useChatContext();
 
     const handleChangeChat = async () => {
         const c = client.channel("messaging", data?.id);
         console.log("search-", c);
+        console.log("=>> c", c)
+        await c.watch()
         setActiveChannel(c);
         setQuery("");
     };
@@ -73,5 +72,49 @@ export default function CustomSearchResultItem(channel: Partial<SearchResultItem
     );
 }
 
+
+type SearchResutItemUser = {
+    _id: string;
+    name: string;
+    email: string;
+    role: string;
+}
+export function CustomSearchResultUserItem(searchUser: Partial<SearchResutItemUser>) {
+    // const { user } = useAuth();
+    const { client, setActiveChannel } = useChatContext();
+    const { setQuery } = useChatSearch();
+
+    const createChatMutation = useMutation({
+        mutationFn: createPersonalChat
+    });
+
+
+    const onClick = async () => {
+        console.log("user clicked");
+        const response = await createChatMutation.mutateAsync({
+            members: [searchUser?._id!]
+        });
+        const roomId = response?.data?.roomId;
+        const c = client.channel("messaging", roomId);
+        await c.watch();
+        setActiveChannel(c);
+        setQuery("");
+
+    }
+    return (
+        <Contact isActive={false} width={"100%"} onClick={onClick}>
+            <AvatarWrapper>
+                <Avatar name={searchUser?.name} size={"sm"} />
+            </AvatarWrapper>
+            <Content>
+                <TopContent>
+                    <Name
+                        fontSize={"12px"}
+                    >{searchUser?.name}</Name>
+                </TopContent>
+            </Content>
+        </Contact>
+    );
+}
 
 

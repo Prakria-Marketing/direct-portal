@@ -3,15 +3,11 @@ import { useAuth } from "@/hooks/auth";
 import {
   Box,
   Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Chat,
   Channel,
-  ChannelList,
   Window,
   MessageList,
   MessageInput,
@@ -20,19 +16,16 @@ import {
 } from "stream-chat-react";
 import "stream-chat-react/dist/css/v2/index.css";
 import "./streamChat.css";
-import InboxContact from "./components/inboxContent";
 import { CustomChannelHeader } from "./components/chatHeader";
-import { SearchIcon } from "@chakra-ui/icons";
 import Loading from "@/components/Loading";
 import { useState } from "react";
 import ChatInfoWindow from "./chatinfo";
 import ChatMessageInput from "./components/messageInput/messageInput";
-import { CustomResultItemsList } from "./components/search/customSearchResultItems";
 import CustomSearchInput from "./components/search/customSearchInput";
-import ChannelListWrapper from "./components/channelList/ChannelListWrapper";
+import ChannelListWrapper from "./components/channelList/channelListWrapper";
 
 const apikey: string = import.meta.env.VITE_app_key!;
-export default function ChatPage() {
+export default function ChatPage({ isCustomerChat }: { isCustomerChat: boolean }) {
   const { user } = useAuth();
   console.log("user=>", user)
   const [isSliderVisible, setIsSliderVisible] = useState(false); // State to control slider visibility
@@ -58,6 +51,7 @@ export default function ChatPage() {
           userId={user?.userId}
           isSliderVisible={isSliderVisible}
           onToggleSlider={toggleSliderVisibility}
+          isCustomerChat={isCustomerChat}
         />
       )}
     </Box>
@@ -70,19 +64,23 @@ function MyChat({
   userId,
   isSliderVisible,
   onToggleSlider,
+  isCustomerChat,
 }: {
   apiKey: string;
   token: string;
   userId: string;
   isSliderVisible: boolean;
+  isCustomerChat: boolean;
   onToggleSlider: () => void;
 }) {
   const client = useCreateChatClient({
     apiKey,
     tokenOrProvider: token,
     userData: { id: userId },
+
   });
-  const filters = { members: { $in: [userId] }, type: "messaging" };
+  const filters = isCustomerChat ? { members: { $in: [userId] }, type: "messaging" } :
+    { members: { $in: [userId] }, type: "messaging", isCustomer: false };
   const options = { presence: true, state: true };
   if (!client) return <Loading />;
 
@@ -99,20 +97,7 @@ function MyChat({
             bg="#ededed"
             borderBottom={"1px solid #e5e5e5"}
           >
-            <CustomSearchInput />
-
-            {/* <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<SearchIcon color="gray.500" w={4} h={4} />}
-              />
-              <Input
-                rounded={10}
-                placeholder="Search your chat..."
-                fontSize="13px"
-                bg="white"
-              />
-            </InputGroup> */}
+            <CustomSearchInput searchForUsers={!isCustomerChat} searchForChannels={true} />
           </Box>
           <Box
             height={"calc(600px - 52px)"}

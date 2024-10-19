@@ -2,10 +2,11 @@ import { useAuth } from "@/hooks/auth";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useChatContext } from "stream-chat-react";
 import { debounce } from "@/utils/debounce";
 import { useChatSearch } from "@/hooks/chatSearch";
+import { searchUserInChat } from "@/api/users";
 
 
 
@@ -15,66 +16,38 @@ type CustomSearchInputProps = {
     searchForUsers?: boolean,
 }
 function CustomSearchInput(props: Partial<CustomSearchInputProps>) {
-    // const {
-    //     searchForChannels,
-    //     searchForUsers
-    // } = props;
-    // const [query, setQuery] = useState<string>("");
-    const { query, setQuery, setResults, channels, users } = useChatSearch();
-
     const { user } = useAuth();
     const { client } = useChatContext();
-
+    const { query, setQuery, setResults } = useChatSearch();
 
     const searchAPI = useCallback(async (search: string) => {
         const searchedChannels = await client.queryChannels({
             type: 'messaging',
             name: { $autocomplete: search },
             members: { $in: [user?.userId] },
-        },
-            { last_message_at: -1, updated_at: -1 });
+        }, { updated_at: -1 });
         return {
             channels: searchedChannels,
         }
     }, [user, client]);
-    const searchUserAPI = useCallback(async (search: string) => {
-        const { users } = await client.queryUsers(
-            {
-                $or: [{ id: { $autocomplete: search } }
-                    , { name: { $autocomplete: search } }
-                ],
-                id: { $ne: user?.userId },
-            },
-            { id: 1, name: 1 }
-        );
-
-        return {
-            users: users,
-        }
-    }, [user, client]);
     const searchUserQuery = useMutation({
-        mutationFn: searchUserAPI,
-        onSettled(data, error, variables, context) {
-            setResults({ users: data?.users as any });
-        },
-
+        mutationFn: searchUserInChat,
+        onSuccess(data) {
+            setResults({ users: data?.data as any });
+        }
     });
-    const searchQuery = useMutation({
+    const searchChannelQuery = useMutation({
         mutationFn: searchAPI,
-        onSettled(data, error, variables, context) {
+        onSettled(data) {
             setResults({ channels: data?.channels as any });
         },
 
     });
     const onSearch = useCallback(debounce(async (search) => {
         console.log("searching....", search);
-        searchQuery.mutate(search);
-        searchUserQuery.mutate(search);
-    }, 800), [searchAPI, searchUserAPI]);
-
-    useEffect(() => {
-        console.log("search==", users);
-    }, [users])
+        if (props?.searchForChannels) searchChannelQuery.mutate(search);
+        if (props?.searchForUsers) searchUserQuery.mutate(search);
+    }, 800), [searchAPI, props?.searchForUsers, props.searchForChannels]);
 
     return (
         <InputGroup>
