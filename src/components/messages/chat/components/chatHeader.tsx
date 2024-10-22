@@ -19,6 +19,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import MemberList from "./memberList";
 import ClientRequirements from "@/components/projects/ClientRequirementModal";
+import CreateTaskModal from "@/components/task/taskCreationForm";
+import { getUserById } from "@/api/users";
+import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 
 export const CustomChannelHeader = ({
   onToggleSlider,
@@ -28,6 +31,7 @@ export const CustomChannelHeader = ({
   const { user } = useAuth();
   const { channel } = useChannelStateContext();
   const data = channel.data;
+
   // const da
   const members = Object.values(channel?.state?.members);
 
@@ -38,12 +42,19 @@ export const CustomChannelHeader = ({
       return res.members
     }
   });
+  let userId: string | null = null;
+  if (members.length === 2 && data?.room_type !== "group") userId = members?.find((member) => member.user_id !== user?.userId)?.user?.id as string
+  const chatUser = useQuery({
+    queryKey: ["users", userId],
+    queryFn: async (qk) => await getUserById(qk.queryKey[1] as string),
+    enabled: !!userId,
+  })
 
   useEffect(() => {
     if (memberList.data) {
-      console.log("members list", memberList.data)
+      console.log("members list", memberList.data, chatUser.data)
     }
-  }, [memberList.data])
+  }, [memberList.data, chatUser.data])
 
   let name = "";
   members.length === 2 && data?.room_type !== "group" ?
@@ -60,7 +71,6 @@ export const CustomChannelHeader = ({
       border={"1px"}
       borderColor={"gray.200"}
     >
-
       <Avatar name={name} src={""} size={"sm"} />
       <Flex flexDirection={"column"} flex={1} gap={2} justifyContent={"center"}>
         <div className="header-item">
@@ -78,11 +88,15 @@ export const CustomChannelHeader = ({
             </HStack>
           </MenuButton>
           <MenuList zIndex={999}>
-            {
-              user?.role === "customer" ?
-                <ClientRequirements /> :
-                <CreateProjectModal />
-            }
+            <PermissionWrapper role={["customer"]}>
+              {data?.room_type === "personal" && <ClientRequirements />}
+            </PermissionWrapper>
+            <PermissionWrapper role={["servicing"]}>
+              {data?.room_type === "personal" && !!data?.isCustomer && <CreateProjectModal />}
+            </PermissionWrapper>
+            <PermissionWrapper role={["servicing"]}>
+              {data?.room_type === "personal" && chatUser?.data?.data?.role === "resource" && <CreateTaskModal />}
+            </PermissionWrapper>
             <MenuItem
               fontSize="14px"
               gap={1}

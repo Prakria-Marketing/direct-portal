@@ -1,13 +1,14 @@
-import { Box, Button, ButtonGroup } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex } from "@chakra-ui/react";
 import ChatPage from "@/components/messages/chat/chat";
 import { useState } from "react";
+import { useAuth } from "@/hooks/auth";
 function Messages() {
   const [IsCustomerChat, setIsCustomerChat] = useState<boolean>(true);
   return (
     <>
-      <ButtonToggle IsCustomerChat={IsCustomerChat} setIsCustomerChat={setIsCustomerChat} />
       <Box bg="#f1ff00" h={120}></Box>
       <Box mt={-100} px={70}>
+        <ButtonToggle IsCustomerChat={IsCustomerChat} setIsCustomerChat={setIsCustomerChat} />
         <ChatPage isCustomerChat={IsCustomerChat} />
       </Box>
     </>
@@ -15,15 +16,18 @@ function Messages() {
 }
 
 function ButtonToggle({ IsCustomerChat, setIsCustomerChat }: { IsCustomerChat: boolean, setIsCustomerChat: Function }) {
-  return <Box bg={"#000"}>
-    <ButtonGroup>
-      <Button variant={IsCustomerChat ? "solid" : "ghost"} onClick={() => setIsCustomerChat(true)}>customer</Button>
-      <Button variant={IsCustomerChat ? "ghost" : "solid"} onClick={() => setIsCustomerChat(false)}>Internal</Button>
+  const { user } = useAuth();
+  if (user.role !== "servicing") return null;
+
+  return <Flex justifyContent={"center"} p={1} >
+    <ButtonGroup size={"sm"} colorScheme="pink" spacing={0} >
+      <Button borderRadius={0} variant={IsCustomerChat ? "solid" : "outline"} onClick={() => setIsCustomerChat(true)}>customer</Button>
+      <Button borderRadius={0} variant={IsCustomerChat ? "outline" : "solid"} onClick={() => setIsCustomerChat(false)}>Internal</Button>
     </ButtonGroup>
 
 
 
-  </Box>
+  </Flex>
 
 }
 

@@ -25,3 +25,7 @@ export async function searchUserInChat(query: string) {
     const response = await axiosInstance.post("/users/search", { query });
     return response.data;
 }
+export async function getUserById(id: string) {
+    const res = await axiosInstance.get("/users/" + id);
+    return res.data;
+}

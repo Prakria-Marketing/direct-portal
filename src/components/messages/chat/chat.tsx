@@ -27,7 +27,6 @@ import ChannelListWrapper from "./components/channelList/channelListWrapper";
 const apikey: string = import.meta.env.VITE_app_key!;
 export default function ChatPage({ isCustomerChat }: { isCustomerChat: boolean }) {
   const { user } = useAuth();
-  console.log("user=>", user)
   const [isSliderVisible, setIsSliderVisible] = useState(false); // State to control slider visibility
 
   const query = useQuery({
@@ -73,14 +72,20 @@ function MyChat({
   isCustomerChat: boolean;
   onToggleSlider: () => void;
 }) {
+  const { user } = useAuth();
   const client = useCreateChatClient({
     apiKey,
     tokenOrProvider: token,
     userData: { id: userId },
 
   });
-  const filters = isCustomerChat ? { members: { $in: [userId] }, type: "messaging" } :
-    { members: { $in: [userId] }, type: "messaging", isCustomer: false };
+  const filters = getFilter(userId, isCustomerChat, user?.role);
+
+  // isCustomerChat ? {
+  //   members: { $in: [userId] }, type: "messaging",
+  //   isCustomer: true,
+  // } :
+  //   { members: { $in: [userId] }, type: "messaging", isCustomer: false };
   const options = { presence: true, state: true };
   if (!client) return <Loading />;
 
@@ -152,4 +157,19 @@ function MyChat({
       </Flex>
     </Chat>
   );
+}
+
+function getFilter(userId: string, isCustomerChat: boolean, role: string) {
+
+  let filters: any = { members: { $in: [userId] }, type: "messaging" };
+  if (role === "servicing") {
+    filters = isCustomerChat ? {
+      members: { $in: [userId] }, type: "messaging",
+      isCustomer: true,
+    } :
+      { members: { $in: [userId] }, type: "messaging", isCustomer: false };
+  } else if (role !== "customer") {
+    filters = { members: { $in: [userId] }, type: "messaging", isCustomer: false };
+  }
+  return filters;
 }

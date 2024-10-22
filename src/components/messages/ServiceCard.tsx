@@ -21,7 +21,7 @@ function ServiceCard({ data }: { data: ProjectCardType }) {
         justifyContent={"space-between"}
       >
         <Box>
-          <Heading size={"xs"}>{data.title}</Heading>
+          <Heading size={"xs"}>{data?.title}</Heading>
           <Progress
             hasStripe
             value={64}
@@ -29,7 +29,7 @@ function ServiceCard({ data }: { data: ProjectCardType }) {
             size={"xs"}
             my={2}
           />
-          <Text>Deadline: {data.deadline}</Text>
+          <Text>Deadline: {data?.deadline}</Text>
         </Box>
         <ChevronRightIcon fontSize="3xl" />
       </Flex>

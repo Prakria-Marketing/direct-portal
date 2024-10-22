@@ -115,7 +115,7 @@ const mainRoutes = {
     {
       path: "/tasks",
       element: (
-        <PermissionLayout role={["resource"]}>
+        <PermissionLayout role={["resource", "servicing"]}>
           <Tasks />
         </PermissionLayout>
       ),

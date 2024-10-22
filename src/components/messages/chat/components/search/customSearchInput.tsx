@@ -2,7 +2,7 @@ import { useAuth } from "@/hooks/auth";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useChatContext } from "stream-chat-react";
 import { debounce } from "@/utils/debounce";
 import { useChatSearch } from "@/hooks/chatSearch";
@@ -41,13 +41,23 @@ function CustomSearchInput(props: Partial<CustomSearchInputProps>) {
         onSettled(data) {
             setResults({ channels: data?.channels as any });
         },
-
     });
+
     const onSearch = useCallback(debounce(async (search) => {
-        console.log("searching....", search);
         if (props?.searchForChannels) searchChannelQuery.mutate(search);
         if (props?.searchForUsers) searchUserQuery.mutate(search);
     }, 800), [searchAPI, props?.searchForUsers, props.searchForChannels]);
+
+    useEffect(() => {
+        if (!query) {
+
+            setResults({
+                users: [],
+                channels: [],
+            })
+        }
+
+    }, [query])
 
     return (
         <InputGroup>

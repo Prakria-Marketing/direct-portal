@@ -15,6 +15,7 @@ import { useChatSearch } from "@/hooks/chatSearch";
 import { Avatar } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { useChatContext } from "stream-chat-react";
+import { useAuth } from "@/hooks/auth";
 
 
 
@@ -24,6 +25,7 @@ type SearchResultItemChannel = {
     name: string;
     email: string;
     id: string;
+    state: { members: [] }
     data: {
         id: string;
         name: string;
@@ -33,14 +35,16 @@ type SearchResultItemChannel = {
 
     }
 }
-
-
 export function CustomSearchResultChannelItem(channel: Partial<SearchResultItemChannel>) {
+    const { user } = useAuth();
     const { setQuery } = useChatSearch();
-    const { data, cid } = channel;
+    const { data, cid, state } = channel;
     const isChannel = !!cid;
     const { client, setActiveChannel } = useChatContext();
-
+    const members: any[] = Object.values((state as any).members);
+    let name = "";
+    members.length === 2 && data?.room_type !== "group" ?
+        name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string;
     const handleChangeChat = async () => {
         const c = client.channel("messaging", data?.id);
         console.log("search-", c);
@@ -59,13 +63,13 @@ export function CustomSearchResultChannelItem(channel: Partial<SearchResultItemC
     return (
         <Contact isActive={false} width={"100%"} onClick={onClick}>
             <AvatarWrapper>
-                <Avatar name={isChannel ? data?.name : channel.name} size={"sm"} />
+                <Avatar name={name} size={"sm"} />
             </AvatarWrapper>
             <Content>
                 <TopContent>
                     <Name
                         fontSize={"12px"}
-                    >{isChannel ? data?.name : channel.name}</Name>
+                    >{name}</Name>
                 </TopContent>
             </Content>
         </Contact>
