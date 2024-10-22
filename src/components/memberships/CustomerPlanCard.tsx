@@ -90,9 +90,7 @@ export default function CustomerPlanCard() {
   });
 
   useEffect(() => {
-    console.log("sssdfsdfsdfkj");
     if (CreateSubscriptionMutation.isSuccess) {
-      console.log("qweqeqweuqwieoiqw");
       confirmPaymentMethod(
         CreateSubscriptionMutation?.data?.data?.paymentIntent?.client_secret
       );

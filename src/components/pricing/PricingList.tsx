@@ -137,21 +137,21 @@ function PricingList() {
     <Box mb="4" bg="#fff" rounded={"md"}>
       <Flex
         p="10"
-        pb="2"
+        // pb="2"
         justifyContent={"space-between"}
         alignItems={"center"}
       >
         <Heading as="h5" size="md">
-          Pricing List
+          Working on it!
         </Heading>
-        <Input
+        {/* <Input
           width={"300px"}
           placeholder="Filter by title, assigned by, or status"
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
-        />
+        /> */}
       </Flex>
-      <DataTable
+      {/* <DataTable
         striped={true}
         columns={columns}
         data={filteredData}
@@ -159,7 +159,7 @@ function PricingList() {
         responsive
         expandableRows
         expandableRowsComponent={ExpandedComponent}
-      />
+      /> */}
     </Box>
   );
 }

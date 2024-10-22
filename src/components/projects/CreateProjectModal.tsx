@@ -24,18 +24,14 @@ export default function CreateProjectModal() {
     onClose: onModalClose,
   } = useDisclosure();
 
-
   return (
     <>
       <MenuItem fontSize="14px" gap={1} onClick={onModalOpen}>
         <BiPlus fontSize={20} /> Create Project
       </MenuItem>
 
-
       {/* Modal for Create Project */}
       <Modal
-
-
         closeOnOverlayClick={false}
         isOpen={isModalOpen}
         onClose={onModalClose}
@@ -54,8 +50,7 @@ export default function CreateProjectModal() {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {
-              isModalOpen &&
+            {isModalOpen && (
               <CreateProjectForm
                 onClose={onModalClose}
                 setStep={setStep}
@@ -63,7 +58,7 @@ export default function CreateProjectModal() {
                 progress={progress}
                 setProgress={setProgress}
               />
-            }
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>

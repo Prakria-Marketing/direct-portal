@@ -20,6 +20,8 @@ import Innerpage from "@/views/projectlogs/Innerpage";
 import UsersList from "@/components/users/UsersList";
 import Staffs from "@/views/staff";
 import Pricing from "@/views/pricing";
+import InternalUsers from "@/views/internal-users";
+import CustomerDetails from "@/views/customer-detail";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -57,6 +59,14 @@ const mainRoutes = {
       ),
     },
     {
+      path: "/customer-detail/:customerId",
+      element: (
+        <PermissionLayout role={["servicing", "admin", "superadmin"]}>
+          <CustomerDetails />
+        </PermissionLayout>
+      ),
+    },
+    {
       path: "/pricing",
       element: (
         <PermissionLayout role={["superadmin"]}>
@@ -69,6 +79,14 @@ const mainRoutes = {
       element: (
         <PermissionLayout role={["servicing", "admin", "superadmin"]}>
           <Staffs />
+        </PermissionLayout>
+      ),
+    },
+    {
+      path: "/internal-users",
+      element: (
+        <PermissionLayout role={["admin", "superadmin"]}>
+          <InternalUsers />
         </PermissionLayout>
       ),
     },

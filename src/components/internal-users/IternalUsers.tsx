@@ -11,122 +11,115 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { BsPlus } from "react-icons/bs";
+import CreateInternalUsers from "./CreateInternalUsers";
+import {
+  disableUserFunc,
+  enableUserFunc,
+  fetchInternalUsers,
+  UserInfo,
+} from "@/api/users";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import LoadingWrapper from "../global/loadingWrapper";
-import { fetchCustomers, ICustomerData } from "@/api/customer";
-import moment from "moment";
-import { disableUserFunc, enableUserFunc } from "@/api/users";
-import { useNavigate } from "react-router-dom";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import UpdateInternalUser from "./UpdateInternalUser";
 
-function CustomerList() {
-  const navigate = useNavigate();
+function InternalUsersList() {
   const {
-    data: customers,
-    isLoading,
-    isFetching,
-  } = useQuery({
-    queryKey: ["customerlist"],
-    queryFn: fetchCustomers,
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure();
+  const {
+    isOpen: isUpdateOpen,
+    onOpen: onUpdateOpen,
+    onClose: onUpdateClose,
+  } = useDisclosure();
+  const { data: users, isLoading, isFetching } = useQuery({
+    queryKey: ["internalusers"],
+    queryFn: fetchInternalUsers,
   });
 
-  const data = customers?.data;
+  const data = users?.data;
+  const [selectedUser, setSelectedUser] = useState<UserInfo | null>(null);
 
   const queryClient = useQueryClient();
 
   const disableUserMutation = useMutation({
     mutationFn: disableUserFunc,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customerlist"] });
+      queryClient.invalidateQueries({ queryKey: ["internalusers"] });
     },
   });
   const enableUserMutation = useMutation({
     mutationFn: enableUserFunc,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customerlist"] });
+      queryClient.invalidateQueries({ queryKey: ["internalusers"] });
     },
   });
 
   const columns = [
     {
       name: "#",
-      width: "70px",
-      cell: (row: ICustomerData, index: number) => <p>{index + 1}</p>,
-    },
-    {
-      name: "Customer",
-      selector: (row: ICustomerData) => row?.name,
-      cell: (row: ICustomerData) => (
-        <Box>
-          <Text textTransform={"capitalize"}>{row?.name || ""}</Text>
-          <Text as="small">{row?.email || ""}</Text>
-        </Box>
-      ),
-    },
-    {
-      name: "Relationship Manager",
-      width: "250px",
-      height: "100px",
-      selector: (row: ICustomerData) =>
-        row?.relationship_manager?.userId?.name || "",
-      cell: (row: ICustomerData) => (
-        <Box>
-          <Text textTransform={"capitalize"}>
-            {row?.relationship_manager?.userId?.name || ""}
-          </Text>
-          <Text as="small">
-            {row?.relationship_manager?.userId?.email || ""}
-          </Text>
-        </Box>
-      ),
-    },
-    {
-      name: "Contact",
       width: "150px",
-      selector: (row: ICustomerData) => row?.contact || "",
-      cell: (row: ICustomerData) => (row?.contact == 0 ? "N/A" : row?.contact),
-    },
-
-    {
-      name: "Joining Date",
-      selector: (row: ICustomerData) =>
-        moment(row?.createdAt).format("MMMM Do YYYY") || "",
+      cell: (row: UserInfo, index: number) => <p>{index + 1}</p>,
     },
     {
-      name: "Verified",
-      selector: (row: ICustomerData) => row?.isVerified || "",
-      cell: (row: ICustomerData) =>
-        row.isVerified ? (
-          <Badge colorScheme="green">Verified</Badge>
-        ) : (
-          <Badge colorScheme="red">Not Verified</Badge>
-        ),
+      name: "Full Name",
+      selector: (row: UserInfo) => row.name,
+    },
+    {
+      name: "Email",
+      selector: (row: UserInfo) => row.email,
+    },
+    {
+      name: "Role",
+      selector: (row: UserInfo) => row.role,
+      cell: (row: UserInfo) => (
+        <Badge
+          variant={"solid"}
+          colorScheme={
+            row?.role == "superadmin"
+              ? "red"
+              : row?.role == "resource"
+              ? "blue"
+              : row?.role == "servicing"
+              ? "orange"
+              : "pink"
+          }
+        >
+          {row.role}
+        </Badge>
+      ),
     },
     {
       name: "Active",
-      selector: (row: ICustomerData) => row?.isActive || "",
-      cell: (row: ICustomerData) =>
+      selector: (row: UserInfo) => row?.isActive || "",
+      cell: (row: UserInfo) =>
         row.isActive ? (
           <Badge colorScheme="green">Active</Badge>
         ) : (
           <Badge colorScheme="red">inactive</Badge>
         ),
     },
-
     {
       name: "Action",
-      cell: (row: ICustomerData) => (
+      cell: (row: UserInfo) => (
         <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size={"xs"}>
             Actions
           </MenuButton>
-
           <MenuList minW="auto">
-            <MenuItem onClick={() => navigate(`/customer-detail/${row?._id}`)}>
-              View Customer
+            <MenuItem
+              onClick={() => {
+                setSelectedUser(row);
+                onUpdateOpen();
+              }}
+            >
+              Edit User
             </MenuItem>
             {row?.isActive ? (
               <MenuItem
@@ -156,26 +149,22 @@ function CustomerList() {
   const [filterText, setFilterText] = useState("");
 
   // Filtering function
-  const filteredData = data?.filter((item: ICustomerData) => {
+  const filteredData = data?.filter((item: UserInfo) => {
     return (
-      item?.name?.toLowerCase().includes(filterText.toLowerCase()) ||
-      item?.email?.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.relationship_manager?.userId?.name
-        ?.toLowerCase()
-        .includes(filterText.toLowerCase())
+      item.name.toLowerCase().includes(filterText.toLowerCase()) ||
+      item.email.toLowerCase().includes(filterText.toLowerCase()) ||
+      item.role.toLowerCase().includes(filterText.toLowerCase())
     );
   });
 
   return (
     <Box mb="4" bg="#fff" rounded={"md"}>
-      <LoadingWrapper
-        isLoading={
+      <LoadingWrapper  isLoading={
           isLoading ||
           isFetching ||
           enableUserMutation.isPending ||
           disableUserMutation.isPending
-        }
-      >
+        }>
         <Flex
           py="4"
           bg="gray.300"
@@ -184,7 +173,7 @@ function CustomerList() {
           alignItems={"center"}
         >
           <Heading as="h5" size="md" fontWeight={"medium"}>
-            Customers List
+            Internal Users List
           </Heading>
           <HStack>
             <Input
@@ -194,17 +183,30 @@ function CustomerList() {
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
             />
+            <Button colorScheme="teal" onClick={onCreateOpen}>
+              <BsPlus /> Create a User
+            </Button>
           </HStack>
         </Flex>
         <DataTable
+          dense
           columns={columns}
           data={filteredData}
           pagination
           responsive
+        />
+        <CreateInternalUsers isOpen={isCreateOpen} onClose={onCreateClose} />
+        <UpdateInternalUser
+          isOpen={isUpdateOpen}
+          onClose={() => {
+            setSelectedUser(null); // Clear selected user when closing
+            onUpdateClose();
+          }}
+          data={selectedUser}
         />
       </LoadingWrapper>
     </Box>
   );
 }
 
-export default CustomerList;
+export default InternalUsersList;
