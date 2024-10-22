@@ -18,49 +18,40 @@ import { useSearchParams } from "react-router-dom";
 
 
 export default function InboxContact({ displayImage, latestMessage, channel }: ChannelPreviewUIComponentProps<DefaultStreamChatGenerics>) {
-
     const [searchParams] = useSearchParams();
-    const { user } = useAuth()
-    const { data } = channel;
-    const { room_name } = data as any;
+    // const { client } = useChatContext();
+    const { user } = useAuth();
+    const { data, state } = channel;
     const { channel: activeChannel, setActiveChannel } = useChatContext();
-    const { channels
-        // , setChannels 
-    } = useChannelListContext();
-
+    const { channels } = useChannelListContext();
+    const members = Object.values(state.members);
+    let name = "";
+    members.length === 2 && data?.room_type !== "group" ?
+        name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string
     const isActive = activeChannel === channel;
-    const name = room_name?.[user?.userId];
-    const title = data?.name;
-
-
-    const handleChangeChat = () => {
+    // console.log("channel", activeChannel)
+    const handleChangeChat = async () => {
         setActiveChannel(channel);
     };
     useEffect(() => {
         const channelId = searchParams.get("active");
         if (!channelId) return;
         const paramsChannel = channels.find((ch) => ch.id === channelId);
-
-        // if (activeChannel === channel) return;
-
-        // console.log("activeChannel=> ", channelId, paramsChannel?.id)
         if (paramsChannel) {
-            // console.log("activeChannel=>  setting..")
             setActiveChannel(paramsChannel);
-            // setSearchParams({});
         };
     }, [channels])
 
     return (
         <Contact isActive={isActive} onClick={handleChangeChat} width={"100%"}>
             <AvatarWrapper>
-                <Avatar name={name || title} src={displayImage} size={"sm"} />
+                <Avatar name={name} src={displayImage} size={"sm"} />
             </AvatarWrapper>
             <Content>
                 <TopContent>
                     <Name
                         fontSize={"12px"}
-                    >{name || title}</Name>
+                    >{name}</Name>
                     {latestMessage ? <Time>{"2:2"}</Time> : <></>}
                 </TopContent>
 
@@ -97,7 +88,6 @@ function Message(props: Pick<any, "messageStatus" | "lastMessage">) {
 
                 {lastMessage}
             </Text>
-            {/* <Subtitle>{lastMessage}</Subtitle> */}
         </>
     );
 }

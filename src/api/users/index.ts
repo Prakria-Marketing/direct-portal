@@ -23,8 +23,8 @@ export type UserInfo = {
   email: string;
   role: string;
   password: string;
-  isActive : boolean;
-  firebaseId : string;
+  isActive: boolean;
+  firebaseId: string;
 };
 export async function updateUserInfo(data: UpdateUserInfo) {
   const response = await axiosInstance.patch(
@@ -55,5 +55,17 @@ export async function disableUserFunc(firebaseId: string) {
 }
 export async function enableUserFunc(firebaseId: string) {
   const res = await axiosInstance.get(`/users/enable-user/${firebaseId}`);
+  return res.data;
+}
+//     const response = await axiosInstance.patch("/users/update/" + data.firebaseId, data.body);
+//     return response.data;
+// }
+
+export async function searchUserInChat(query: string) {
+  const response = await axiosInstance.post("/users/search", { query });
+  return response.data;
+}
+export async function getUserById(id: string) {
+  const res = await axiosInstance.get("/users/" + id);
   return res.data;
 }

@@ -220,9 +220,9 @@ export default function RequirementForm({ onClose }: { onClose: () => void }) {
   const createRequirementMutation = useMutation({
     mutationFn: createRequirement,
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["projects"] });
-    },
-  });
+      queryClient.invalidateQueries({ queryKey: ["req"] });
+    }
+  })
   const {
     register,
     handleSubmit,

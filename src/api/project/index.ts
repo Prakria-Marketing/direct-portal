@@ -22,17 +22,18 @@ export async function getAllAssignedProjects() {
     return res.data;
 }
 
-export async function getCustomerProjects(userId: string) {
+export async function getCustomerProjects(userId: string = "") {
     const res = await axiosInstance.get("/projects/client?userId=" + userId);
     return res.data;
 }
-
 // get customer project by id
 export async function getProjectById(projectId: string) {
     const res = await axiosInstance.get("/projects/" + projectId);
     return res.data;
 }
 
+
+/*---------------------------------------------- customer endpoints -------------------------------------*/
 export type RequirementBody = {
     // userId: string;
     category: string;
@@ -40,6 +41,11 @@ export type RequirementBody = {
     description: string;
     deadline: Date;
     files: FileList;
+}
+// for Customer
+export async function getMyProjects() {
+    const res = await axiosInstance.get("/projects");
+    return res.data;
 }
 export async function createRequirement(body: RequirementBody) {
     const formData = new FormData();
@@ -56,13 +62,14 @@ export async function createRequirement(body: RequirementBody) {
             formData.append("attach", file); // Append each file
         }
     }
-
-
-
     const res = await axiosInstance.post("/requirement/create", formData)
     return res.data;
 }
 export async function getRequirement(userId: string) {
     const res = await axiosInstance.get("/requirement/" + userId)
+    return res.data
+}
+export async function geMytRequirement() {
+    const res = await axiosInstance.get("/requirement")
     return res.data
 }
