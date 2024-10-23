@@ -63,7 +63,7 @@ function TaskList() {
     status: rawData?.status,
     deadline: rawData?.deadline,
 
-  }))
+  })) ?? []
   // const data: ITaskData[] = [
   //   {
   //     id: 1,
