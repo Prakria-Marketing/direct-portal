@@ -13,6 +13,7 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { FiHelpCircle } from "react-icons/fi";
@@ -39,6 +40,7 @@ import { useAuth } from "@/hooks/auth";
 import React from "react";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 import { FaDollarSign, FaUsers, FaUserSecret } from "react-icons/fa";
+import { TbUserScan } from "react-icons/tb";
 const NavList = [
   {
     text: "Dashboard",
@@ -72,14 +74,14 @@ const NavList = [
   },
   {
     text: "Staff",
-    icon: <FaUserSecret/>,
+    icon: <FaUserSecret />,
     link: "/staff",
     permissions: ["admin", "superadmin"],
   },
   {
     text: "Internal Users",
-    icon: <FaUserSecret/>,
-    link: "/users",
+    icon: <TbUserScan />,
+    link: "/internal-users",
     permissions: ["admin", "superadmin"],
   },
   {
@@ -138,11 +140,13 @@ function Header() {
     <>
       {/* Header Section */}
       <Box
+      // bg={"gray.700"}
+        bg={useColorModeValue("gray.800", "gray.800")}
         className="header-bg"
         w="100vw"
         left={0}
         top={0}
-        position={"fixed"}
+        // position={"fixed"}
         px={4}
         zIndex={1000}
       >
@@ -229,7 +233,7 @@ function Header() {
       </Box>
 
       {/* New Section Below Header */}
-      <Box bg="#f1ff00" py={2} w="100dvw" border="0px" borderColor="gray.200">
+      <Box bg="#f05" py={2} w="100dvw" border="0px" borderColor="gray.200">
         <WrapperLayout>
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}
@@ -250,9 +254,8 @@ function Header() {
                   fontSize="14px"
                   fontWeight={500}
                   me={3}
-                  bg="#f05"
-                  color="#fff"
-                  _hover={{ bg: "#f07" }}
+                  bg="yellow"
+                  _hover={{ bg: "yellow.400" }}
                   size="md"
                 >
                   <BiPlus />
@@ -263,9 +266,9 @@ function Header() {
                     fontWeight={500}
                     fontSize="14px"
                     variant="solid"
-                    borderColor="gray.400"
+                    borderColor="gray.600"
                     bg="black"
-                    _hover={{ bg: "yellow.900" }} // Optional hover effect
+                    _hover={{ bg: "gray.600" }} // Optional hover effect
                     color="white" // Text color
                   >
                     Explore Categories
@@ -289,7 +292,7 @@ function NavigationButton({ link, icon, text }: NavLinkType) {
   return (
     <Link to={link}>
       <Button
-        color="#000"
+        color="#fff"
         display={"flex"}
         alignItems={"center"}
         variant="link"

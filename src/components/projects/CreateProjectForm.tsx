@@ -9,10 +9,17 @@ import {
   Input,
   Select,
   Textarea,
-  FormErrorMessage
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import ReactSelect from 'react-select';
-import { useForm, UseFormRegister, Controller, Control, UseFormWatch, FieldErrors } from "react-hook-form";
+import ReactSelect from "react-select";
+import {
+  useForm,
+  UseFormRegister,
+  Controller,
+  Control,
+  UseFormWatch,
+  FieldErrors,
+} from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCategory } from "@/api/category";
 import { getOrgnizationByUserId, getTeam } from "@/api/orgnization";
@@ -22,17 +29,15 @@ import { createProject } from "@/api/project";
 import { useAuth } from "@/hooks/auth";
 
 type StepFormFields = {
-  register: UseFormRegister<ProjectFields>,
-  control?: Control<ProjectFields, any>,
-  watch?: UseFormWatch<ProjectFields>,
-  errors?: FieldErrors<ProjectFields>,
-}
-type Form1 = {
-
-} & StepFormFields;
+  register: UseFormRegister<ProjectFields>;
+  control?: Control<ProjectFields, any>;
+  watch?: UseFormWatch<ProjectFields>;
+  errors?: FieldErrors<ProjectFields>;
+};
+type Form1 = {} & StepFormFields;
 const Form1 = ({ register, errors }: Form1) => {
   const { orgId, isLoading } = useProjectType();
-  if (isLoading) return <>Loading...</>
+  if (isLoading) return <>Loading...</>;
   const list = [{ label: "Personal Project", value: "personal" }];
   if (orgId) {
     list.push({ label: "Organization's Project", value: "organization" });
@@ -46,32 +51,35 @@ const Form1 = ({ register, errors }: Form1) => {
             Project Type
           </FormLabel>
           <Select
-            {...register("orgId", { required: { message: "required", value: true } })}
+            {...register("orgId", {
+              required: { message: "required", value: true },
+            })}
           >
-            {
-              list.map((option, index) => <option value={option.value} key={index}>{option.label}</option>)
-            }
+            {list.map((option, index) => (
+              <option value={option.value} key={index}>
+                {option.label}
+              </option>
+            ))}
             {/* <option value={"personal"} >Personal Project</option>
             <option value={"organization"}>Organization's Project</option> */}
           </Select>
-          <FormErrorMessage>
-            {errors?.orgId?.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors?.orgId?.message}</FormErrorMessage>
         </FormControl>
       </Flex>
-
     </>
   );
 };
 
 const Form2 = ({ register, errors }: StepFormFields) => {
   const { data: categoryList, isLoading } = useQuery({
-    queryKey: ['category'],
+    queryKey: ["category"],
     queryFn: getCategory,
-  })
+  });
   return (
     <>
-      <FormControl as={GridItem} colSpan={[6, 3]}
+      <FormControl
+        as={GridItem}
+        colSpan={[6, 3]}
         isInvalid={!!errors?.category}
       >
         <FormLabel
@@ -82,7 +90,9 @@ const Form2 = ({ register, errors }: StepFormFields) => {
         >
           Category
         </FormLabel>
-        {isLoading ? <>loading...</> :
+        {isLoading ? (
+          <>loading...</>
+        ) : (
           <Select
             id="category"
             placeholder="Select category"
@@ -91,23 +101,23 @@ const Form2 = ({ register, errors }: StepFormFields) => {
             //   size="sm"
             w="full"
             rounded="md"
-            {...register("category", { required: { value: true, message: "required" } })}
+            {...register("category", {
+              required: { value: true, message: "required" },
+            })}
           >
-            {
-              categoryList?.data?.map((option: any, index: number) => {
-                return <option value={option._id} key={index} >{option.title}</option>
-              })
-            }
+            {categoryList?.data?.map((option: any, index: number) => {
+              return (
+                <option value={option._id} key={index}>
+                  {option.title}
+                </option>
+              );
+            })}
           </Select>
-        }
-        <FormErrorMessage>
-          {errors?.category?.message}
-        </FormErrorMessage>
+        )}
+        <FormErrorMessage>{errors?.category?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl as={GridItem} colSpan={6}
-        isInvalid={!!errors?.title}
-      >
+      <FormControl as={GridItem} colSpan={6} isInvalid={!!errors?.title}>
         <FormLabel
           htmlFor="title"
           fontSize="sm"
@@ -125,15 +135,16 @@ const Form2 = ({ register, errors }: StepFormFields) => {
           //   size="sm"
           w="full"
           rounded="md"
-          {...register("title", { required: { value: true, message: "required" } })}
-
+          {...register("title", {
+            required: { value: true, message: "required" },
+          })}
         />
-        <FormErrorMessage>
-          {errors?.title?.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors?.title?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl as={GridItem} colSpan={[6, 6, null, 2]}
+      <FormControl
+        as={GridItem}
+        colSpan={[6, 6, null, 2]}
         isInvalid={!!errors?.description}
       >
         <FormLabel
@@ -152,18 +163,15 @@ const Form2 = ({ register, errors }: StepFormFields) => {
           //   size="sm"
           w="full"
           rounded="md"
-          {...register("description", { required: { value: true, message: "required" } })}
-
+          {...register("description", {
+            required: { value: true, message: "required" },
+          })}
         />
-        <FormErrorMessage>
-          {errors?.description?.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
       </FormControl>
 
       <Flex mt={5} gap={5}>
-        <FormControl as={GridItem} colSpan={6}
-          isInvalid={!!errors?.startDate}
-        >
+        <FormControl as={GridItem} colSpan={6} isInvalid={!!errors?.startDate}>
           <FormLabel
             htmlFor="start"
             fontSize="sm"
@@ -181,17 +189,13 @@ const Form2 = ({ register, errors }: StepFormFields) => {
             // size="sm"
             w="full"
             rounded="md"
-            {...register("startDate", { required: { value: true, message: "required" } })}
-
-
+            {...register("startDate", {
+              required: { value: true, message: "required" },
+            })}
           />
-          <FormErrorMessage>
-            {errors?.startDate?.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors?.startDate?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl as={GridItem} colSpan={6}
-          isInvalid={!!errors?.deadline}
-        >
+        <FormControl as={GridItem} colSpan={6} isInvalid={!!errors?.deadline}>
           <FormLabel
             htmlFor="title"
             fontSize="sm"
@@ -209,25 +213,24 @@ const Form2 = ({ register, errors }: StepFormFields) => {
             // size="sm"
             w="full"
             rounded="md"
-            {...register("deadline", { required: { value: true, message: "required" } })}
-
+            {...register("deadline", {
+              required: { value: true, message: "required" },
+            })}
           />
-          <FormErrorMessage>
-            {errors?.deadline?.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors?.deadline?.message}</FormErrorMessage>
         </FormControl>
       </Flex>
     </>
   );
 };
 type OptionType = {
-  readonly value: string | number;  // The actual value that will be sent to the form or used in your logic
-  readonly label: string;           // The display label for the option
+  readonly value: string | number; // The actual value that will be sent to the form or used in your logic
+  readonly label: string; // The display label for the option
 };
 
 type Form3 = {
-  orgId: string
-} & StepFormFields
+  orgId: string;
+} & StepFormFields;
 const Form3 = ({ control, watch, orgId }: Form3) => {
   const value = watch?.("orgId");
   const showClientTeam = value === "organization";
@@ -235,29 +238,33 @@ const Form3 = ({ control, watch, orgId }: Form3) => {
   const clientTeam = useQuery({
     queryKey: [orgId],
     queryFn: async () => await getTeam(orgId, "accepted"),
-    enabled: !!orgId && showClientTeam
-  })
+    enabled: !!orgId && showClientTeam,
+  });
   const resourseTeam = useQuery({
     queryKey: ["resource"],
     queryFn: getResource,
     // enabled: !!orgId && showClientTeam
-  })
+  });
   let options: OptionType[] = [];
   let resourseOptions: OptionType[] = [];
 
   if (resourseTeam.data?.data) {
-    resourseOptions = resourseTeam.data?.data?.map((team: any) => ({ label: team?.userInfo?.name, value: team._id }));
+    resourseOptions = resourseTeam.data?.data?.map((team: any) => ({
+      label: team?.userInfo?.name,
+      value: team._id,
+    }));
   }
 
-
   if (clientTeam.data?.data) {
-    options = clientTeam.data?.data?.map((team: any) => ({ label: team?.userId?.name, value: team._id }));
+    options = clientTeam.data?.data?.map((team: any) => ({
+      label: team?.userId?.name,
+      value: team._id,
+    }));
   }
 
   return (
     <>
-      {
-        showClientTeam &&
+      {showClientTeam && (
         <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
           <FormLabel
             htmlFor="clientTeam"
@@ -273,26 +280,23 @@ const Form3 = ({ control, watch, orgId }: Form3) => {
             control={control}
             // rules={{ required: "Please select at least one member" }}
             render={({ field }) => {
-              return <ReactSelect
-                {...field}
-                // options={options}
-                options={options as any}
-                isMulti
-
-                value={field.value}
-                onChange={(selectedOptions) => {
-
-                  field.onChange(selectedOptions)
-                }}
-
-                placeholder="Choose some team member's"
-
-              />
-            }
-            }
+              return (
+                <ReactSelect
+                  {...field}
+                  // options={options}
+                  options={options as any}
+                  isMulti
+                  value={field.value}
+                  onChange={(selectedOptions) => {
+                    field.onChange(selectedOptions);
+                  }}
+                  placeholder="Choose some team member's"
+                />
+              );
+            }}
           />
         </FormControl>
-      }
+      )}
       <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
         <FormLabel
           htmlFor="clientTeam"
@@ -308,23 +312,20 @@ const Form3 = ({ control, watch, orgId }: Form3) => {
           control={control}
           // rules={{ required: "Please select at least one member" }}
           render={({ field }) => {
-            return <ReactSelect
-              {...field}
-              // options={options}
-              options={resourseOptions as any}
-              isMulti
-
-              value={field.value}
-              onChange={(selectedOptions) => {
-
-                field.onChange(selectedOptions)
-              }}
-
-              placeholder="Choose some team member's"
-
-            />
-          }
-          }
+            return (
+              <ReactSelect
+                {...field}
+                // options={options}
+                options={resourseOptions as any}
+                isMulti
+                value={field.value}
+                onChange={(selectedOptions) => {
+                  field.onChange(selectedOptions);
+                }}
+                placeholder="Choose some team member's"
+              />
+            );
+          }}
         />
       </FormControl>
       {/* <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
@@ -359,15 +360,15 @@ type ProjectFields = {
   resource: string[];
   startDate: Date;
   deadline: Date;
-}
-type ProjectFormKey = keyof ProjectFields
-type FormStepType = { fields: string[] }
+};
+type ProjectFormKey = keyof ProjectFields;
+type FormStepType = { fields: string[] };
 export default function CreateProjectForm({
   step,
   setStep,
   progress,
   setProgress,
-  onClose
+  onClose,
 }: {
   onClose: () => void;
   step: number;
@@ -381,21 +382,19 @@ export default function CreateProjectForm({
   const createProjectMutation = useMutation({
     mutationFn: createProject,
     onSuccess: async () => {
-
       // sendMessage({})
       queryClient.invalidateQueries({ queryKey: ["projects"] });
-
-    }
-  })
+    },
+  });
   const formStepField: FormStepType[] = [
     {
-      fields: ["orgId"]
+      fields: ["orgId"],
     },
     {
-      fields: ["category", "title", "description", "startDate", "deadline"]
+      fields: ["category", "title", "description", "startDate", "deadline"],
     },
-    { fields: ["clientTeam", "resource"] }
-  ]
+    { fields: ["clientTeam", "resource"] },
+  ];
   const {
     register,
     handleSubmit,
@@ -403,7 +402,7 @@ export default function CreateProjectForm({
     trigger,
     control,
     watch,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ProjectFields>();
   const processProjectCreation = async (data: ProjectFields) => {
     data.userId = proejctType.userId;
@@ -420,14 +419,17 @@ export default function CreateProjectForm({
     try {
       await createProjectMutation.mutateAsync(data as any);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
-      onClose?.()
+      onClose?.();
       reset();
     }
-  }
+  };
   const next = async () => {
-    const output = await trigger(formStepField[step - 1].fields as ProjectFormKey[], { shouldFocus: true });
+    const output = await trigger(
+      formStepField[step - 1].fields as ProjectFormKey[],
+      { shouldFocus: true }
+    );
     if (!output) return;
     setStep(step + 1);
     if (step === 3) {
@@ -435,29 +437,34 @@ export default function CreateProjectForm({
     } else {
       setProgress(progress + 33.33);
     }
-  }
+  };
   const prev = () => {
     setStep(step - 1);
     setProgress(progress - 33.33);
-  }
+  };
 
   return (
     <>
-      <Box rounded="lg" maxWidth={800} py={4} m="10px 0" as="form"
-        onSubmit={handleSubmit(processProjectCreation)}>
-
-
-
-
-        {step === 1 ?
-          <Form1 register={register} errors={errors} /> :
-          step === 2 ? <Form2 register={register} errors={errors} /> :
-            <Form3 register={register}
-              control={control}
-              watch={watch}
-              orgId={proejctType.orgId}
-            />}
-
+      <Box
+        rounded="lg"
+        maxWidth={800}
+        py={4}
+        m="10px 0"
+        as="form"
+        onSubmit={handleSubmit(processProjectCreation)}
+      >
+        {step === 1 ? (
+          <Form1 register={register} errors={errors} />
+        ) : step === 2 ? (
+          <Form2 register={register} errors={errors} />
+        ) : (
+          <Form3
+            register={register}
+            control={control}
+            watch={watch}
+            orgId={proejctType.orgId}
+          />
+        )}
 
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
@@ -518,5 +525,3 @@ function useProjectType() {
 
   return { userId: customer.user_id, orgId: organizationQuery?.data?.data?._id, isLoading: organizationQuery.isLoading }
 }
-
-

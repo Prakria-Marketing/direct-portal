@@ -9,35 +9,38 @@ import {
   Input,
   Select,
   Textarea,
-  FormErrorMessage
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { useForm, UseFormRegister, Control, UseFormWatch, FieldErrors } from "react-hook-form";
+import {
+  useForm,
+  UseFormRegister,
+  Control,
+  UseFormWatch,
+  FieldErrors,
+} from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCategory } from "@/api/category";
 import { createRequirement } from "@/api/project";
 
-
-
 type StepFormFields = {
-  register: UseFormRegister<ProjectFields>,
-  control?: Control<ProjectFields, any>,
-  watch: UseFormWatch<ProjectFields>,
-  errors?: FieldErrors<ProjectFields>,
-}
-
-
-
+  register: UseFormRegister<ProjectFields>;
+  control?: Control<ProjectFields, any>;
+  watch: UseFormWatch<ProjectFields>;
+  errors?: FieldErrors<ProjectFields>;
+};
 
 const Form = ({ register, errors, watch }: StepFormFields) => {
   const { data: categoryList, isLoading } = useQuery({
-    queryKey: ['category'],
+    queryKey: ["category"],
     queryFn: getCategory,
-  })
+  });
   const files: FileList = watch("files");
   const fileList = files ? Array.from(files) : [];
   return (
     <>
-      <FormControl as={GridItem} colSpan={[6, 3]}
+      <FormControl
+        as={GridItem}
+        colSpan={[6, 3]}
         isInvalid={!!errors?.category}
       >
         <FormLabel
@@ -48,7 +51,9 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
         >
           Category
         </FormLabel>
-        {isLoading ? <>loading...</> :
+        {isLoading ? (
+          <>loading...</>
+        ) : (
           <Select
             id="category"
             placeholder="Select category"
@@ -57,23 +62,23 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
             //   size="sm"
             w="full"
             rounded="md"
-            {...register("category", { required: { value: true, message: "required" } })}
+            {...register("category", {
+              required: { value: true, message: "required" },
+            })}
           >
-            {
-              categoryList?.data?.map((option: any, index: number) => {
-                return <option value={option._id} key={index} >{option.title}</option>
-              })
-            }
+            {categoryList?.data?.map((option: any, index: number) => {
+              return (
+                <option value={option._id} key={index}>
+                  {option.title}
+                </option>
+              );
+            })}
           </Select>
-        }
-        <FormErrorMessage>
-          {errors?.category?.message}
-        </FormErrorMessage>
+        )}
+        <FormErrorMessage>{errors?.category?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl as={GridItem} colSpan={6}
-        isInvalid={!!errors?.title}
-      >
+      <FormControl as={GridItem} colSpan={6} isInvalid={!!errors?.title}>
         <FormLabel
           htmlFor="title"
           fontSize="sm"
@@ -91,15 +96,16 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
           //   size="sm"
           w="full"
           rounded="md"
-          {...register("title", { required: { value: true, message: "required" } })}
-
+          {...register("title", {
+            required: { value: true, message: "required" },
+          })}
         />
-        <FormErrorMessage>
-          {errors?.title?.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors?.title?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl as={GridItem} colSpan={[6, 6, null, 2]}
+      <FormControl
+        as={GridItem}
+        colSpan={[6, 6, null, 2]}
         isInvalid={!!errors?.description}
       >
         <FormLabel
@@ -118,17 +124,14 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
           //   size="sm"
           w="full"
           rounded="md"
-          {...register("description", { required: { value: true, message: "required" } })}
-
+          {...register("description", {
+            required: { value: true, message: "required" },
+          })}
         />
-        <FormErrorMessage>
-          {errors?.description?.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl as={GridItem} colSpan={6}
-
-      >
+      <FormControl as={GridItem} colSpan={6}>
         <FormLabel
           htmlFor="title"
           fontSize="sm"
@@ -139,14 +142,8 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
           Files
         </FormLabel>
         <Box>
-          <Box
-            as="span"
-            position={"relative"}
-            overflow={"hidden"}
-          >
-            <Button>
-              upload File
-            </Button>
+          <Box as="span" position={"relative"} overflow={"hidden"}>
+            <Button>upload File</Button>
             <Input
               multiple
               left={0}
@@ -166,20 +163,21 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
             />
           </Box>
           <Flex gap={1}>
-
             {fileList.map((file, index) => (
-              <Box key={index} border={"1px solid grey"} p={2} borderRadius={"md"}>{file.name}</Box>
+              <Box
+                key={index}
+                border={"1px solid grey"}
+                p={2}
+                borderRadius={"md"}
+              >
+                {file.name}
+              </Box>
             ))}
           </Flex>
         </Box>
       </FormControl>
       <Flex mt={5} gap={5}>
-
-
-
-        <FormControl as={GridItem} colSpan={6}
-          isInvalid={!!errors?.deadline}
-        >
+        <FormControl as={GridItem} colSpan={6} isInvalid={!!errors?.deadline}>
           <FormLabel
             htmlFor="title"
             fontSize="sm"
@@ -197,18 +195,16 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
             // size="sm"
             w="full"
             rounded="md"
-            {...register("deadline", { required: { value: true, message: "required" } })}
-
+            {...register("deadline", {
+              required: { value: true, message: "required" },
+            })}
           />
-          <FormErrorMessage>
-            {errors?.deadline?.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors?.deadline?.message}</FormErrorMessage>
         </FormControl>
       </Flex>
     </>
   );
 };
-
 
 type ProjectFields = {
   userId?: string;
@@ -218,13 +214,8 @@ type ProjectFields = {
   description: string;
   files: FileList;
   deadline: Date;
-}
-export default function RequirementForm({
-  onClose
-}: {
-  onClose: () => void;
-}) {
-
+};
+export default function RequirementForm({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
   const createRequirementMutation = useMutation({
     mutationFn: createRequirement,
@@ -237,10 +228,9 @@ export default function RequirementForm({
     handleSubmit,
     watch,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ProjectFields>();
   const processProjectCreation = async (data: ProjectFields) => {
-    console.log("data", data);
     try {
       await createRequirementMutation.mutateAsync(data);
     } catch (err) {
@@ -248,16 +238,22 @@ export default function RequirementForm({
       reset({});
       onClose?.();
     }
-  }
+  };
 
   const prev = () => {
     onClose?.();
-  }
+  };
 
   return (
     <>
-      <Box rounded="lg" maxWidth={800} py={4} m="10px 0" as="form"
-        onSubmit={handleSubmit(processProjectCreation)}>
+      <Box
+        rounded="lg"
+        maxWidth={800}
+        py={4}
+        m="10px 0"
+        as="form"
+        onSubmit={handleSubmit(processProjectCreation)}
+      >
         <Form register={register} errors={errors} watch={watch} />
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
@@ -281,11 +277,9 @@ export default function RequirementForm({
             >
               Submit
             </Button>
-
           </Flex>
         </ButtonGroup>
       </Box>
     </>
   );
 }
-

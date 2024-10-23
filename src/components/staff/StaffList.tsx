@@ -1,184 +1,191 @@
 import DataTable from "react-data-table-component";
-import moment from "moment"; // Import moment
 import {
+  Badge,
   Box,
   Button,
   Flex,
   Heading,
   HStack,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import CreateStaff from "./CreateStaff";
 import { BsPlus } from "react-icons/bs";
-
-interface IStaffData {
-  id: number;
-  title: string;
-  description: string;
-  assignedBy: string;
-  status: string;
-  deadline: Date;
-}
+import { fetchStaff, IStaffData } from "@/api/staffs";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import UpdateStaff from "./UpdateStaff";
+import LoadingWrapper from "../global/loadingWrapper";
 
 function StaffList() {
-  const ExpandedComponent = ({ data }: { data: IStaffData }) => (
-    <Box p="3" bg="gray.100">
-      {data?.description}
-    </Box>
-  );
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure();
+  const {
+    isOpen: isUpdateOpen,
+    onOpen: onUpdateOpen,
+    onClose: onUpdateClose,
+  } = useDisclosure();
+  const { data: staff, isLoading } = useQuery({
+    queryKey: ["stafflist"],
+    queryFn: fetchStaff,
+  });
+
+  const data = staff?.data;
+  const [selectedStaff, setSelectedStaff] = useState<IStaffData | null>(null);
 
   const columns = [
     {
-      name: "Title",
-      selector: (row: IStaffData) => row.title,
+      name: "#",
+      width: "70px",
+      cell: (row: IStaffData, index: number) => <p>{index + 1}</p>,
     },
     {
-      name: "Assigned By",
-      selector: (row: IStaffData) => row.assignedBy,
+      name: "Staff",
+      width: "220px",
+      selector: (row: IStaffData) => row.userId?.name,
+      cell: (row: IStaffData) => (
+        <Box>
+          <Text textTransform={"capitalize"}>{row.userId?.name || ""}</Text>
+          <Text as="small">{row.userId?.email || ""}</Text>
+        </Box>
+      ),
     },
-    {
-      name: "Status",
-      selector: (row: IStaffData) => row.status,
-    },
-    {
-      name: "Task Deadline",
-      selector: (row: IStaffData) =>
-        moment(row.deadline).format("MMMM Do YYYY"),
-    },
-  ];
 
-  const data: IStaffData[] = [
     {
-      id: 1,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
+      name: "Designation",
+      selector: (row: IStaffData) => row.designation,
     },
     {
-      id: 2,
-      title: "3D & CGI Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Abhishek Shukla",
-      status: "active",
-      deadline: new Date("2023-06-12"),
+      name: "Experience",
+      width: "130px",
+      cell: (row: IStaffData) => row.experience + " " + "Years",
     },
     {
-      id: 3,
-      title: "Website Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Sanchi",
-      status: "todo",
-      deadline: new Date("2023-11-10"),
+      name: "Task Capacity",
+      cell: (row: IStaffData) => (
+        <Flex gap="1">
+          <Badge colorScheme="red">Min: {row.minTaskCapacity}</Badge>
+          <Badge colorScheme="green">Max: {row.maxTaskCapacity}</Badge>
+        </Flex>
+      ),
     },
     {
-      id: 4,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
+      name: "Availability",
+      selector: (row: IStaffData) => row.availability,
+      cell: (row: IStaffData) =>
+        row.availability ? "Available" : "Not Available",
     },
     {
-      id: 5,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
+      name: "specialization",
+      width: "200px",
+      cell: (row: IStaffData) => {
+        return (
+          <Box flexWrap={"wrap"}>
+            {row.specialization?.map(
+              (item: { label: string; value: string }) => (
+                <Badge
+                  colorScheme="purple"
+                  fontSize={"10px"}
+                  fontWeight={"medium"}
+                >
+                  {item?.label}
+                </Badge>
+              )
+            )}
+          </Box>
+        );
+      },
     },
     {
-      id: 6,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
-    },
-    {
-      id: 7,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
-    },
-    {
-      id: 8,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
-    },
-    {
-      id: 9,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
-    },
-    {
-      id: 10,
-      title: "Package Design",
-      description: "Package Design for NesCafe Coffee Vending Machine 2024",
-      assignedBy: "Vani Kapoor",
-      status: "progress",
-      deadline: new Date("2023-09-12"),
+      name: "Action",
+      cell: (row: IStaffData) => (
+        <Menu>
+          <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size={"xs"}>
+            Actions
+          </MenuButton>
+          <MenuList minW="auto">
+            <MenuItem
+              onClick={() => {
+                setSelectedStaff(row);
+                onUpdateOpen();
+              }}
+            >
+              Edit User
+            </MenuItem>
+            <MenuItem>Delete User</MenuItem>
+          </MenuList>
+        </Menu>
+      ),
     },
   ];
 
   const [filterText, setFilterText] = useState("");
 
   // Filtering function
-  const filteredData = data.filter((item) => {
+  const filteredData = data?.filter((item: IStaffData) => {
     return (
-      item.title.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.assignedBy.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.status.toLowerCase().includes(filterText.toLowerCase())
+      item?.userId?.name?.toLowerCase().includes(filterText.toLowerCase()) ||
+      item?.userId?.email?.toLowerCase().includes(filterText.toLowerCase()) ||
+      item.designation?.toLowerCase().includes(filterText.toLowerCase())
+      //  ||
+      // item.specialization.toLowerCase().includes(filterText.toLowerCase())
     );
   });
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box mb="4" bg="#fff" rounded={"md"}>
-      <Flex
-        py="5"
-        bg="gray.700"
-        px="5"
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
-        <Heading as="h5" size="md" color={"#fff"}>
-          Staff List
-        </Heading>
-        <HStack>
-          <Input
-            bg="white"
-            width={"300px"}
-            placeholder="Filter by title, assigned by, or status"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
+      <LoadingWrapper isLoading={isLoading}>
+        <Flex
+          py="4"
+          bg="gray.300"
+          px="4"
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Heading as="h5" size="md" fontWeight={"medium"}>
+            Staff List
+          </Heading>
+          <HStack>
+            <Input
+              bg="white"
+              width={"300px"}
+              placeholder="Filter by title, assigned by, or status"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+            <Button colorScheme="teal" onClick={onCreateOpen}>
+              <BsPlus /> Create a Staff
+            </Button>
+          </HStack>
+        </Flex>
+        <DataTable
+          // dense
+          columns={columns}
+          data={filteredData}
+          pagination
+          responsive
+        />
+        <CreateStaff isOpen={isCreateOpen} onClose={onCreateClose} />
+        {isUpdateOpen && (
+          <UpdateStaff
+            isOpen={isUpdateOpen}
+            onClose={() => {
+              setSelectedStaff(null); // Clear selected user when closing
+              onUpdateClose();
+            }}
+            data={selectedStaff}
           />
-          <Button colorScheme="teal" onClick={onOpen}>
-            <BsPlus /> Create a Staff
-          </Button>
-        </HStack>
-      </Flex>
-      <DataTable
-        striped={true}
-        columns={columns}
-        data={filteredData}
-        pagination
-        responsive
-        expandableRows
-        expandableRowsComponent={ExpandedComponent}
-      />
-      <CreateStaff isOpen={isOpen} onClose={onClose} />
+        )}
+      </LoadingWrapper>
     </Box>
   );
 }
