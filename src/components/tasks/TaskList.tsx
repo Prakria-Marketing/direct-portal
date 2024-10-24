@@ -61,7 +61,8 @@ function TaskList() {
     assignedTo: rawData?.assignedTo?.userId?.name,
     status: rawData?.status,
     deadline: rawData?.deadline,
-  }));
+
+  })) ?? []
   // const data: ITaskData[] = [
   //   {
   //     id: 1,
