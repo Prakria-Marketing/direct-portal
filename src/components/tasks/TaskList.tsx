@@ -16,15 +16,14 @@ interface ITaskData {
 }
 
 function TaskList() {
-
   const taskListQuery = useQuery({
     queryKey: ["task"],
-    queryFn: getAssignedTask
-  })
+    queryFn: getAssignedTask,
+  });
 
-  useEffect(() => {
-    console.log("task list", taskListQuery.data)
-  }, [taskListQuery])
+  // useEffect(() => {
+  //   console.log("task list", taskListQuery.data)
+  // }, [taskListQuery])
   const ExpandedComponent = ({ data }: { data: ITaskData }) => (
     <Box p="3" bg="gray.100">
       {data?.description}
@@ -62,8 +61,7 @@ function TaskList() {
     assignedTo: rawData?.assignedTo?.userId?.name,
     status: rawData?.status,
     deadline: rawData?.deadline,
-
-  }))
+  }));
   // const data: ITaskData[] = [
   //   {
   //     id: 1,

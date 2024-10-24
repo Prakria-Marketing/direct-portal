@@ -56,7 +56,7 @@ function CustomerDetailTab() {
           />
         </TabPanel>
         <TabPanel>
-          <CustomerRequirements />
+          <CustomerRequirements customerId={customerId as string} />
         </TabPanel>
         <TabPanel>
           <CustomerProjects />
