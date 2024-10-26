@@ -21,6 +21,7 @@ import { fetchCustomers, ICustomerData } from "@/api/customer";
 import moment from "moment";
 import { disableUserFunc, enableUserFunc } from "@/api/users";
 import { useNavigate } from "react-router-dom";
+import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 
 function CustomerList() {
   const navigate = useNavigate();
@@ -131,25 +132,25 @@ function CustomerList() {
             <MenuItem onClick={() => navigate(`/customer-detail/${row?._id}`)}>
               View Customer
             </MenuItem>
-            {row?.isActive ? (
-              <MenuItem
-                onClick={() => {
-                  disableUserMutation.mutate(row?.firebaseId as string);
-                  // setSelectedCustomer(row);
-                }}
-              >
-                Disable User
-              </MenuItem>
-            ) : (
-              <MenuItem
-                onClick={() => {
-                  enableUserMutation.mutate(row?.firebaseId as string);
-                  // setSelectedCustomer(row);
-                }}
-              >
-                Enable User
-              </MenuItem>
-            )}
+            <PermissionWrapper role={["admin", "superadmin"]}>
+              {row?.isActive ? (
+                <MenuItem
+                  onClick={() => {
+                    disableUserMutation.mutate(row?.firebaseId as string);
+                  }}
+                >
+                  Disable User
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  onClick={() => {
+                    enableUserMutation.mutate(row?.firebaseId as string);
+                  }}
+                >
+                  Enable User
+                </MenuItem>
+              )}
+            </PermissionWrapper>
           </MenuList>
         </Menu>
       ),

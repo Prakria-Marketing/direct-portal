@@ -6,7 +6,7 @@ import {
 import { useAuth } from "@/hooks/auth";
 import { useQuery } from "@tanstack/react-query";
 import { useChannelStateContext } from "stream-chat-react";
-import ServiceCard from "../../ServiceCard";
+import { ServiceCard, ReqCard } from "../../ServiceCard";
 import { Heading } from "@chakra-ui/react";
 
 function ServicingChatInfo() {
@@ -18,7 +18,6 @@ function ServicingChatInfo() {
   const customer: any = members?.find(
     (member) => member.user_id !== user?.userId
   ) as string;
-  // console.log("members=", customer.user_id)
   const clientProjectList = useQuery({
     queryKey: ["projects", customer.user_id],
     queryFn: async () => await getCustomerProjects(customer.user_id as string),
@@ -41,17 +40,23 @@ function ServicingChatInfo() {
     <>
       {data?.room_type === "group" ? (
         <div>
-          {!!ProjectInfo?.data?.data && (
+          {!!ProjectInfo?.data?.data ? (
             <ServiceCard data={ProjectInfo?.data?.data} />
+          ) : (
+            "No Project Found"
           )}
         </div>
       ) : (
         <div>
-          {clientProjectList.data?.data?.map((project: any, index: number) => {
-            return <ServiceCard data={project} key={index} />;
-          })}
+          {clientProjectList.data?.data?.length === 0
+            ? "No Project Found"
+            : clientProjectList.data?.data?.map(
+                (project: any, index: number) => {
+                  return <ServiceCard data={project} key={index} />;
+                }
+              )}
           {clientRequirement.data?.data?.length > 0 && (
-            <Heading size={"sm"}>Requiremen's</Heading>
+            <Heading size={"sm"}>Requirements</Heading>
           )}
           {clientRequirement.data?.data?.map((req: any, index: number) => {
             return <ServiceCard data={req} key={index} />;

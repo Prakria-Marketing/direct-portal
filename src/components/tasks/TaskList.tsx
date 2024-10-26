@@ -1,6 +1,14 @@
 import DataTable from "react-data-table-component";
 import moment from "moment"; // Import moment
-import { Box, Flex, FormControl, Heading, Input, Select, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  FormControl,
+  Heading,
+  Input,
+  Select,
+  useToast,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAssignedTask, updateTask } from "@/api/task";
@@ -9,7 +17,6 @@ import { useAuth } from "@/hooks/auth";
 import { Columns } from "@/utils/columnsIds";
 
 interface ITaskData {
-
   id: string;
   title: string;
   description: string;
@@ -23,8 +30,8 @@ interface ITaskData {
 function TaskList() {
   const taskListQuery = useQuery({
     queryKey: ["task"],
-    queryFn: getAssignedTask
-  })
+    queryFn: getAssignedTask,
+  });
   const ExpandedComponent = ({ data }: { data: ITaskData }) => (
     <Box p="3" bg="gray.100">
       {data?.description}
@@ -46,8 +53,7 @@ function TaskList() {
     },
     {
       name: "Status",
-      // selector: (row: ITaskData) => row.status,
-      cell: UpdateStatusColumn
+      cell: UpdateStatusColumn,
     },
     {
       name: "Task Deadline",
@@ -55,20 +61,23 @@ function TaskList() {
     },
     {
       name: "Task Completion",
-      selector: (row: ITaskData) => row?.completionDate ? moment(row?.completionDate).format("MMMM Do YYYY") : "-",
+      selector: (row: ITaskData) =>
+        row?.completionDate
+          ? moment(row?.completionDate).format("MMMM Do YYYY")
+          : "-",
     },
   ];
 
-  const data: ITaskData[] = taskListQuery.data?.data?.map((rawData: any) => ({
-    id: rawData?._id,
-    title: rawData?.title,
-    description: rawData?.description,
-    assignedBy: rawData.assignedBy?.userId?.name,
-    assignedTo: rawData?.assignedTo?.userId?.name,
-    status: rawData?.status,
-    deadline: rawData?.deadline,
-
-  })) ?? [];
+  const data: ITaskData[] =
+    taskListQuery.data?.data?.map((rawData: any) => ({
+      id: rawData?._id,
+      title: rawData?.title,
+      description: rawData?.description,
+      assignedBy: rawData.assignedBy?.userId?.name,
+      assignedTo: rawData?.assignedTo?.userId?.name,
+      status: rawData?.status,
+      deadline: rawData?.deadline,
+    })) ?? [];
   const [filterText, setFilterText] = useState("");
 
   // Filtering function
@@ -89,7 +98,7 @@ function TaskList() {
         alignItems={"center"}
       >
         <Heading as="h5" size="md">
-          My Tasks
+          Task List
         </Heading>
         <Input
           width={"300px"}
@@ -113,10 +122,6 @@ function TaskList() {
   );
 }
 
-type StatusType = {
-  status: string;
-}
-const status = ["todo", "progress", "submitted", "revision"]
 function UpdateStatusColumn(row: ITaskData) {
   const [value, setValue] = useState<string>(row.status);
   const toast = useToast();
@@ -126,76 +131,78 @@ function UpdateStatusColumn(row: ITaskData) {
   const updateTaskMutation = useMutation({
     mutationFn: updateTask,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["task"] })
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: ["task"] });
+    },
+  });
 
   const onUpdate = async (v: string) => {
-    // ["todo", "progress", "submitted", "feedback", "revision", "approved"];
     const servicingAccess = ["feedback", "approved"];
     const resourceAccess = ["todo", "progress", "submitted", "revision"];
 
-
     if (user.role === "servicing") {
-      const isAllowed = servicingAccess.includes(v)
+      const isAllowed = servicingAccess.includes(v);
       if (!isAllowed) {
         toast({
           title: `You don't have access to update this status`,
-          status: 'warning',
+          status: "warning",
           duration: 9000,
           isClosable: true,
-        })
+        });
 
         return;
       }
-
-
     } else if (user.role === "resource") {
       const isAllowed = resourceAccess.includes(v);
       if (!isAllowed) {
         toast({
           title: `You don't have access to update this status`,
           // description: "We've created your account for you.",
-          status: 'warning',
+          status: "warning",
           duration: 9000,
           isClosable: true,
-        })
+        });
         return;
       }
     }
     try {
-      const res = await updateTaskMutation.mutateAsync({ id: row.id, body: { status: v } });
-
+      await updateTaskMutation.mutateAsync({
+        id: row.id,
+        body: { status: v },
+      });
     } catch (err) {
-
     } finally {
       setValue(v);
-
     }
-  }
+  };
 
-  return <Box pointerEvents={updateTaskMutation.isPending ? "none" : "auto"} opacity={updateTaskMutation.isPending ? 0.8 : 1}>
-    <FormControl >
-      <Select
-        // defaultValue={row.status}
-        value={value}
-        onChange={(e) => {
-          // console.log("=>=", e.target.value)
-          onUpdate(e.target.value);
-        }}
-        focusBorderColor="black"
-        border={"1px"}
-        borderColor={"darkgrey"}
-        fontSize={"12px"}
-        size={"sm"}
-        placeholder="status"
-      >
-
-        {Columns.map((opt: string, index: number) => {
-          return <option value={opt} key={index} >{opt}</option>
-        })}
-      </Select>
-    </FormControl>
-  </Box>
+  return (
+    <Box
+      pointerEvents={updateTaskMutation.isPending ? "none" : "auto"}
+      opacity={updateTaskMutation.isPending ? 0.8 : 1}
+    >
+      <FormControl>
+        <Select
+          value={value}
+          onChange={(e) => {
+            onUpdate(e.target.value);
+          }}
+          focusBorderColor="black"
+          border={"1px"}
+          borderColor={"darkgrey"}
+          fontSize={"12px"}
+          size={"sm"}
+          placeholder="status"
+        >
+          {Columns.map((opt: string, index: number) => {
+            return (
+              <option value={opt} key={index}>
+                {opt}
+              </option>
+            );
+          })}
+        </Select>
+      </FormControl>
+    </Box>
+  );
 }
 export default TaskList;

@@ -60,8 +60,6 @@ const Form1 = ({ register, errors }: Form1) => {
                 {option.label}
               </option>
             ))}
-            {/* <option value={"personal"} >Personal Project</option>
-            <option value={"organization"}>Organization's Project</option> */}
           </Select>
           <FormErrorMessage>{errors?.orgId?.message}</FormErrorMessage>
         </FormControl>

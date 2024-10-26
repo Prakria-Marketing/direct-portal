@@ -61,6 +61,12 @@ const NavList = [
     permissions: ["servicing", "customer"],
   },
   {
+    text: "Tasks",
+    icon: <GoTasklist />,
+    link: "/tasks",
+    permissions: ["resource", "servicing"],
+  },
+  {
     text: "Messages",
     icon: <HiOutlineChatBubbleLeftRight />,
     link: "/messages",
@@ -90,12 +96,7 @@ const NavList = [
     link: "/pricing",
     permissions: ["superadmin"],
   },
-  {
-    text: "Tasks",
-    icon: <GoTasklist />,
-    link: "/tasks",
-    permissions: ["resource"],
-  },
+
   {
     text: "Help",
     icon: <FiHelpCircle />,
@@ -140,7 +141,7 @@ function Header() {
     <>
       {/* Header Section */}
       <Box
-      // bg={"gray.700"}
+        // bg={"gray.700"}
         bg={useColorModeValue("gray.800", "gray.800")}
         className="header-bg"
         w="100vw"

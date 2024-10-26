@@ -21,15 +21,17 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCategory } from "@/api/category";
 import { createRequirement } from "@/api/project";
+import LoadingWrapper from "../global/loadingWrapper";
 
 type StepFormFields = {
   register: UseFormRegister<ProjectFields>;
   control?: Control<ProjectFields, any>;
   watch: UseFormWatch<ProjectFields>;
   errors?: FieldErrors<ProjectFields>;
+  isPending?: boolean;
 };
 
-const Form = ({ register, errors, watch }: StepFormFields) => {
+const Form = ({ register, errors, watch, isPending }: StepFormFields) => {
   const { data: categoryList, isLoading } = useQuery({
     queryKey: ["category"],
     queryFn: getCategory,
@@ -37,7 +39,7 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
   const files: FileList = watch("files");
   const fileList = files ? Array.from(files) : [];
   return (
-    <>
+    <LoadingWrapper isLoading={isLoading}>
       <FormControl
         as={GridItem}
         colSpan={[6, 3]}
@@ -51,30 +53,25 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
         >
           Category
         </FormLabel>
-        {isLoading ? (
-          <>loading...</>
-        ) : (
-          <Select
-            id="category"
-            placeholder="Select category"
-            focusBorderColor="brand.400"
-            shadow="sm"
-            //   size="sm"
-            w="full"
-            rounded="md"
-            {...register("category", {
-              required: { value: true, message: "required" },
-            })}
-          >
-            {categoryList?.data?.map((option: any, index: number) => {
-              return (
-                <option value={option._id} key={index}>
-                  {option.title}
-                </option>
-              );
-            })}
-          </Select>
-        )}
+        <Select
+          id="category"
+          placeholder="Select category"
+          focusBorderColor="brand.400"
+          shadow="sm"
+          w="full"
+          rounded="md"
+          {...register("category", {
+            required: { value: true, message: "required" },
+          })}
+        >
+          {categoryList?.data?.map((option: any, index: number) => {
+            return (
+              <option value={option._id} key={index}>
+                {option.title}
+              </option>
+            );
+          })}
+        </Select>
         <FormErrorMessage>{errors?.category?.message}</FormErrorMessage>
       </FormControl>
 
@@ -89,11 +86,11 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
           Title
         </FormLabel>
         <Input
+          isDisabled={isPending}
           type="text"
           id="title"
           focusBorderColor="brand.400"
           shadow="sm"
-          //   size="sm"
           w="full"
           rounded="md"
           {...register("title", {
@@ -118,6 +115,7 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
           Description
         </FormLabel>
         <Textarea
+          isDisabled={isPending}
           id="description"
           focusBorderColor="brand.400"
           shadow="sm"
@@ -133,7 +131,7 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
 
       <FormControl as={GridItem} colSpan={6}>
         <FormLabel
-          htmlFor="title"
+          htmlFor="files"
           fontSize="sm"
           fontWeight="md"
           color="gray.700"
@@ -145,6 +143,7 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
           <Box as="span" position={"relative"} overflow={"hidden"}>
             <Button>upload File</Button>
             <Input
+              isDisabled={isPending}
               multiple
               left={0}
               top={0}
@@ -153,7 +152,7 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
               width={"100%"}
               height={"100%"}
               type="file"
-              id="title"
+              id="files"
               focusBorderColor="brand.400"
               shadow="sm"
               // size="sm"
@@ -179,7 +178,7 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
       <Flex mt={5} gap={5}>
         <FormControl as={GridItem} colSpan={6} isInvalid={!!errors?.deadline}>
           <FormLabel
-            htmlFor="title"
+            htmlFor="deadline"
             fontSize="sm"
             fontWeight="md"
             color="gray.700"
@@ -188,11 +187,11 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
             Estimated deadline
           </FormLabel>
           <Input
+            isDisabled={isPending}
             type="datetime-local"
-            id="title"
+            id="deadline"
             focusBorderColor="brand.400"
             shadow="sm"
-            // size="sm"
             w="full"
             rounded="md"
             {...register("deadline", {
@@ -202,7 +201,7 @@ const Form = ({ register, errors, watch }: StepFormFields) => {
           <FormErrorMessage>{errors?.deadline?.message}</FormErrorMessage>
         </FormControl>
       </Flex>
-    </>
+    </LoadingWrapper>
   );
 };
 
@@ -221,8 +220,8 @@ export default function RequirementForm({ onClose }: { onClose: () => void }) {
     mutationFn: createRequirement,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["req"] });
-    }
-  })
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -249,35 +248,29 @@ export default function RequirementForm({ onClose }: { onClose: () => void }) {
       <Box
         rounded="lg"
         maxWidth={800}
-        py={4}
         m="10px 0"
         as="form"
         onSubmit={handleSubmit(processProjectCreation)}
       >
-        <Form register={register} errors={errors} watch={watch} />
-        <ButtonGroup mt="5%" w="100%">
-          <Flex w="100%" justifyContent="space-between">
-            <Flex>
-              <Button
-                onClick={prev}
-                colorScheme="teal"
-                variant="outline"
-                w="7rem"
-                mr="5%"
-              >
-                Cancel
-              </Button>
-            </Flex>
-            <Button
-              w="7rem"
-              colorScheme="green"
-              variant="solid"
-              type="submit"
-              isLoading={createRequirementMutation.isPending}
-            >
-              Submit
-            </Button>
-          </Flex>
+        <Form
+          register={register}
+          errors={errors}
+          watch={watch}
+          isPending={createRequirementMutation?.isPending}
+        />
+        <ButtonGroup mt="5" justifyContent={"flex-end"} w="100%">
+          <Button onClick={prev} colorScheme="teal" variant="outline" w="7rem">
+            Cancel
+          </Button>
+          <Button
+            w="7rem"
+            colorScheme="teal"
+            variant="solid"
+            type="submit"
+            isLoading={createRequirementMutation.isPending}
+          >
+            Submit
+          </Button>
         </ButtonGroup>
       </Box>
     </>

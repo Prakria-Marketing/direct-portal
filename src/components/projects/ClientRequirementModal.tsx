@@ -7,7 +7,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-
   useDisclosure,
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
@@ -20,13 +19,16 @@ export default function CreateRequirementModal() {
     onClose: onModalClose,
   } = useDisclosure();
 
-
   return (
     <>
-      <MenuItem fontSize="14px" gap={1} onClick={onModalOpen}>
-        <BiPlus fontSize={20} /> Create Requirements
+      <MenuItem
+        fontSize="14px"
+        fontFamily={"Unbounded"}
+        gap={1}
+        onClick={onModalOpen}
+      >
+        <BiPlus fontSize={20} /> Create Requirement
       </MenuItem>
-
 
       {/* Modal for Create Project */}
       <Modal
@@ -37,18 +39,11 @@ export default function CreateRequirementModal() {
         <ModalOverlay />
         <ModalContent maxW={800}>
           <ModalHeader bg={"gray.100"} pe={10}>
-            <Heading size={"md"}>
-              Create project requirement
-            </Heading>
+            <Heading size={"md"}>Create Requirement</Heading>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {
-              isModalOpen &&
-              <RequirementForm
-                onClose={onModalClose}
-              />
-            }
+            {isModalOpen && <RequirementForm onClose={onModalClose} />}
           </ModalBody>
         </ModalContent>
       </Modal>

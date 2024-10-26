@@ -1,6 +1,8 @@
 import {
+  Avatar,
   Box,
   Card,
+  CardBody,
   Flex,
   Grid,
   IconButton,
@@ -12,16 +14,16 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import { CloseIcon, useChannelStateContext, useChatContext } from "stream-chat-react";
+import {
+  CloseIcon,
+  useChannelStateContext,
+  useChatContext,
+} from "stream-chat-react";
 import { useQuery } from "@tanstack/react-query";
 import ClientChatInfo from "./clientChatInfo";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 import ServicingChatInfo from "./servisingChatInfo";
-// import { getUserById } from "@/api/users";
-// import { useAuth } from "@/hooks/auth";
-// import { getChatUser } from "../components/utils/getChatUser";
 import TaskLogsChatInfo from "./taskLogs";
-import { useEffect } from "react";
 import LoadingWrapper from "@/components/global/loadingWrapper";
 type ChatInfoType = {
   isSliderVisible: boolean;
@@ -29,28 +31,21 @@ type ChatInfoType = {
   userId: string;
 };
 const internal = {
-  tabs: ["Task logs", "media", "members"],
-  pannels: [TaskTab, MediaTab, MemberListTab]
+  tabs: ["Task Logs", "Media Shared", "Members"],
+  pannels: [TaskTab, MediaTab, MemberListTab],
 };
 const external = {
-  tabs: ["Project logs", "media", "members"],
-  pannels: [ProjectTab, MediaTab, MemberListTab]
-}
+  tabs: ["Project Logs", "Media Shared", "Members"],
+  pannels: [ProjectTab, MediaTab, MemberListTab],
+};
 function ChatInfoWindow({
   isSliderVisible = false,
   onToggleSlider,
 }: ChatInfoType) {
-  // const { user } = useAuth();
   const { channel } = useChannelStateContext();
 
   const { data } = channel;
   const isInternal = !data?.isCustomer;
-  // const currentUser = getChatUser(user, channel.state!);
-  // const chatUser = useQuery({
-  //   queryKey: ["users", currentUser?.user_id!],
-  //   queryFn: async (qk) => await getUserById(qk.queryKey[1] as string),
-  //   enabled: !!currentUser?.user_id!,
-  // });
   const tabs = isInternal ? internal.tabs : external.tabs;
   const pannels = isInternal ? internal.pannels : external.pannels;
 
@@ -75,11 +70,17 @@ function ChatInfoWindow({
         />
       </Flex>
       <Tabs>
-        <TabList>
-          {tabs?.map((tab: string, index: number) => <Tab key={index}>{tab}</Tab>)}
+        <TabList fontFamily={"Unbounded"}>
+          {tabs?.map((tab: string, index: number) => (
+            <Tab fontSize={"13px"} key={index}>
+              {tab}
+            </Tab>
+          ))}
         </TabList>
         <TabPanels py={5}>
-          {pannels?.map((Pannel, index: number) => <Pannel key={index} />)}
+          {pannels?.map((Pannel, index: number) => (
+            <Pannel key={index} />
+          ))}
         </TabPanels>
       </Tabs>
     </Box>
@@ -87,22 +88,26 @@ function ChatInfoWindow({
 }
 
 function ProjectTab() {
-  return <TabPanel>
-    <Box mb={10}>
-      <PermissionWrapper role={["customer"]}>
-        <ClientChatInfo />
-      </PermissionWrapper>
-      <PermissionWrapper role={["servicing"]}>
-        <ServicingChatInfo />
-      </PermissionWrapper>
-    </Box>
-  </TabPanel>
+  return (
+    <TabPanel>
+      <Box mb={10}>
+        <PermissionWrapper role={["customer"]}>
+          <ClientChatInfo />
+        </PermissionWrapper>
+        <PermissionWrapper role={["servicing"]}>
+          <ServicingChatInfo />
+        </PermissionWrapper>
+      </Box>
+    </TabPanel>
+  );
 }
 
 function TaskTab() {
-  return <TabPanel>
-    <TaskLogsChatInfo />
-  </TabPanel>
+  return (
+    <TabPanel>
+      <TaskLogsChatInfo />
+    </TabPanel>
+  );
 }
 function MediaTab() {
   const { channel } = useChatContext();
@@ -112,47 +117,37 @@ function MediaTab() {
     queryFn: async () => {
       const response = await channel?.query({
         // @ts-ignore
-        messages: { $contains: { attachments: { $exists: true } } } // Checks for messages with attachments
+        messages: { $contains: { attachments: { $exists: true } } }, // Checks for messages with attachments
       });
       return response;
-    }
+    },
   });
   const messages = mediaImages?.data?.messages ?? null;
 
-  useEffect(() => {
-    console.log("media=>", mediaImages.data);
-  }, [mediaImages]);
-
-  return <TabPanel>
-    <Box>
-      <LoadingWrapper isLoading={mediaImages.isLoading}>
-
-        {
-
-          !!messages && <Grid templateColumns="repeat(4, 1fr)" gap={2}>
-
-            {
-              messages?.map((message: any, index: number) => {
-                return message?.attachments?.map((images: any, ind: number) => images.type === "image" ? <Image
-                  key={index + ind}
-                  rounded="md"
-                  src={images?.image_url} /> : null)
-              })
-            }
-            {/* <Image
-          rounded="md"
-          border="5px solid #cbcbcb"
-          w={100}
-          src="https://static-cse.canva.com/blob/1625993/ComposeStunningImages6.jpg"
-        /> */}
-
-          </Grid>
-        }
-        {!messages?.length && <Text>no media</Text>}
-      </LoadingWrapper>
-    </Box>
-  </TabPanel>
-
+  return (
+    <TabPanel>
+      <Box>
+        <LoadingWrapper isLoading={mediaImages.isLoading}>
+          {!!messages && (
+            <Grid templateColumns="repeat(4, 1fr)" gap={2}>
+              {messages?.map((message: any, index: number) => {
+                return message?.attachments?.map((images: any, ind: number) =>
+                  images.type === "image" ? (
+                    <Image
+                      key={index + ind}
+                      rounded="md"
+                      src={images?.image_url}
+                    />
+                  ) : null
+                );
+              })}
+            </Grid>
+          )}
+          {!messages?.length && <Text>No media</Text>}
+        </LoadingWrapper>
+      </Box>
+    </TabPanel>
+  );
 }
 function MemberListTab() {
   const { channel } = useChannelStateContext();
@@ -163,21 +158,29 @@ function MemberListTab() {
       return res.members;
     },
   });
-  return <TabPanel>
-    <Box>
+  return (
+    <TabPanel>
       <Box>
-        {memberList?.data?.map((member: any, index: number) => (
-          <Card mb={3} p={3} key={index}>
-            <Text fontWeight={700} fontSize="sm">
-              {member?.user?.name}
-            </Text>{" "}
-            - {member?.user?.email}
-            <>,{member?.role}</>
-          </Card>
-        ))}
+        <Box>
+          {memberList?.data?.map((member: any, index: number) => (
+            <Card mb={3} key={index}>
+              <CardBody display={"flex"} alignItems={"center"} gap="2" p="3">
+                <Avatar name={member?.user?.name} src={member?.user?.image} />
+                <Box m="0" p="0">
+                  <Text fontWeight={700} fontSize="sm" fontFamily={"Unbounded"}>
+                    {member?.user?.name}
+                  </Text>
+                  <Text as="small" fontFamily={"Unbounded"}>
+                    {member?.user?.email}
+                  </Text>
+                </Box>
+              </CardBody>
+            </Card>
+          ))}
+        </Box>
       </Box>
-    </Box>
-  </TabPanel>
+    </TabPanel>
+  );
 }
 
 export default ChatInfoWindow;

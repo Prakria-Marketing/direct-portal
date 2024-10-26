@@ -26,7 +26,7 @@ export default function CreateProjectModal() {
 
   return (
     <>
-      <MenuItem fontSize="14px" gap={1} onClick={onModalOpen}>
+      <MenuItem fontSize="14px" gap={1} onClick={onModalOpen} fontFamily={"Unbounded"}>
         <BiPlus fontSize={20} /> Create Project
       </MenuItem>
 

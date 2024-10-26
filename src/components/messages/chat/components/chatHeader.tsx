@@ -13,7 +13,6 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { IoMdMore } from "react-icons/io";
-import { BiPlus } from "react-icons/bi";
 import CreateProjectModal from "@/components/projects/CreateProjectModal";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -22,66 +21,64 @@ import ClientRequirements from "@/components/projects/ClientRequirementModal";
 import CreateTaskModal from "@/components/task/taskCreationForm";
 import { getUserById } from "@/api/users";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
+import { IoInformationCircle } from "react-icons/io5";
 
 export const CustomChannelHeader = ({
   onToggleSlider,
 }: {
   onToggleSlider: () => void;
 }) => {
-  const [isOnline, setIsOnline] = useState<boolean>(false)
+  const [isOnline, setIsOnline] = useState<boolean>(false);
   const { user } = useAuth();
   const { channel } = useChannelStateContext();
   const data = channel.data;
 
-  // const da
   const members = Object.values(channel?.state?.members);
 
   const memberList = useQuery({
     queryKey: ["members", channel.id],
     queryFn: async () => {
       const res = await channel.queryMembers({});
-      return res.members
-    }
+      return res.members;
+    },
   });
   let userId: string | null = null;
-  if (members.length === 2 && data?.room_type !== "group") userId = members?.find((member) => member.user_id !== user?.userId)?.user?.id as string
+  if (members.length === 2 && data?.room_type !== "group")
+    userId = members?.find((member) => member.user_id !== user?.userId)?.user
+      ?.id as string;
   const chatUser = useQuery({
     queryKey: ["users", userId],
     queryFn: async (qk) => await getUserById(qk.queryKey[1] as string),
     enabled: !!userId,
   });
   useEffect(() => {
-
     const onlineStatus = async () => {
       setIsOnline(true);
-      // console.log(`==== ${event.user.name} is online`);
-    }
+    };
     const offlineStatus = async () => {
       setIsOnline(false);
-      // console.log(`==== ${event.user.name} is online`);
-    }
+    };
 
-    channel.on('user.watching.start', onlineStatus);
+    channel.on("user.watching.start", onlineStatus);
 
-    // Listen for users joining(online
-
-    // Listen for users leaving(offline)
-    channel.on('user.watching.stop', offlineStatus);
+    channel.on("user.watching.stop", offlineStatus);
     return () => {
-      channel.off('user.watching.start', onlineStatus);
-      channel.off('user.watching.stop', offlineStatus);
-    }
-  }, [])
+      channel.off("user.watching.start", onlineStatus);
+      channel.off("user.watching.stop", offlineStatus);
+    };
+  }, []);
 
   useEffect(() => {
     if (memberList.data) {
-      console.log("members list", memberList.data, chatUser.data)
+      console.log("members list", memberList.data, chatUser.data);
     }
-  }, [memberList.data, chatUser.data])
+  }, [memberList.data, chatUser.data]);
 
   let name = "";
-  members.length === 2 && data?.room_type !== "group" ?
-    name = members?.find((member) => member.user_id !== user?.userId)?.user?.name as string : name = data?.name as string;
+  members.length === 2 && data?.room_type !== "group"
+    ? (name = members?.find((member) => member.user_id !== user?.userId)?.user
+        ?.name as string)
+    : (name = data?.name as string);
   return (
     <Flex
       className="str-chat__header-livestream"
@@ -101,8 +98,11 @@ export const CustomChannelHeader = ({
             {name}
           </Heading>
 
-          {isOnline ? "online" : <MemberList members={memberList.data as any ?? []} />}
-          {/* <MemberList members={memberList.data as any ?? []} /> */}
+          {isOnline ? (
+            "online"
+          ) : (
+            <MemberList members={(memberList.data as any) ?? []} />
+          )}
         </div>
       </Flex>
       <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
@@ -117,17 +117,23 @@ export const CustomChannelHeader = ({
               {data?.room_type === "personal" && <ClientRequirements />}
             </PermissionWrapper>
             <PermissionWrapper role={["servicing"]}>
-              {data?.room_type === "personal" && !!data?.isCustomer && <CreateProjectModal />}
+              {data?.room_type === "personal" && !!data?.isCustomer && (
+                <CreateProjectModal />
+              )}
             </PermissionWrapper>
             <PermissionWrapper role={["servicing"]}>
-              {data?.room_type === "personal" && chatUser?.data?.data?.role === "resource" && <CreateTaskModal />}
+              {data?.room_type === "personal" &&
+                chatUser?.data?.data?.role === "resource" && (
+                  <CreateTaskModal />
+                )}
             </PermissionWrapper>
             <MenuItem
               fontSize="14px"
+              fontFamily={"Unbounded"}
               gap={1}
               onClick={onToggleSlider} // Call the passed prop on click
             >
-              <BiPlus fontSize={20} /> Side Slider
+              <IoInformationCircle fontSize={20} /> Chat Info
             </MenuItem>
           </MenuList>
         </Menu>

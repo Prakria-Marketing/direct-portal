@@ -1,9 +1,6 @@
 import axiosInstance from "@/api/axiosinstance";
 import { useAuth } from "@/hooks/auth";
-import {
-  Box,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Chat,
@@ -25,7 +22,11 @@ import CustomSearchInput from "./components/search/customSearchInput";
 import ChannelListWrapper from "./components/channelList/channelListWrapper";
 
 const apikey: string = import.meta.env.VITE_app_key!;
-export default function ChatPage({ isCustomerChat }: { isCustomerChat: boolean }) {
+export default function ChatPage({
+  isCustomerChat,
+}: {
+  isCustomerChat: boolean;
+}) {
   const { user } = useAuth();
   const [isSliderVisible, setIsSliderVisible] = useState(false); // State to control slider visibility
 
@@ -77,14 +78,13 @@ function MyChat({
     apiKey,
     tokenOrProvider: token,
     userData: { id: userId },
-
   });
   const filters = getFilter(userId, isCustomerChat, user?.role);
   const options = { presence: true, state: true };
 
   useEffect(() => {
     Notification.requestPermission();
-  }, [])
+  }, []);
   if (!client) return <Loading />;
 
   return (
@@ -100,7 +100,10 @@ function MyChat({
             bg="#ededed"
             borderBottom={"1px solid #e5e5e5"}
           >
-            <CustomSearchInput searchForUsers={!isCustomerChat} searchForChannels={true} />
+            <CustomSearchInput
+              searchForUsers={!isCustomerChat}
+              searchForChannels={true}
+            />
           </Box>
           <Box
             height={"calc(600px - 52px)"}
@@ -108,16 +111,7 @@ function MyChat({
             overflowX={"hidden"}
             width="400px"
           >
-            <ChannelListWrapper
-              filters={filters}
-              options={options}
-            />
-            {/* <ChannelList
-              filters={filters}
-              options={options}
-              Preview={InboxContact}
-
-            /> */}
+            <ChannelListWrapper filters={filters} options={options} />
           </Box>
         </Box>
         <Box flex={1}>
@@ -150,23 +144,27 @@ function MyChat({
             )}
           </Channel>
         </Box>
-        {/* Conditionally render the slider box based on the state */}
       </Flex>
     </Chat>
   );
 }
 
 function getFilter(userId: string, isCustomerChat: boolean, role: string) {
-
   let filters: any = { members: { $in: [userId] }, type: "messaging" };
   if (role === "servicing") {
-    filters = isCustomerChat ? {
-      members: { $in: [userId] }, type: "messaging",
-      isCustomer: true,
-    } :
-      { members: { $in: [userId] }, type: "messaging", isCustomer: false };
+    filters = isCustomerChat
+      ? {
+          members: { $in: [userId] },
+          type: "messaging",
+          isCustomer: true,
+        }
+      : { members: { $in: [userId] }, type: "messaging", isCustomer: false };
   } else if (role !== "customer") {
-    filters = { members: { $in: [userId] }, type: "messaging", isCustomer: false };
+    filters = {
+      members: { $in: [userId] },
+      type: "messaging",
+      isCustomer: false,
+    };
   }
   return filters;
 }
