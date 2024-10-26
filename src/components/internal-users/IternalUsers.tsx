@@ -28,6 +28,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import UpdateInternalUser from "./UpdateInternalUser";
 
 function InternalUsersList() {
+  const [filterText, setFilterText] = useState("");
   const {
     isOpen: isCreateOpen,
     onOpen: onCreateOpen,
@@ -38,28 +39,30 @@ function InternalUsersList() {
     onOpen: onUpdateOpen,
     onClose: onUpdateClose,
   } = useDisclosure();
-  const { data: users, isLoading, isFetching } = useQuery({
+  const {
+    data: users,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ["internalusers"],
     queryFn: fetchInternalUsers,
   });
 
   const data = users?.data;
   const [selectedUser, setSelectedUser] = useState<UserInfo | null>(null);
-
   const queryClient = useQueryClient();
-
   const disableUserMutation = useMutation({
     mutationFn: disableUserFunc,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["internalusers"] });
     },
-  });
+  }); //TO DIsable User
   const enableUserMutation = useMutation({
     mutationFn: enableUserFunc,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["internalusers"] });
     },
-  });
+  }); //TO Enable User
 
   const columns = [
     {
@@ -125,7 +128,6 @@ function InternalUsersList() {
               <MenuItem
                 onClick={() => {
                   disableUserMutation.mutate(row?.firebaseId as string);
-                  // setSelectedCustomer(row);
                 }}
               >
                 Disable User
@@ -134,7 +136,6 @@ function InternalUsersList() {
               <MenuItem
                 onClick={() => {
                   enableUserMutation.mutate(row?.firebaseId as string);
-                  // setSelectedCustomer(row);
                 }}
               >
                 Enable User
@@ -145,8 +146,6 @@ function InternalUsersList() {
       ),
     },
   ];
-
-  const [filterText, setFilterText] = useState("");
 
   // Filtering function
   const filteredData = data?.filter((item: UserInfo) => {
@@ -159,12 +158,14 @@ function InternalUsersList() {
 
   return (
     <Box mb="4" bg="#fff" rounded={"md"}>
-      <LoadingWrapper  isLoading={
+      <LoadingWrapper
+        isLoading={
           isLoading ||
           isFetching ||
           enableUserMutation.isPending ||
           disableUserMutation.isPending
-        }>
+        }
+      >
         <Flex
           py="4"
           bg="gray.300"

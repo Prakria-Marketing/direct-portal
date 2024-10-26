@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 function AuthLayout() {
   return (
-    <Flex height={"100dvh"}>
+    <Flex height={"100dvh"} bg="gray.900">
       <Box
         position={"relative"}
         flex={{ md: "1" }}

@@ -57,9 +57,6 @@ export async function enableUserFunc(firebaseId: string) {
   const res = await axiosInstance.get(`/users/enable-user/${firebaseId}`);
   return res.data;
 }
-//     const response = await axiosInstance.patch("/users/update/" + data.firebaseId, data.body);
-//     return response.data;
-// }
 
 export async function searchUserInChat(query: string) {
   const response = await axiosInstance.post("/users/search", { query });

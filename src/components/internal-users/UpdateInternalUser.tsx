@@ -77,7 +77,7 @@ function UpdateInternalUser({ isOpen, onClose, data }: ModalProps) {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit(updateFunc)}>
-        <ModalHeader bg="gray.200">Create a User</ModalHeader>
+        <ModalHeader bg="gray.200">Update a User</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormControl isInvalid={!!errors.role} my="3">

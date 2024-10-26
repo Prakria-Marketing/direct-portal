@@ -17,11 +17,13 @@ function AuthInitilizer() {
 
   const registerMutation = useMutation({
     mutationFn: async ({ token }: { token: string }) => {
-      return await axios.post(URL + "/auth/register", null, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      try {
+        return await axios.post(URL + "/auth/register", null, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+      } catch (err) {}
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });

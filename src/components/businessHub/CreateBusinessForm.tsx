@@ -147,14 +147,70 @@ function CreateBusinessForm({
             placeholder="---Select---"
             {...register("industry", required)}
           >
-            <option>Public Company</option>
-            <option>Self Employed</option>
-            <option>Government Agencies</option>
-            <option>Self Employed</option>
-            <option>Nonprofit</option>
-            <option>Sole proprietorship</option>
-            <option>Privately Held</option>
-            <option>Partnership</option>
+            <option value="agriculture">Agriculture</option>
+            <option value="construction">Construction</option>
+            <option value="education">Education</option>
+            <option value="finance_insurance">Finance and Insurance</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="hospitality_tourism">Hospitality and Tourism</option>
+            <option value="information_technology">
+              Information Technology
+            </option>
+            <option value="manufacturing">Manufacturing</option>
+            <option value="retail">Retail</option>
+            <option value="real_estate">Real Estate</option>
+            <option value="transportation_logistics">
+              Transportation and Logistics
+            </option>
+            <option value="arts_entertainment">Arts and Entertainment</option>
+            <option value="professional_services">Professional Services</option>
+            <option value="nonprofit">Nonprofit</option>
+            <option value="telecommunications">Telecommunications</option>
+            <option value="energy_utilities">Energy and Utilities</option>
+            <option value="food_beverage">Food and Beverage</option>
+            <option value="automotive">Automotive</option>
+            <option value="aerospace_defense">Aerospace and Defense</option>
+            <option value="pharmaceuticals">Pharmaceuticals</option>
+            <option value="chemicals">Chemicals</option>
+            <option value="ecommerce">E-commerce</option>
+            <option value="media_publishing">Media and Publishing</option>
+            <option value="sports_recreation">Sports and Recreation</option>
+            <option value="personal_services">Personal Services</option>
+            <option value="consulting">Consulting</option>
+            <option value="cybersecurity">Cybersecurity</option>
+            <option value="environmental_services">
+              Environmental Services
+            </option>
+            <option value="biotechnology">Biotechnology</option>
+            <option value="fashion_apparel">Fashion and Apparel</option>
+            <option value="logistics">Logistics</option>
+            <option value="social_media">Social Media</option>
+            <option value="travel">Travel</option>
+            <option value="gaming">Gaming</option>
+            <option value="mining">Mining</option>
+            <option value="construction_materials">
+              Construction Materials
+            </option>
+            <option value="marine">Marine</option>
+            <option value="public_sector">Public Sector</option>
+            <option value="philanthropy">Philanthropy</option>
+            <option value="internet_services">Internet Services</option>
+            <option value="home_improvement">Home Improvement</option>
+            <option value="health_and_wellness">Health and Wellness</option>
+            <option value="data_analysis">Data Analysis</option>
+            <option value="artificial_intelligence">
+              Artificial Intelligence
+            </option>
+            <option value="apparel_manufacturing">Apparel Manufacturing</option>
+            <option value="craft_beverages">Craft Beverages</option>
+            <option value="smart_home">Smart Home</option>
+            <option value="real_estate_investment">
+              Real Estate Investment
+            </option>
+            <option value="digital_marketing">Digital Marketing</option>
+            <option value="telehealth">Telehealth</option>
+            <option value="supply_chain">Supply Chain Management</option>
+            <option value="other">Other</option>
           </Select>
           <FormErrorMessage>{errors.industry?.message}</FormErrorMessage>
         </FormControl>
