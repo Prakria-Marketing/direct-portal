@@ -20,10 +20,11 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingWrapper from "@/components/global/loadingWrapper";
 import { Link } from "react-router-dom";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
-import TaskCards from "@/components/dashboard/TaskCards";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { KanbanBoard } from "@/components/tasks/KanbanBoard";
+// import TaskCards from "@/components/dashboard/TaskCards";
+// import { DndProvider } from "react-dnd";
+// import { HTML5Backend } from "react-dnd-html5-backend";
+// import { KanbanBoard } from "@/components/tasks/KanbanBoard";
+import KanbanBoardDashboard from "@/components/resource/home";
 
 function Dashboard() {
   const { user } = useAuth();
@@ -39,7 +40,8 @@ function Dashboard() {
           Hi, {user?.displayName}!
         </Heading>
         <PermissionWrapper role={["resource"]}>
-          <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+          <KanbanBoardDashboard />
+          {/* <Grid templateColumns="repeat(4, 1fr)" gap={6}>
             <TaskCards
               borderColor="purple.300"
               bg={"white"}
@@ -68,7 +70,7 @@ function Dashboard() {
 
           <DndProvider backend={HTML5Backend}>
             <KanbanBoard />
-          </DndProvider>
+          </DndProvider> */}
         </PermissionWrapper>
         <PermissionWrapper role={["customer"]}>
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>

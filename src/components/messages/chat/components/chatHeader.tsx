@@ -16,7 +16,7 @@ import { IoMdMore } from "react-icons/io";
 import { BiPlus } from "react-icons/bi";
 import CreateProjectModal from "@/components/projects/CreateProjectModal";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MemberList from "./memberList";
 import ClientRequirements from "@/components/projects/ClientRequirementModal";
 import CreateTaskModal from "@/components/task/taskCreationForm";
@@ -28,6 +28,7 @@ export const CustomChannelHeader = ({
 }: {
   onToggleSlider: () => void;
 }) => {
+  const [isOnline, setIsOnline] = useState<boolean>(false)
   const { user } = useAuth();
   const { channel } = useChannelStateContext();
   const data = channel.data;
@@ -48,7 +49,29 @@ export const CustomChannelHeader = ({
     queryKey: ["users", userId],
     queryFn: async (qk) => await getUserById(qk.queryKey[1] as string),
     enabled: !!userId,
-  })
+  });
+  useEffect(() => {
+
+    const onlineStatus = async () => {
+      setIsOnline(true);
+      // console.log(`==== ${event.user.name} is online`);
+    }
+    const offlineStatus = async () => {
+      setIsOnline(false);
+      // console.log(`==== ${event.user.name} is online`);
+    }
+
+    channel.on('user.watching.start', onlineStatus);
+
+    // Listen for users joining(online
+
+    // Listen for users leaving(offline)
+    channel.on('user.watching.stop', offlineStatus);
+    return () => {
+      channel.off('user.watching.start', onlineStatus);
+      channel.off('user.watching.stop', offlineStatus);
+    }
+  }, [])
 
   useEffect(() => {
     if (memberList.data) {
@@ -77,7 +100,9 @@ export const CustomChannelHeader = ({
           <Heading size={"xs"} fontWeight={"500"} fontSize={"12px"}>
             {name}
           </Heading>
-          <MemberList members={memberList.data as any ?? []} />
+
+          {isOnline ? "online" : <MemberList members={memberList.data as any ?? []} />}
+          {/* <MemberList members={memberList.data as any ?? []} /> */}
         </div>
       </Flex>
       <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>

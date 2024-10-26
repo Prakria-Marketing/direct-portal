@@ -18,7 +18,7 @@ import "stream-chat-react/dist/css/v2/index.css";
 import "./streamChat.css";
 import { CustomChannelHeader } from "./components/chatHeader";
 import Loading from "@/components/Loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatInfoWindow from "./chatinfo";
 import ChatMessageInput from "./components/messageInput/messageInput";
 import CustomSearchInput from "./components/search/customSearchInput";
@@ -80,13 +80,11 @@ function MyChat({
 
   });
   const filters = getFilter(userId, isCustomerChat, user?.role);
-
-  // isCustomerChat ? {
-  //   members: { $in: [userId] }, type: "messaging",
-  //   isCustomer: true,
-  // } :
-  //   { members: { $in: [userId] }, type: "messaging", isCustomer: false };
   const options = { presence: true, state: true };
+
+  useEffect(() => {
+    Notification.requestPermission();
+  }, [])
   if (!client) return <Loading />;
 
   return (
@@ -138,7 +136,6 @@ function MyChat({
                 </Box>
                 <Box>
                   <MessageInput Input={ChatMessageInput} />
-                  {/* <CustomMessageInput /> */}
                 </Box>
               </Flex>
             </Window>
