@@ -67,7 +67,7 @@ function CreateBusinessForm({
   };
 
   return (
-    <Box border="1px solid #e8e8e8" rounded="lg" m="auto" p={5} as="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <Flex mb={4} gap={5}>
         <FormControl isInvalid={!!errors.companyName}>
           <FormLabel fontSize={"sm"}>Company Name</FormLabel>

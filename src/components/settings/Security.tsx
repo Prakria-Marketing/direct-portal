@@ -1,7 +1,6 @@
 import { EditIcon } from "@chakra-ui/icons";
 import { auth } from "@/firebase/firebase";
 import {
-  Box,
   Button,
   Flex,
   FormControl,
@@ -9,7 +8,6 @@ import {
   FormLabel,
   Input,
   Stack,
-  Text,
 } from "@chakra-ui/react";
 import {
   EmailAuthProvider,
@@ -45,7 +43,6 @@ function Security() {
     }
   };
   return (
-    <Box w="50%" border="1px solid #e8e8e8" rounded="lg" m="auto" p={5}>
       <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isInvalid={!!errors.currentPassword}>
           <FormLabel fontSize="14px">Old Password</FormLabel>
@@ -92,7 +89,6 @@ function Security() {
           </Button>
         </Flex>
       </Stack>
-    </Box>
   );
 }
 

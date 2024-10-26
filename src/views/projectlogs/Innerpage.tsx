@@ -1,10 +1,13 @@
-import { getProjectById, getProjectLogsByIdFunc } from "@/api/project";
+import {
+  getProjectById,
+  getProjectLogsByIdFunc,
+  updateProjectLogStageFunc,
+} from "@/api/project";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import {
-  Badge,
   Box,
+  Button,
   Flex,
-  FormLabel,
   Heading,
   Stack,
   Step,
@@ -18,16 +21,13 @@ import {
   StepTitle,
   Table,
   TableContainer,
-  Tag,
   Tbody,
   Td,
   Text,
-  Th,
-  Thead,
   Tr,
   useSteps,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import LoadingWrapper from "@/components/global/loadingWrapper";
 import moment from "moment";
@@ -41,17 +41,17 @@ interface IStep {
 
 const steps = [
   {
-    title: "Project Planning",
+    title: " Planning",
     slug: "planning",
   },
   {
-    title: "Project Initiated",
+    title: " Initiated",
     slug: "initiated",
   },
-  { title: "Project Delivered", slug: "delivered" },
-  { title: "Project Revision", slug: "revision" },
-  { title: "Project Approved", slug: "approved" },
-  { title: "Project Closed", slug: "closed" },
+  { title: " Delivered", slug: "delivered" },
+  { title: " Revision", slug: "revision" },
+  { title: " Approved", slug: "approved" },
+  { title: " Closed", slug: "closed" },
 ];
 
 function Innerpage() {
@@ -76,13 +76,6 @@ function Innerpage() {
     enabled: !!id,
   });
 
-  steps?.forEach((step: IStep) => {
-    const match = logs?.data?.find((item: any) => item.ActionType == step.slug);
-    if (match) {
-      step.date = match.ActionDate;
-    }
-  });
-
   const { activeStep, setActiveStep } = useSteps({
     index: 1,
     count: steps.length,
@@ -92,14 +85,22 @@ function Innerpage() {
     if (logs?.data) {
       setActiveStep(logs?.data?.length);
     }
-  }, [logs]);
+  }, [logs, isLogsFetching]);
+
+  const queryClient = useQueryClient();
+
+  const updateLogStatus = useMutation({
+    mutationFn: updateProjectLogStageFunc,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["logs"] });
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
 
   return (
     <WrapperLayout>
-      <LoadingWrapper
-        isLoading={isProjectLoading || isLogsLoading || isLogsFetching}
-      >
-        <Flex gap={6}>
+      <Flex gap={6}>
+        <LoadingWrapper isLoading={isProjectLoading}>
           <Box
             w="70%"
             bg="#fff"
@@ -170,6 +171,8 @@ function Innerpage() {
               </TableContainer>
             </Stack>
           </Box>
+        </LoadingWrapper>
+        <LoadingWrapper isLoading={isLogsLoading || isLogsFetching}>
           <Box
             bg="#fff"
             w="30%"
@@ -183,12 +186,12 @@ function Innerpage() {
               Project Logs
             </Heading>
             <Stepper
-              colorScheme="red"
+              colorScheme="green"
               index={activeStep}
               orientation="vertical"
               height="500px"
               gap="0"
-              size={"md"}
+              size={"lg"}
             >
               {steps.map((step: any, index: number) => (
                 <Step key={index}>
@@ -204,7 +207,10 @@ function Innerpage() {
                     <StepTitle>{step.title}</StepTitle>
                     <StepDescription>
                       <Text fontSize={"12px"}>
-                        {moment(step.date).format("YYYY Do MMMM")}
+                        {logs?.data?.[index]?.ActionDate &&
+                          moment(logs?.data?.[index]?.ActionDate).format(
+                            "YYYY-MMM-DD HH:mm:ss"
+                          )}
                       </Text>
                     </StepDescription>
                   </Box>
@@ -212,9 +218,29 @@ function Innerpage() {
                 </Step>
               ))}
             </Stepper>
+            {logs?.data?.length >= 6 ? (
+              ""
+            ) : (
+              <Button
+                isLoading={updateLogStatus.isPending}
+                variant={"solid"}
+                colorScheme="teal"
+                width={"100%"}
+                mt="5"
+                onClick={() =>
+                  updateLogStatus.mutate({
+                    projectId: id!!,
+                    customerId: projectInfo?.data?.userId as string,
+                    stage: steps[logs?.data?.length]?.slug as string,
+                  })
+                }
+              >
+                Update Stage to {steps[logs?.data?.length]?.slug}
+              </Button>
+            )}
           </Box>
-        </Flex>
-      </LoadingWrapper>
+        </LoadingWrapper>
+      </Flex>
     </WrapperLayout>
   );
 }

@@ -1,15 +1,17 @@
 import axiosInstance from "../axiosinstance";
 
 export type ProjectBody = {
+  _id: string;
   userId: string;
   orgId?: string;
-  category: string;
+  category: { title: string };
   title: string;
   description: string;
   clientTeam: string[];
   resource: string[];
   startDate: Date;
   deadline: Date;
+  status: string;
 };
 // relationship manager end point
 export async function createProject(body: ProjectBody) {
@@ -72,6 +74,22 @@ export async function geMytRequirement() {
   return res.data;
 }
 
+export interface IProjectLogParams {
+  projectId: string;
+  customerId: string;
+  stage: string;
+}
+
+export async function updateProjectLogStageFunc({
+  projectId,
+  customerId,
+  stage,
+}: IProjectLogParams) {
+  const res = await axiosInstance.get(
+    "/projects/update-log/" + customerId + "/" + projectId + "/" + stage
+  );
+  return res.data;
+}
 export async function getProjectLogsByIdFunc(projectId: string) {
   const res = await axiosInstance.get("/projects/logs/" + projectId);
   return res.data;

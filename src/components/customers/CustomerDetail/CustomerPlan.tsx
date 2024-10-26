@@ -1,4 +1,3 @@
-import { fetchCustomerPlanFunc } from "@/api/customer";
 import LoadingWrapper from "@/components/global/loadingWrapper";
 import {
   Box,
@@ -11,15 +10,11 @@ import {
   Tbody,
   Td,
   Text,
-  Th,
-  Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
-import { useParams } from "react-router-dom";
 
 interface ISUbscriptions {
   currentPeriodEnd: Date;
@@ -121,8 +116,8 @@ function CustomerPlan({
                             (el: any) =>
                               el?.stripe_price_id == currentSubscription?.planId
                           ).price
-                        }
-                        {" "}{currentPlan?.currency}
+                        }{" "}
+                        {currentPlan?.currency}
                       </Text>
                     </li>
                     <li>
@@ -174,17 +169,19 @@ function CustomerPlan({
                     <li>
                       Start Date
                       <Text fontWeight={"bold"} as="span" ms="1">
-                        {moment(currentSubscription?.currentPeriodStart).format(
-                          "MMMM Do YYYY"
-                        )}
+                        {currentSubscription?.currentPeriodStart &&
+                          moment(
+                            currentSubscription?.currentPeriodStart
+                          ).format("MMMM Do YYYY")}
                       </Text>
                     </li>
                     <li>
                       End Date
                       <Text fontWeight={"bold"} as="span" ms="1">
-                        {moment(currentSubscription?.currentPeriodEnd).format(
-                          "MMMM Do YYYY"
-                        )}
+                        {currentSubscription?.currentPeriodEnd &&
+                          moment(currentSubscription?.currentPeriodEnd).format(
+                            "MMMM Do YYYY"
+                          )}
                       </Text>
                     </li>
                   </ul>

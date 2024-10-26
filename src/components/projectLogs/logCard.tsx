@@ -1,30 +1,22 @@
-import { formatDate } from "@/utils/formateDate";
+import { ProjectBody } from "@/api/project";
 import {
+  Badge,
   Box,
   Card,
   CardBody,
+  CardFooter,
   Flex,
   GridItem,
   Heading,
   Progress,
-  Tag,
-  TagLabel,
   Text,
-  Avatar,
 } from "@chakra-ui/react";
-
-export type ProjectInfo = {
-  title: string;
-  description: string;
-  deadline: string;
-  startDate: string;
-  user: { name: string; image?: string };
-};
+import moment from "moment";
 interface ILogCard {
   bg: string;
   border: string;
   borderColor: string;
-  projectInfo: ProjectInfo;
+  projectInfo: ProjectBody;
   type: "customer" | "servicing";
 }
 function LogCard({
@@ -36,64 +28,75 @@ function LogCard({
 }: ILogCard) {
   return (
     <GridItem w="100%">
-      <Card
-        rounded={"lg"}
-        bg={bg}
-        boxShadow={"lg"}
-        border={border}
-        shadow={"0 4px 30px rgba(0, 0, 0, 0.1)"}
-        backdropFilter={"blur(5px)"}
-        borderColor={borderColor}
-      >
+      <Card rounded={"lg"} bg={bg} border={border} borderColor={borderColor}>
         <CardBody>
-          <Heading my={3} size={"md"}>
-            80%
+          <Heading as={"h4"} size={"sm"} textTransform={"capitalize"}>
+            {projectInfo?.title}
+          </Heading>
+
+          <Heading my={3} size={"xl"}>
+            {projectInfo?.status == "planning"
+              ? "0%"
+              : projectInfo?.status == "initiated"
+              ? "20%"
+              : projectInfo?.status == "delivered"
+              ? "40%"
+              : projectInfo?.status == "revision"
+              ? "60%"
+              : projectInfo?.status == "approved"
+              ? "80%"
+              : projectInfo?.status == "closed"
+              ? "100%"
+              : "0%"}
           </Heading>
           <Progress
             my={3}
             h={2}
             hasStripe
-            value={64}
-            colorScheme="red"
+            isAnimated
+            value={
+              projectInfo?.status == "planning"
+                ? 5
+                : projectInfo?.status == "initiated"
+                ? 20
+                : projectInfo?.status == "delivered"
+                ? 40
+                : projectInfo?.status == "revision"
+                ? 60
+                : projectInfo?.status == "approved"
+                ? 80
+                : projectInfo?.status == "closed"
+                ? 100
+                : 5
+            }
+            colorScheme="green"
             rounded={"3xl"}
           />
-          <Heading as={"h4"} size={"sm"}>
-            {projectInfo?.title}
-          </Heading>
 
           <Flex my={3} justifyContent={"space-between"}>
             <Box display={"block"}>
               <Text as={"span"} fontSize={"11px"}>
                 Start Date
               </Text>
-              <Text fontWeight={"600"}>
-                {formatDate(projectInfo?.startDate)}
+              <Text fontWeight={"600"} color="green">
+                {moment(projectInfo?.startDate).format("MM/ DD/ YYYY") || ""}
               </Text>
             </Box>
             <Box>
               <Text as={"span"} fontSize={"11px"}>
                 Deadline Date
               </Text>
-              <Text fontWeight={"600"}>
-                {formatDate(projectInfo?.deadline)}
+              <Text fontWeight={"600"} color="red.600">
+                {moment(projectInfo?.deadline).format("MM/ DD/ YYYY") || ""}
               </Text>
             </Box>
           </Flex>
-          {type === "servicing" && (
-            <Tag size="md" bg={"#f05"} borderRadius="full">
-              <Avatar
-                src={projectInfo?.user?.image ?? ""}
-                size="xs"
-                width={"20px"}
-                height={"20px"}
-                name={projectInfo?.user?.name}
-                ml={-1}
-                mr={2}
-              />
-              <TagLabel color={"white"}>{projectInfo?.user?.name}</TagLabel>
-            </Tag>
-          )}
         </CardBody>
+        <CardFooter borderTop="1px" borderColor={"gray.300"} p="3">
+          <Badge size="xs" colorScheme="purple">
+            <small>{projectInfo?.category?.title}</small>
+          </Badge>
+        </CardFooter>
       </Card>
     </GridItem>
   );

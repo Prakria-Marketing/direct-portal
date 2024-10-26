@@ -58,11 +58,14 @@ function CustomerList() {
     },
     {
       name: "Customer",
+      width: "250px",
       selector: (row: ICustomerData) => row?.name,
       cell: (row: ICustomerData) => (
         <Box>
           <Text textTransform={"capitalize"}>{row?.name || ""}</Text>
-          <Text as="small">{row?.email || ""}</Text>
+          <Text as="small" fontSize={"13px"}>
+            {row?.email || ""}
+          </Text>
         </Box>
       ),
     },
@@ -77,7 +80,7 @@ function CustomerList() {
           <Text textTransform={"capitalize"}>
             {row?.relationship_manager?.userId?.name || ""}
           </Text>
-          <Text as="small">
+          <Text as="small" fontSize={"13px"}>
             {row?.relationship_manager?.userId?.email || ""}
           </Text>
         </Box>
@@ -93,7 +96,7 @@ function CustomerList() {
     {
       name: "Joining Date",
       selector: (row: ICustomerData) =>
-        moment(row?.createdAt).format("MMMM Do YYYY") || "",
+        moment(row?.createdAt).format("MM/DD/YYYY") || "",
     },
     {
       name: "Verified",

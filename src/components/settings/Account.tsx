@@ -43,7 +43,7 @@ function Account() {
   };
   return (
     <>
-      <Stack border="1px solid #e8e8e8" rounded="lg" m="auto" p={5} spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
         <Flex gap={4}>
           <FormControl width="50%">
             <FormLabel fontSize="14px">Name</FormLabel>
@@ -51,19 +51,19 @@ function Account() {
           </FormControl>
 
           <FormControl width="50%">
-            <FormLabel fontSize="14px">Contact number</FormLabel>
+            <FormLabel fontSize="14px">Contact</FormLabel>
             <Input {...register("contact")} />
           </FormControl>
         </Flex>
 
         <Flex gap={4}>
           <FormControl width="50%">
-            <FormLabel fontSize="14px">country</FormLabel>
+            <FormLabel fontSize="14px">Country</FormLabel>
             <Input {...register("country")} />
           </FormControl>
 
           <FormControl width="50%">
-            <FormLabel fontSize="14px">state</FormLabel>
+            <FormLabel fontSize="14px">State</FormLabel>
             <Input {...register("state")} />
           </FormControl>
         </Flex>
@@ -74,7 +74,8 @@ function Account() {
             isLoading={updateUser.isPending}
             gap={2}
           >
-            <EditIcon />Update
+            <EditIcon />
+            Update
           </Button>
         </Flex>
       </Stack>

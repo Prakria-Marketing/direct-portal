@@ -1,4 +1,4 @@
-import { Spinner } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react";
 
 function Loading() {
   return (
@@ -6,7 +6,7 @@ function Loading() {
       thickness="4px"
       speed="0.65s"
       emptyColor="gray.200"
-      color="red.500"
+      color="yellow"
       size="xl"
       position={"absolute"}
       left="50%"
