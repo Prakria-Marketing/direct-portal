@@ -12,7 +12,7 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import { CloseIcon, useChannelStateContext } from "stream-chat-react";
+import { CloseIcon, useChannelStateContext, useChatContext } from "stream-chat-react";
 import { useQuery } from "@tanstack/react-query";
 import ClientChatInfo from "./clientChatInfo";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
@@ -21,6 +21,8 @@ import ServicingChatInfo from "./servisingChatInfo";
 // import { useAuth } from "@/hooks/auth";
 // import { getChatUser } from "../components/utils/getChatUser";
 import TaskLogsChatInfo from "./taskLogs";
+import { useEffect } from "react";
+import LoadingWrapper from "@/components/global/loadingWrapper";
 type ChatInfoType = {
   isSliderVisible: boolean;
   onToggleSlider: () => void;
@@ -103,52 +105,51 @@ function TaskTab() {
   </TabPanel>
 }
 function MediaTab() {
+  const { channel } = useChatContext();
+
+  const mediaImages = useQuery({
+    queryKey: ["media", channel?.id],
+    queryFn: async () => {
+      const response = await channel?.query({
+        // @ts-ignore
+        messages: { $contains: { attachments: { $exists: true } } } // Checks for messages with attachments
+      });
+      return response;
+    }
+  });
+  const messages = mediaImages?.data?.messages ?? null;
+
+  useEffect(() => {
+    console.log("media=>", mediaImages.data);
+  }, [mediaImages]);
 
   return <TabPanel>
     <Box>
-      <Grid templateColumns="repeat(4, 1fr)" gap={2}>
-        <Image
-          rounded="md"
-          border="5px solid #cbcbcb"
-          w={100}
-          src="https://static-cse.canva.com/blob/1625993/ComposeStunningImages6.jpg"
-        />
+      <LoadingWrapper isLoading={mediaImages.isLoading}>
 
-        <Image
-          rounded="md"
-          border="5px solid #cbcbcb"
-          w={100}
-          src="https://static-cse.canva.com/blob/1625993/ComposeStunningImages6.jpg"
-        />
+        {
 
-        <Image
-          rounded="md"
-          border="5px solid #cbcbcb"
-          w={100}
-          src="https://static-cse.canva.com/blob/1625993/ComposeStunningImages6.jpg"
-        />
+          !!messages && <Grid templateColumns="repeat(4, 1fr)" gap={2}>
 
-        <Image
+            {
+              messages?.map((message: any, index: number) => {
+                return message?.attachments?.map((images: any, ind: number) => images.type === "image" ? <Image
+                  key={index + ind}
+                  rounded="md"
+                  src={images?.image_url} /> : null)
+              })
+            }
+            {/* <Image
           rounded="md"
           border="5px solid #cbcbcb"
           w={100}
           src="https://static-cse.canva.com/blob/1625993/ComposeStunningImages6.jpg"
-        />
+        /> */}
 
-        <Image
-          rounded="md"
-          border="5px solid #cbcbcb"
-          w={100}
-          src="https://static-cse.canva.com/blob/1625993/ComposeStunningImages6.jpg"
-        />
-
-        <Image
-          rounded="md"
-          border="5px solid #cbcbcb"
-          w={100}
-          src="https://static-cse.canva.com/blob/1625993/ComposeStunningImages6.jpg"
-        />
-      </Grid>
+          </Grid>
+        }
+        {!messages?.length && <Text>no media</Text>}
+      </LoadingWrapper>
     </Box>
   </TabPanel>
 
