@@ -1,11 +1,5 @@
 import DataTable from "react-data-table-component";
 import moment from "moment"; // Import moment
-<<<<<<< HEAD
-import { Box, Flex, Heading, Input } from "@chakra-ui/react";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getAssignedTask } from "@/api/task";
-=======
 import { Box, Flex, FormControl, Heading, Input, Select, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,7 +7,6 @@ import { getAssignedTask, updateTask } from "@/api/task";
 import LoadingWrapper from "../global/loadingWrapper";
 import { useAuth } from "@/hooks/auth";
 import { Columns } from "@/utils/columnsIds";
->>>>>>> 42b8bb39c38198e7cb23393e86a5d73b8fd85d32
 
 interface ITaskData {
 
@@ -30,14 +23,8 @@ interface ITaskData {
 function TaskList() {
   const taskListQuery = useQuery({
     queryKey: ["task"],
-<<<<<<< HEAD
-    queryFn: getAssignedTask,
-  });
-
-=======
     queryFn: getAssignedTask
   })
->>>>>>> 42b8bb39c38198e7cb23393e86a5d73b8fd85d32
   const ExpandedComponent = ({ data }: { data: ITaskData }) => (
     <Box p="3" bg="gray.100">
       {data?.description}
