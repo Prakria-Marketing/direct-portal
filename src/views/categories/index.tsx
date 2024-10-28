@@ -27,7 +27,7 @@ function Categories() {
         <LoadingWrapper isLoading={isLoading}>
           <Grid templateColumns="repeat(6, 1fr)" gap={6} mt={4}>
             {categoryList?.map((category, index) => (
-              <GridItem key={index}>
+              <GridItem key={index?.toString()}>
                 <Link
                   to={
                     "/messages?active=" +

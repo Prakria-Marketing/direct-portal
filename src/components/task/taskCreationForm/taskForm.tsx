@@ -66,7 +66,7 @@ const Form = ({ register, errors, isPending }: StepFormFields) => {
         >
           {projectList?.data?.map((option: any, index: number) => {
             return (
-              <option value={option._id} key={index}>
+              <option value={option._id} key={index?.toString()}>
                 {option.title}
               </option>
             );
@@ -152,7 +152,7 @@ const Form = ({ register, errors, isPending }: StepFormFields) => {
           })}
         >
           {PriorityType.map((priority, index: number) => (
-            <option value={priority} key={index}>
+            <option value={priority} key={index?.toString()}>
               {priority}
             </option>
           ))}

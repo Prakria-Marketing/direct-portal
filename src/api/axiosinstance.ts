@@ -2,22 +2,21 @@ import axios, { AxiosInstance } from "axios";
 import { auth } from "@/firebase/firebase";
 export const URL = import.meta.env.VITE_api_url;
 const axiosInstance: AxiosInstance = axios.create({
-    // withCredentials: true,
-    baseURL: URL
+  // withCredentials: true,
+  baseURL: URL,
 });
 
-axiosInstance.interceptors.request.use(async (config) => {
+axiosInstance.interceptors.request.use(
+  async (config) => {
     const token = await auth?.currentUser?.getIdToken();
-    // useAuth.getState()?.user?.accessToken;
-    // console.log("token ", token)
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-}, error => {
+  },
+  (error) => {
     return Promise.reject(error);
-});
-
-
+  }
+);
 
 export default axiosInstance;

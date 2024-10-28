@@ -72,14 +72,14 @@ function ChatInfoWindow({
       <Tabs>
         <TabList fontFamily={"Unbounded"}>
           {tabs?.map((tab: string, index: number) => (
-            <Tab fontSize={"13px"} key={index}>
+            <Tab fontSize={"13px"} key={index?.toString()}>
               {tab}
             </Tab>
           ))}
         </TabList>
         <TabPanels py={5}>
           {pannels?.map((Pannel, index: number) => (
-            <Pannel key={index} />
+            <Pannel key={index?.toString()} />
           ))}
         </TabPanels>
       </Tabs>
@@ -163,7 +163,7 @@ function MemberListTab() {
       <Box>
         <Box>
           {memberList?.data?.map((member: any, index: number) => (
-            <Card mb={3} key={index}>
+            <Card mb={3} key={index?.toString()}>
               <CardBody display={"flex"} alignItems={"center"} gap="2" p="3">
                 <Avatar name={member?.user?.name} src={member?.user?.image} />
                 <Box m="0" p="0">

@@ -51,7 +51,7 @@ export default function SmallCentered() {
       bg={useColorModeValue("gray.800", "gray.800")}
       color={useColorModeValue("gray.300", "gray.300")}
     >
-      <Container
+      {/* <Container
         as={Stack}
         maxW={"6xl"}
         py={4}
@@ -73,7 +73,7 @@ export default function SmallCentered() {
             Contact
           </Box>
         </Stack>
-      </Container>
+      </Container> */}
 
       <Box
         borderTopWidth={1}

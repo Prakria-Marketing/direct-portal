@@ -116,7 +116,6 @@ function PricingCards() {
                       position="relative"
                       roundedTopLeft="lg"
                       roundedTopRight="lg"
-                      // bg="transparent"
                     >
                       {index == 1 ? (
                         <Box
@@ -144,7 +143,11 @@ function PricingCards() {
                         {item?.title}
                       </Text>
                       <Flex justifyContent="center" alignItems={"center"}>
-                        <Text fontSize="2xl" fontWeight="700" color={" #f1ff00"}>
+                        <Text
+                          fontSize="2xl"
+                          fontWeight="700"
+                          color={" #f1ff00"}
+                        >
                           {price.price} {item.currency}
                         </Text>
                       </Flex>
@@ -155,7 +158,7 @@ function PricingCards() {
                       <List spacing={3} textAlign="start" px={12}>
                         {item?.features?.map((el: any, index: number) => {
                           return (
-                            <ListItem key={index}>
+                            <ListItem key={index?.toString()}>
                               <ListIcon as={FaCheckCircle} color="green.500" />
                               {el?.name}
                             </ListItem>

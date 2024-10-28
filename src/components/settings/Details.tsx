@@ -18,45 +18,36 @@ import { useForm } from "react-hook-form";
 
 type UserDetails = {
   image: FileList;
-  bio: string
-}
+  bio: string;
+};
 function Details() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const [preview, setPreview] = useState<any>(null)
+  const [preview, setPreview] = useState<any>(null);
   const updateUser = useMutation({
     mutationFn: updateUserInfo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["auth"] })
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
+    },
+  });
   const { register, handleSubmit, watch } = useForm<UserDetails>({
     defaultValues: {
-      bio: user?.user?.bio
-    }
+      bio: user?.user?.bio,
+    },
   });
   const onSubmit = async (data: UserDetails) => {
-    console.log("profile DetailUpdate", data)
-
     const file = data.image?.[0] || null;
     const formData = new FormData();
-
     formData.append("bio", data.bio);
-
 
     if (file) {
       const blob = new Blob([file], { type: file.type });
-      console.log("blob", blob, file.name);
-      // return;
-
       formData.append("image", blob, file.name);
     }
 
     updateUser.mutate({ firebaseId: user.uid, body: formData });
-
-  }
-  const watchedFile: any = watch('image');
-  console.log("user=> ", user)
+  };
+  const watchedFile: any = watch("image");
 
   useEffect(() => {
     if (watchedFile && watchedFile.length > 0) {
@@ -68,18 +59,16 @@ function Details() {
       reader.readAsDataURL(file);
     } else {
       setPreview(null);
-
     }
   }, [watchedFile]);
   return (
     <>
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-
         <Box mb={10}>
-          <Heading as="h3" mb={1} size="xs">
+          <Heading as="h2" mb={1} size="md">
             Profile details
           </Heading>
-          <Text>You can change your profile details here seamlessly.</Text>
+          <Text fontSize={"15px"}>You can change your profile details here seamlessly.</Text>
         </Box>
         <hr></hr>
         <Flex my={10} gap={5}>
@@ -90,7 +79,11 @@ function Details() {
             <Text>This is where people will see your actual face.</Text>
           </Box>
 
-          <Avatar width={"70px"} height={"70px"} src={preview || user?.user?.image} name={user?.user?.name}
+          <Avatar
+            width={"70px"}
+            height={"70px"}
+            src={preview || user?.user?.image}
+            name={user?.user?.name}
             border={"1px solid grey"}
           />
           <Box width="100%">
@@ -110,7 +103,6 @@ function Details() {
                 border="0"
                 {...register("image")}
               />
-              {/* <Text>Click here to upload your file</Text> */}
             </FormControl>
           </Box>
         </Flex>
@@ -124,16 +116,23 @@ function Details() {
           </Box>
           <Box width="100%">
             <FormControl>
-              <Textarea bg="gray.50" rounded="lg" rows={4}
+              <Textarea
+                bg="gray.50"
+                rounded="lg"
+                rows={4}
                 {...register("bio")}
               ></Textarea>
             </FormControl>
           </Box>
         </Flex>
         <Flex justifyContent={"flex-end"}>
-
-          <Button gap={2} type="submit" colorScheme="teal" isLoading={updateUser.isPending}>
-           <EditIcon /> Update
+          <Button
+            gap={2}
+            type="submit"
+            colorScheme="teal"
+            isLoading={updateUser.isPending}
+          >
+            <EditIcon /> Update
           </Button>
         </Flex>
       </Box>

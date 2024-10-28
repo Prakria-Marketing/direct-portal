@@ -27,10 +27,7 @@ export type UserInfo = {
   firebaseId: string;
 };
 export async function updateUserInfo(data: UpdateUserInfo) {
-  const response = await axiosInstance.patch(
-    "/users/update/" + data.firebaseId,
-    data.body
-  );
+  const response = await axiosInstance.post("/users/update-user", data.body);
   return response.data;
 }
 export async function addInternalUser(data: UserInfo) {

@@ -66,7 +66,7 @@ const Form = ({ register, errors, watch, isPending }: StepFormFields) => {
         >
           {categoryList?.data?.map((option: any, index: number) => {
             return (
-              <option value={option._id} key={index}>
+              <option value={option._id} key={index?.toString()}>
                 {option.title}
               </option>
             );
@@ -164,7 +164,7 @@ const Form = ({ register, errors, watch, isPending }: StepFormFields) => {
           <Flex gap={1}>
             {fileList.map((file, index) => (
               <Box
-                key={index}
+                key={index?.toString()}
                 border={"1px solid grey"}
                 p={2}
                 borderRadius={"md"}

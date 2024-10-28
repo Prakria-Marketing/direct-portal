@@ -54,13 +54,11 @@ function LoginForm() {
       } else {
         toast({
           title: (err as Error).message,
-          // description: "We've created your account for you.",
           status: "error",
           duration: 9000,
           isClosable: true,
           position: "top-right",
         });
-        console.log("err ", err);
       }
     } finally {
       setLoading(false);

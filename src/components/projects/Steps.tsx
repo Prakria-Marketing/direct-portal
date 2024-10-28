@@ -21,7 +21,7 @@ function Steps({ step }: { step: number }) {
   return (
     <Stepper size="lg" colorScheme="teal" index={step} my={4}>
       {steps.map((step, index) => (
-        <Step key={index}>
+        <Step key={index?.toString()}>
           <StepIndicator>
             <StepStatus
               complete={<StepIcon />}

@@ -232,7 +232,7 @@ export default function CustomerPlanCard() {
                       <List spacing={3} textAlign="start" px={12}>
                         {item?.features?.map((el: any, index: number) => {
                           return (
-                            <ListItem key={index}>
+                            <ListItem key={index?.toString()}>
                               <ListIcon as={FaCheckCircle} color="green.500" />
                               {el?.name}
                             </ListItem>

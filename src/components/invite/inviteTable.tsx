@@ -54,7 +54,7 @@ function InviteTable({ data }: TeamTableRowData) {
                     <Tbody>
 
                         {data?.map((row, index) => {
-                            return <TableRow row={row} key={index} onClick={onAction}
+                            return <TableRow row={row} key={index?.toString()} onClick={onAction}
                                 isLoading={acceptOrReject.isPending}
                             />
                         })}

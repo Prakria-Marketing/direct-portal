@@ -94,41 +94,28 @@ function BusinessHub() {
             flexWrap="wrap"
           >
             <Box>
-              <HStack>
-                {/* <Image
-                  w="70px"
-                  src="https://cdn.worldvectorlogo.com/logos/square-logo-1.svg"
-                /> */}
-                <Box>
-                  <Heading as="h3" size="md">
-                    {data?.companyName || "Company Name"}
-                  </Heading>
-                  <Text>We Design Delightful Digital Experience</Text>
-                </Box>
-              </HStack>
-            </Box>
-            <Box mt={{ base: 4, md: 0 }}>
-              <Button gap={2} colorScheme="teal">
-                <EditIcon /> Update
-              </Button>
+              <Heading as="h3" size="md">
+                {data?.companyName || "Company Name"}
+              </Heading>
+              <Text>We Design Delightful Digital Experience</Text>
             </Box>
           </Flex>
           <Flex justifyContent="space-between" mt={10} flexWrap="wrap" gap={4}>
             <Box>
               <Text>Company Type</Text>
-              <Heading as="h5" size="xs">
+              <Heading as="h5" size="sm">
                 {data?.companyType || "-"}
               </Heading>
             </Box>
             <Box>
               <Text>Company Address</Text>
-              <Heading as="h5" size="xs">
+              <Heading as="h5" size="sm">
                 {data?.companyAddress || "-"}
               </Heading>
             </Box>
             <Box>
               <Text>Company Headquarter</Text>
-              <Heading as="h5" size="xs">
+              <Heading as="h5" size="sm">
                 {data?.companyHeadquaters || "-"}
               </Heading>
             </Box>
@@ -136,10 +123,7 @@ function BusinessHub() {
         </Box>
 
         <Box w={{ base: "full", lg: "6xl" }} m="auto" mb={10}>
-          <Flex
-            // templateColumns={{ base: "1fr", lg: "70% 30%" }}
-            gap={{ base: 6, lg: 10 }}
-          >
+          <Flex gap={{ base: 6, lg: 10 }}>
             <Box>
               <Box w="100%" bg="#fff" p={6} rounded="lg">
                 <People orgId={orgnizationQuery?.data?.data?._id as string} />
@@ -151,35 +135,35 @@ function BusinessHub() {
               </Heading>
 
               <Box bg="#fff" p={5} rounded="lg" mt={5} id="organization-info">
-                <Flex gap={4} mb={5} pb={5} borderBottom='1px solid #eaeaea'>
+                <Flex gap={4} mb={5} pb={5} borderBottom="1px solid #eaeaea">
                   <HiOutlineClipboardDocumentList />
                   <Box>
                     <Text fontWeight={600}>GST/ VAT</Text>
                     <Text>{data?.GST || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                <Flex gap={4} mb={5} pb={3} borderBottom="1px solid #eaeaea">
                   <BsBuildings />
                   <Box>
                     <Text fontWeight={600}>Industry Type</Text>
                     <Text>{data?.industry || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                <Flex gap={4} mb={5} pb={3} borderBottom="1px solid #eaeaea">
                   <BsGlobe />
                   <Box>
                     <Text fontWeight={600}>Website</Text>
                     <Text>{data?.website || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                <Flex gap={4} mb={5} pb={3} borderBottom="1px solid #eaeaea">
                   <FaRegUser />
                   <Box>
                     <Text fontWeight={600}>Contact Person</Text>
                     <Text>{data?.contactPerson || "-"}</Text>
                   </Box>
                 </Flex>
-                <Flex gap={4} mb={5} pb={3} borderBottom='1px solid #eaeaea'>
+                <Flex gap={4} mb={5} pb={3} borderBottom="1px solid #eaeaea">
                   <IoMailUnreadOutline />
                   <Box>
                     <Text fontWeight={600}>Contact Email</Text>

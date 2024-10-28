@@ -36,7 +36,7 @@ function ManagerProjectLogs() {
       </Flex>
       <Grid templateColumns="repeat(4, 1fr)" gap={2}>
         {filteredData?.map((projects: any, index: number) => (
-          <Link key={index} to={"/project-logs/" + projects?._id}>
+          <Link key={index?.toString()} to={"/project-logs/" + projects?._id}>
             <LogCard
               type="servicing"
               border="1px"

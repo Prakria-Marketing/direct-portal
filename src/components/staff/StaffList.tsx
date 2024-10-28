@@ -91,8 +91,9 @@ function StaffList() {
         return (
           <Box flexWrap={"wrap"}>
             {row.specialization?.map(
-              (item: { label: string; value: string }) => (
+              (item: { label: string; value: string }, index) => (
                 <Badge
+                  key={index?.toString()}
                   colorScheme="purple"
                   fontSize={"10px"}
                   fontWeight={"medium"}

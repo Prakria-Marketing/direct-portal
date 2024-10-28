@@ -13,10 +13,10 @@ function ChannelListWrapper({ filters, options }: any) {
     <>
       <Box display={!!query ? "block" : "none"}>
         {channels?.map((channel: any, index: number) => (
-          <CustomSearchResultChannelItem key={index} {...channel} />
+          <CustomSearchResultChannelItem key={index?.toString()} {...channel} />
         ))}
         {users?.map((user: any, index: number) => (
-          <CustomSearchResultUserItem key={index} {...user} />
+          <CustomSearchResultUserItem key={index?.toString()} {...user} />
         ))}
       </Box>
       <Box display={!!query ? "none" : "block"}>

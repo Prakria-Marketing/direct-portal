@@ -21,7 +21,7 @@ function TaskLogsChatInfo() {
       {data?.room_type === "group" ? null : (
         <div>
           {taskList?.data?.data?.map((task: any, index: number) => (
-            <ServiceCard key={index} data={task} />
+            <ServiceCard key={index?.toString()} data={task} />
           ))}
         </div>
       )}

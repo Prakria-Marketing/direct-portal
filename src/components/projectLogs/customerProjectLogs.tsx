@@ -1,7 +1,7 @@
 import { getCustomerProjects, ProjectBody } from "@/api/project";
 import { useAuth } from "@/hooks/auth";
 import { useQuery } from "@tanstack/react-query";
-import { Box, Flex, Grid, Heading } from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import LogCard from "./logCard";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -42,7 +42,7 @@ function CustomerProjectLogs() {
       </Flex>
       <Grid templateColumns="repeat(4, 1fr)" gap={2}>
         {filteredData?.map((projects: ProjectBody, index: number) => (
-          <Link key={index} to={"/project-logs/" + projects?._id}>
+          <Link key={index?.toString()} to={"/project-logs/" + projects?._id}>
             <LogCard
               type="customer"
               border="1px"
@@ -53,6 +53,7 @@ function CustomerProjectLogs() {
           </Link>
         ))}
       </Grid>
+      {filteredData?.length === 0 ? <Text>No Project Found</Text> : null}
     </LoadingWrapper>
   );
 }

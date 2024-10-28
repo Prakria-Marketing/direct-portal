@@ -35,60 +35,53 @@ function Security() {
   const onSubmit = async (data: ChangePasswordFields) => {
     try {
       const res = await changePassword(data.currentPassword, data.newPassword);
-      console.log(res);
     } catch (err) {
-      console.log(err);
     } finally {
       setIsLoading(false);
     }
   };
   return (
-      <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
-        <FormControl isInvalid={!!errors.currentPassword}>
-          <FormLabel fontSize="14px">Old Password</FormLabel>
-          <Input
-            placeholder="**********"
-            {...register("currentPassword", { required: true })}
-          />
-          <FormErrorMessage>{errors.currentPassword?.message}</FormErrorMessage>
-        </FormControl>
+    <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
+      <FormControl isInvalid={!!errors.currentPassword}>
+        <FormLabel fontSize="14px">Old Password</FormLabel>
+        <Input
+          placeholder="**********"
+          {...register("currentPassword", { required: true })}
+        />
+        <FormErrorMessage>{errors.currentPassword?.message}</FormErrorMessage>
+      </FormControl>
 
-        <FormControl isInvalid={!!errors.newPassword}>
-          <FormLabel fontSize="14px">Enter New Pasword</FormLabel>
-          <Input
-            placeholder="**********"
-            {...register("newPassword", {
-              required: true,
-            })}
-          />
-          <FormErrorMessage>{errors.newPassword?.message}</FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={!!errors.confirmNewPassword}>
-          <FormLabel fontSize="14px">Re-enter New Password</FormLabel>
-          <Input
-            placeholder="**********"
-            {...register("confirmNewPassword", {
-              required: true,
-              validate: (value) =>
-                value === newPassword || "password do not match",
-            })}
-          />
-          <FormErrorMessage>
-            {errors.confirmNewPassword?.message}
-          </FormErrorMessage>
-        </FormControl>
+      <FormControl isInvalid={!!errors.newPassword}>
+        <FormLabel fontSize="14px">Enter New Pasword</FormLabel>
+        <Input
+          placeholder="**********"
+          {...register("newPassword", {
+            required: true,
+          })}
+        />
+        <FormErrorMessage>{errors.newPassword?.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={!!errors.confirmNewPassword}>
+        <FormLabel fontSize="14px">Re-enter New Password</FormLabel>
+        <Input
+          placeholder="**********"
+          {...register("confirmNewPassword", {
+            required: true,
+            validate: (value) =>
+              value === newPassword || "password do not match",
+          })}
+        />
+        <FormErrorMessage>
+          {errors.confirmNewPassword?.message}
+        </FormErrorMessage>
+      </FormControl>
 
-        <Flex textAlign="end" align="center" justifyContent="end">
-          <Button
-            type="submit"
-            colorScheme="teal"
-            gap={2}
-            isLoading={isLoading}
-          >
-            <EditIcon /> Update
-          </Button>
-        </Flex>
-      </Stack>
+      <Flex textAlign="end" align="center" justifyContent="end">
+        <Button type="submit" colorScheme="teal" gap={2} isLoading={isLoading}>
+          <EditIcon /> Update
+        </Button>
+      </Flex>
+    </Stack>
   );
 }
 
@@ -122,7 +115,6 @@ async function changePassword(
     // Change the user's password
     // await user.updatePassword(newPassword);
     await updatePassword(user, newPassword);
-    console.log("Password changed successfully.");
   } catch (error) {
     console.error("Error changing password:", error);
     throw error; // Rethrow the error for further handling if needed

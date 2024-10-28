@@ -163,7 +163,7 @@ const mainRoutes = {
       ),
     },
     {
-      path: "/invite",
+      path: "/invitation",
       element: (
         <PermissionLayout role={["customer"]}>
           <InvitePage />

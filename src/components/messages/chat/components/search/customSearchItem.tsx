@@ -37,8 +37,6 @@ export function CustomSearchResultChannelItem(
     : (name = data?.name as string);
   const handleChangeChat = async () => {
     const c = client.channel("messaging", data?.id);
-    console.log("search-", c);
-    console.log("=>> c", c);
     await c.watch();
     setActiveChannel(c);
     setQuery("");

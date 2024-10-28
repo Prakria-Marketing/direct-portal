@@ -27,6 +27,7 @@ import { useChannelStateContext } from "stream-chat-react";
 import { getResource } from "@/api/users";
 import { createProject } from "@/api/project";
 import { useAuth } from "@/hooks/auth";
+import Loading from "../Loading";
 
 type StepFormFields = {
   register: UseFormRegister<ProjectFields>;
@@ -37,7 +38,7 @@ type StepFormFields = {
 type Form1 = {} & StepFormFields;
 const Form1 = ({ register, errors }: Form1) => {
   const { orgId, isLoading } = useProjectType();
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loading />;
   const list = [{ label: "Personal Project", value: "personal" }];
   if (orgId) {
     list.push({ label: "Organization's Project", value: "organization" });
@@ -56,7 +57,7 @@ const Form1 = ({ register, errors }: Form1) => {
             })}
           >
             {list.map((option, index) => (
-              <option value={option.value} key={index}>
+              <option value={option.value} key={index?.toString()}>
                 {option.label}
               </option>
             ))}
@@ -89,7 +90,7 @@ const Form2 = ({ register, errors }: StepFormFields) => {
           Category
         </FormLabel>
         {isLoading ? (
-          <>loading...</>
+          <Loading />
         ) : (
           <Select
             id="category"
@@ -105,7 +106,7 @@ const Form2 = ({ register, errors }: StepFormFields) => {
           >
             {categoryList?.data?.map((option: any, index: number) => {
               return (
-                <option value={option._id} key={index}>
+                <option value={option._id} key={index?.toString()}>
                   {option.title}
                 </option>
               );
@@ -130,7 +131,6 @@ const Form2 = ({ register, errors }: StepFormFields) => {
           id="title"
           focusBorderColor="brand.400"
           shadow="sm"
-          //   size="sm"
           w="full"
           rounded="md"
           {...register("title", {
@@ -158,7 +158,6 @@ const Form2 = ({ register, errors }: StepFormFields) => {
           id="description"
           focusBorderColor="brand.400"
           shadow="sm"
-          //   size="sm"
           w="full"
           rounded="md"
           {...register("description", {
@@ -326,24 +325,6 @@ const Form3 = ({ control, watch, orgId }: Form3) => {
           }}
         />
       </FormControl>
-      {/* <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
-        <FormLabel
-          htmlFor="clientTeam"
-          fontSize="sm"
-          fontWeight="md"
-          color="gray.700"
-          mt="2%"
-        >
-          Resources
-        </FormLabel>
-        <MultiSelect
-          options={options}
-          placeholder="Select Members"
-          value={value}
-          onChange={onChange}
-          create
-        />
-      </FormControl> */}
     </>
   );
 };
@@ -374,7 +355,6 @@ export default function CreateProjectForm({
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  // const [customField, setCustomField] = useState('');
   const queryClient = useQueryClient();
   const proejctType = useProjectType();
   const createProjectMutation = useMutation({
@@ -411,13 +391,9 @@ export default function CreateProjectForm({
     }
     data.clientTeam = data?.clientTeam?.map((c: any) => c.value) ?? [];
     data.resource = data?.resource?.map((r: any) => r.value) ?? [];
-    // do it here
-    // clientTeam
-    // resource
     try {
       await createProjectMutation.mutateAsync(data as any);
     } catch (err) {
-      console.log(err);
     } finally {
       onClose?.();
       reset();
@@ -510,16 +486,18 @@ function useProjectType() {
   const { user } = useAuth();
   const state = channel.state;
   const members = Object.values(state.members);
-  const customer: any = members?.find((member) => member.user_id !== user?.userId) as string;
-  console.log("members=", customer.user_id)
-  // console.log(customerId)
-
-  // userId
+  const customer: any = members?.find(
+    (member) => member.user_id !== user?.userId
+  ) as string;
   const organizationQuery = useQuery({
     queryKey: [customer.user_id],
     queryFn: async () => await getOrgnizationByUserId(customer.user_id!),
-    enabled: !!customer
-  })
+    enabled: !!customer,
+  });
 
-  return { userId: customer.user_id, orgId: organizationQuery?.data?.data?._id, isLoading: organizationQuery.isLoading }
+  return {
+    userId: customer.user_id,
+    orgId: organizationQuery?.data?.data?._id,
+    isLoading: organizationQuery.isLoading,
+  };
 }

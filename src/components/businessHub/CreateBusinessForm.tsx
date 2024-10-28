@@ -32,7 +32,6 @@ function CreateBusinessForm({
   const isUpdate = type === "update";
 
   const queryClient = useQueryClient();
-  console.log(defaultValues);
   const { mutate, isPending } = useMutation({
     mutationFn: createOrgnization,
     onSuccess: () => {
@@ -53,7 +52,6 @@ function CreateBusinessForm({
   } = useForm<IOrgnization>({
     defaultValues: type === "update" ? defaultValues : undefined,
   });
-  // console.log(errors)
   const onSubmit = async (data: IOrgnization) => {
     if (type === "update") {
       delete (data as any).owner;

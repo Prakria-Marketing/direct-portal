@@ -68,12 +68,6 @@ export const CustomChannelHeader = ({
     };
   }, []);
 
-  useEffect(() => {
-    if (memberList.data) {
-      console.log("members list", memberList.data, chatUser.data);
-    }
-  }, [memberList.data, chatUser.data]);
-
   let name = "";
   members.length === 2 && data?.room_type !== "group"
     ? (name = members?.find((member) => member.user_id !== user?.userId)?.user

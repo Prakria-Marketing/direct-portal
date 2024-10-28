@@ -89,7 +89,7 @@ function CustomerRequirements({ customerId }: { customerId: string }) {
     },
     {
       name: "Status",
-      width:"250px",
+      width: "250px",
       selector: (row: IRequirement) => row.status,
       cell: (row: IRequirement) =>
         row.status == true ? (

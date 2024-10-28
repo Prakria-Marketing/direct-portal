@@ -42,7 +42,7 @@ function MemberTable({ data }: TeamTableRowData) {
         </Thead>
         <Tbody>
           {
-            data?.map((row, index) => <TableRow row={row} key={index} />)
+            data?.map((row, index) => <TableRow row={row} key={index?.toString()} />)
           }
         </Tbody>
       </Table>

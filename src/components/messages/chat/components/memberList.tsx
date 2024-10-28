@@ -17,7 +17,7 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
     return (
         <div>
             {visibleMembers.map((member, index) => (
-                <span key={index}>
+                <span key={index?.toString()}>
                     {member.user?.name}
                     {index < visibleMembers.length - 1 && ', '}
                 </span>

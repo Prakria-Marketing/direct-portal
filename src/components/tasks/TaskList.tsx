@@ -195,7 +195,7 @@ function UpdateStatusColumn(row: ITaskData) {
         >
           {Columns.map((opt: string, index: number) => {
             return (
-              <option value={opt} key={index}>
+              <option value={opt} key={index?.toString()}>
                 {opt}
               </option>
             );

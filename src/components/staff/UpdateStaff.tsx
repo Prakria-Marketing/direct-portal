@@ -175,7 +175,7 @@ function UpdateStaff({ isOpen, onClose, data }: ModalProps) {
                       email: string;
                       role: string;
                     },
-                    index: any
+                    index: number
                   ) => {
                     return (
                       <option key={index?.toString()} value={user?._id}>

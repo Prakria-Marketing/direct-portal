@@ -52,14 +52,14 @@ function ServicingChatInfo() {
             ? "No Project Found"
             : clientProjectList.data?.data?.map(
                 (project: any, index: number) => {
-                  return <ServiceCard data={project} key={index} />;
+                  return <ServiceCard data={project} key={index?.toString()} />;
                 }
               )}
           {clientRequirement.data?.data?.length > 0 && (
             <Heading size={"sm"}>Requirements</Heading>
           )}
           {clientRequirement.data?.data?.map((req: any, index: number) => {
-            return <ServiceCard data={req} key={index} />;
+            return <ServiceCard data={req} key={index?.toString()} />;
           })}
         </div>
       )}

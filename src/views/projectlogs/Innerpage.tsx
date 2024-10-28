@@ -32,6 +32,7 @@ import { useParams } from "react-router-dom";
 import LoadingWrapper from "@/components/global/loadingWrapper";
 import moment from "moment";
 import { useEffect } from "react";
+import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 
 interface IStep {
   title: string;
@@ -194,7 +195,7 @@ function Innerpage() {
               size={"lg"}
             >
               {steps.map((step: any, index: number) => (
-                <Step key={index}>
+                <Step key={index?.toString()}>
                   <StepIndicator>
                     <StepStatus
                       complete={<StepIcon />}
@@ -218,26 +219,28 @@ function Innerpage() {
                 </Step>
               ))}
             </Stepper>
-            {logs?.data?.length >= 6 ? (
-              ""
-            ) : (
-              <Button
-                isLoading={updateLogStatus.isPending}
-                variant={"solid"}
-                colorScheme="teal"
-                width={"100%"}
-                mt="5"
-                onClick={() =>
-                  updateLogStatus.mutate({
-                    projectId: id!!,
-                    customerId: projectInfo?.data?.userId as string,
-                    stage: steps[logs?.data?.length]?.slug as string,
-                  })
-                }
-              >
-                Update Stage to {steps[logs?.data?.length]?.slug}
-              </Button>
-            )}
+            <PermissionWrapper role={["servicing"]}>
+              {logs?.data?.length >= 6 ? (
+                ""
+              ) : (
+                <Button
+                  isLoading={updateLogStatus.isPending}
+                  variant={"solid"}
+                  colorScheme="teal"
+                  width={"100%"}
+                  mt="5"
+                  onClick={() =>
+                    updateLogStatus.mutate({
+                      projectId: id!!,
+                      customerId: projectInfo?.data?.userId as string,
+                      stage: steps[logs?.data?.length]?.slug as string,
+                    })
+                  }
+                >
+                  Update Stage to {steps[logs?.data?.length]?.slug}
+                </Button>
+              )}
+            </PermissionWrapper>
           </Box>
         </LoadingWrapper>
       </Flex>

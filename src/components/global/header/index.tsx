@@ -39,7 +39,12 @@ import { auth } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/auth";
 import React from "react";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
-import { FaDollarSign, FaUsers, FaUserSecret } from "react-icons/fa";
+import {
+  FaDollarSign,
+  FaHandsHelping,
+  FaUsers,
+  FaUserSecret,
+} from "react-icons/fa";
 import { TbUserScan } from "react-icons/tb";
 const NavList = [
   {
@@ -119,9 +124,9 @@ const MenuItemList = [
     permissions: ["customer"],
   },
   {
-    text: "Promotion & Offers",
-    icon: <HiOutlineTicket />,
-    link: "#", // No link is provided for this item
+    text: "My Invitations",
+    icon: <FaHandsHelping />,
+    link: "/invitation", // No link is provided for this item
     permissions: ["customer"],
   },
   {
@@ -216,10 +221,12 @@ function Header() {
                       nav.permissions.includes(user?.role) ||
                       nav.permissions.includes("all")
                   ).map((nav, index) => (
-                    <MenuItem key={index} fontSize="14px" gap={2}>
-                      {nav.icon}
-                      <Link to={nav.link}>{nav.text} </Link>
-                    </MenuItem>
+                    <Link to={nav.link}>
+                      <MenuItem key={index?.toString()} fontSize="14px" gap={2}>
+                        {nav.icon}
+                        {nav.text}
+                      </MenuItem>{" "}
+                    </Link>
                   ))}
                   <hr />
                   <MenuItem fontSize="14px" gap={2} onClick={logout}>
@@ -244,7 +251,7 @@ function Header() {
                   nav.permissions.includes(user?.role) ||
                   nav.permissions.includes("all")
               ).map((nav, index) => (
-                <NavigationButton key={index} {...nav} />
+                <NavigationButton key={index?.toString()} {...nav} />
               ))}
             </HStack>
 

@@ -5,12 +5,14 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   Stack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { updateUserInfo, UserData } from "@/api/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EditIcon } from "@chakra-ui/icons";
+import data from "../../utils/country-state.json";
 
 function Account() {
   const { user } = useAuth();
@@ -22,7 +24,7 @@ function Account() {
     },
   });
 
-  const { register, handleSubmit } = useForm<UserData>({
+  const { register, handleSubmit, watch } = useForm<UserData>({
     defaultValues: {
       name: user?.user.name,
       contact: user?.user?.contact,
@@ -30,6 +32,10 @@ function Account() {
       country: user?.user?.country,
     },
   });
+
+  const countryName = watch("country");
+  const stateList = data?.find((el) => el.name == countryName)?.states || [];
+
   const onSubmit = async (data: UserData) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -47,29 +53,47 @@ function Account() {
         <Flex gap={4}>
           <FormControl width="50%">
             <FormLabel fontSize="14px">Name</FormLabel>
-            <Input placeholder="Dheeraj Singh" {...register("name")} />
+            <Input placeholder="Full Name" {...register("name")} />
           </FormControl>
 
           <FormControl width="50%">
             <FormLabel fontSize="14px">Contact</FormLabel>
-            <Input {...register("contact")} />
+            <Input
+              {...register("contact", {
+                pattern: {
+                  value:
+                    /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/,
+                  message: "Invalid",
+                },
+              })}
+              type="number"
+            />
           </FormControl>
         </Flex>
 
         <Flex gap={4}>
           <FormControl width="50%">
             <FormLabel fontSize="14px">Country</FormLabel>
-            <Input {...register("country")} />
+            <Select {...register("country")}>
+              {data?.map((item: any, index: number) => {
+                return <option key={index?.toString()}>{item?.name}</option>;
+              })}
+            </Select>
           </FormControl>
 
           <FormControl width="50%">
             <FormLabel fontSize="14px">State</FormLabel>
-            <Input {...register("state")} />
+            <Select {...register("state")}>
+              {stateList?.map((item: any, index: number) => {
+                return <option key={index?.toString()}>{item?.name}</option>;
+              })}
+            </Select>
           </FormControl>
         </Flex>
         <Flex justifyContent={"flex-end"}>
           <Button
             colorScheme="teal"
+            isDisabled={updateUser?.isPending}
             type="submit"
             isLoading={updateUser.isPending}
             gap={2}
