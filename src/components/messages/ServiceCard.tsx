@@ -102,5 +102,43 @@ function ReqCard({ data }: { data: ProjectCardType }) {
     </>
   );
 }
+function TaskCard({ data }: { data: ProjectCardType }) {
+  return (
+    <>
+      <Flex
+        bg={"white"}
+        p={2}
+        rounded={"md"}
+        gap={5}
+        align={"center"}
+        my="3"
+        justifyContent={"space-between"}
+      >
+        <Box>
+          <Heading size={"base"} fontWeight={"500"}>
+            {data?.title}
+          </Heading>
+          <Text>
+            Estimated Deadline
+            <Badge ms="2" colorScheme="orange">
+              {moment(data?.deadline).format("YYYY MMMM Do")}
+            </Badge>
+          </Text>
+          <Text>
+            Status
+            {data?.status ? (
+              <Badge ms="2">Request Raised</Badge>
+            ) : (
+              <Badge ms="2">Request Received</Badge>
+            )}
+          </Text>
+        </Box>
+        {/* <Link to={`/`}>
+          <ChevronRightIcon fontSize="3xl" />
+        </Link> */}
+      </Flex>
+    </>
+  );
+}
 
-export { ServiceCard, ReqCard };
+export { ServiceCard, ReqCard, TaskCard };

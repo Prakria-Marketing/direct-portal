@@ -19,7 +19,7 @@ function RegisterPage() {
       gap={"10px"}
       width={"100%"}
       maxWidth={"400px"}
-      bg="gray.700"
+      bg="gray.900"
       p="5"
       rounded={"5"}
       shadow={"xl"}

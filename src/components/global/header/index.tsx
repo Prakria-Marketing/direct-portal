@@ -147,12 +147,11 @@ function Header() {
       {/* Header Section */}
       <Box
         // bg={"gray.700"}
-        bg={useColorModeValue("gray.800", "gray.800")}
+        bg={"#ff0055"}
         className="header-bg"
         w="100vw"
         left={0}
         top={0}
-        // position={"fixed"}
         px={4}
         zIndex={1000}
       >
@@ -241,7 +240,7 @@ function Header() {
       </Box>
 
       {/* New Section Below Header */}
-      <Box bg="#f05" py={2} w="100dvw" border="0px" borderColor="gray.200">
+      <Box bg="#000" py={2} w="100dvw" border="0px" borderColor="gray.200">
         <WrapperLayout>
           <Flex justifyContent="space-between" alignItems={"center"}>
             {/* First Column: Menu */}

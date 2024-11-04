@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 function AuthLayout() {
   return (
-    <Flex height={"100dvh"} bg="gray.900">
+    <Flex height={"100vh"} bg="#f05">
       <Box
         position={"relative"}
         flex={{ md: "1" }}
@@ -15,13 +15,12 @@ function AuthLayout() {
           filter={"grayscale(1)"}
           backgroundPosition={"center"}
           style={{ backgroundImage: 'url("/images/login_bg.jfif")' }}
-        >s</Box>
+        ></Box>
       </Box>
       <Flex
         justify={"center"}
         alignItems={"center"}
         flex={{ md: "1" }}
-
         width={"100%"}
       >
         <Outlet />

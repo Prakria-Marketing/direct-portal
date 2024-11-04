@@ -24,7 +24,7 @@ export async function getAllAssignedProjects() {
 }
 
 export async function getCustomerProjects(userId: string = "") {
-  const res = await axiosInstance.get("/projects/client?userId=" + userId);
+  const res = await axiosInstance.get("/projects/client/" + userId);
   return res.data;
 }
 // get customer project by id

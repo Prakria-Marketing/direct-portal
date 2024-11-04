@@ -6,7 +6,7 @@ import {
 import { useAuth } from "@/hooks/auth";
 import { useQuery } from "@tanstack/react-query";
 import { useChannelStateContext } from "stream-chat-react";
-import { ServiceCard, ReqCard } from "../../ServiceCard";
+import { ServiceCard } from "../../ServiceCard";
 import { Heading } from "@chakra-ui/react";
 
 function ServicingChatInfo() {

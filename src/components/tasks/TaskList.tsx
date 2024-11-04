@@ -92,15 +92,17 @@ function TaskList() {
   return (
     <Box mb="4" bg="#fff" rounded={"md"}>
       <Flex
-        p="10"
-        pb="2"
+        py="4"
+        bg="gray.300"
+        px="4"
         justifyContent={"space-between"}
         alignItems={"center"}
       >
-        <Heading as="h5" size="md">
+        <Heading as="h5" size="md" fontWeight={"medium"}>
           Task List
         </Heading>
         <Input
+          bg="white"
           width={"300px"}
           placeholder="Filter by title, assigned by, or status"
           value={filterText}
@@ -186,9 +188,7 @@ function UpdateStatusColumn(row: ITaskData) {
           onChange={(e) => {
             onUpdate(e.target.value);
           }}
-          focusBorderColor="black"
-          border={"1px"}
-          borderColor={"darkgrey"}
+          textTransform={"capitalize"}
           fontSize={"12px"}
           size={"sm"}
           placeholder="status"

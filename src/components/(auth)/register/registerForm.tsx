@@ -130,7 +130,7 @@ function RegisterForm() {
         <Input
           bg="white"
           type="password"
-          placeholder="Enter your password"
+          placeholder="Create a new password"
           {...register("password", {
             required: { value: true, message: "Password is required." },
           })}

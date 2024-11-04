@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { doSignInWithGoogle } from "@/firebase/auth";
 function LoginPage() {
   return (
-    <Stack gap={"10px"} width={"100%"} maxWidth={"400px"} bg="gray.700" p="5" rounded={"5"} shadow={"xl"}>
+    <Stack gap={"10px"} width={"100%"} maxWidth={"400px"} bg="gray.900" p="5" rounded={"5"} shadow={"xl"}>
       <Image src="/images/logo.png" width={"150px"} alignSelf={"center"} mb="5" />
       <Heading size={"md"} textAlign={"center"} color="white">
         Log in to your account

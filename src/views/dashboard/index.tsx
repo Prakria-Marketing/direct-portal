@@ -41,36 +41,6 @@ function Dashboard() {
         </Heading>
         <PermissionWrapper role={["resource"]}>
           <KanbanBoardDashboard />
-          {/* <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-            <TaskCards
-              borderColor="purple.300"
-              bg={"white"}
-              title={"Total No. of Tasks"}
-              number={2}
-            />
-            <TaskCards
-              borderColor="orange.300"
-              bg={"white"}
-              title={" In Progress Tasks"}
-              number={2}
-            />
-            <TaskCards
-              borderColor="blue.300"
-              bg={"white"}
-              title={"Revision Tasks"}
-              number={2}
-            />
-            <TaskCards
-              borderColor="red.300"
-              bg={"white"}
-              title={"Approved Tasks"}
-              number={2}
-            />
-          </Grid>
-
-          <DndProvider backend={HTML5Backend}>
-            <KanbanBoard />
-          </DndProvider> */}
         </PermissionWrapper>
         <PermissionWrapper role={["customer"]}>
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>

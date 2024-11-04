@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useChannelStateContext } from "stream-chat-react";
 import { getChatUser } from "../components/utils/getChatUser";
 import { useAuth } from "@/hooks/auth";
-import { ServiceCard } from "../../ServiceCard";
+import { ServiceCard, TaskCard } from "../../ServiceCard";
 function TaskLogsChatInfo() {
   const { user } = useAuth();
   const { channel } = useChannelStateContext();
@@ -21,7 +21,7 @@ function TaskLogsChatInfo() {
       {data?.room_type === "group" ? null : (
         <div>
           {taskList?.data?.data?.map((task: any, index: number) => (
-            <ServiceCard key={index?.toString()} data={task} />
+            <TaskCard key={index?.toString()} data={task} />
           ))}
         </div>
       )}
