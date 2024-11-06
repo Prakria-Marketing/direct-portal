@@ -4,6 +4,8 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
+  FormLabel,
   Heading,
   HStack,
   Input,
@@ -11,9 +13,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Select,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import LoadingWrapper from "../global/loadingWrapper";
@@ -22,9 +26,22 @@ import moment from "moment";
 import { disableUserFunc, enableUserFunc } from "@/api/users";
 import { useNavigate } from "react-router-dom";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
+import MyDrawer from "../global/Drawer";
+import { fetchStaff, IStaffData } from "@/api/staffs";
 
 function CustomerList() {
+  const [filterText, setFilterText] = useState("");
+  const [customer, setCustomer] = useState<ICustomerData | null>(null);
+
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const drawerRef = useRef<HTMLButtonElement>(null);
+
+  const { data: staff, isLoading: isStaffLoading } = useQuery({
+    queryKey: ["stafflist"],
+    queryFn: fetchStaff,
+  });
+
   const {
     data: customers,
     isLoading,
@@ -123,41 +140,52 @@ function CustomerList() {
     {
       name: "Action",
       cell: (row: ICustomerData) => (
-        <Menu>
-          <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size={"xs"}>
-            Actions
-          </MenuButton>
+        <>
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size={"xs"}>
+              Actions
+            </MenuButton>
 
-          <MenuList minW="auto">
-            <MenuItem onClick={() => navigate(`/customer-detail/${row?._id}`)}>
-              View Customer
-            </MenuItem>
-            <PermissionWrapper role={["admin", "superadmin"]}>
-              {row?.isActive ? (
-                <MenuItem
-                  onClick={() => {
-                    disableUserMutation.mutate(row?.firebaseId as string);
-                  }}
-                >
-                  Disable User
-                </MenuItem>
-              ) : (
-                <MenuItem
-                  onClick={() => {
-                    enableUserMutation.mutate(row?.firebaseId as string);
-                  }}
-                >
-                  Enable User
-                </MenuItem>
-              )}
-            </PermissionWrapper>
-          </MenuList>
-        </Menu>
+            <MenuList minW="auto">
+              <MenuItem
+                onClick={() => navigate(`/customer-detail/${row?._id}`)}
+              >
+                View Customer
+              </MenuItem>
+              <MenuItem
+                ref={drawerRef}
+                onClick={() => {
+                  setCustomer(row);
+                  onOpen();
+                }}
+              >
+                Assign a Manager
+              </MenuItem>
+              <PermissionWrapper role={["admin", "superadmin"]}>
+                {row?.isActive ? (
+                  <MenuItem
+                    onClick={() => {
+                      disableUserMutation.mutate(row?.firebaseId as string);
+                    }}
+                  >
+                    Disable User
+                  </MenuItem>
+                ) : (
+                  <MenuItem
+                    onClick={() => {
+                      enableUserMutation.mutate(row?.firebaseId as string);
+                    }}
+                  >
+                    Enable User
+                  </MenuItem>
+                )}
+              </PermissionWrapper>
+            </MenuList>
+          </Menu>
+        </>
       ),
     },
   ];
-
-  const [filterText, setFilterText] = useState("");
 
   // Filtering function
   const filteredData = data?.filter((item: ICustomerData) => {
@@ -207,6 +235,29 @@ function CustomerList() {
           responsive
         />
       </LoadingWrapper>
+      <MyDrawer
+        btnRef={drawerRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        title={"Assign a Manager"}
+      >
+        <Box as="form">
+          <FormControl>
+            <LoadingWrapper isLoading={isStaffLoading}>
+              <Select placeholder="Select manager">
+                {staff &&
+                  staff?.data?.map((item: IStaffData, index: number) => {
+                    return (
+                      <option key={index?.toString()}>
+                        {item?.userId?.name} {item?.userId?.email}
+                      </option>
+                    );
+                  })}
+              </Select>
+            </LoadingWrapper>
+          </FormControl>
+        </Box>
+      </MyDrawer>
     </Box>
   );
 }
