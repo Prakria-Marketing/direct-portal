@@ -8,6 +8,7 @@ import QueryProvider from "@/api/queryProvider";
 import ProtectedRoute from "@/layouts/protectedLayout/index.tsx";
 import { MultiSelectTheme } from "chakra-multiselect";
 
+
 const theme = extendTheme({
   components: {
     MultiSelect: MultiSelectTheme,

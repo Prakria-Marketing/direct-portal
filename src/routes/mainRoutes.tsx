@@ -22,6 +22,7 @@ import Staffs from "@/views/staff";
 import Pricing from "@/views/pricing";
 import InternalUsers from "@/views/internal-users";
 import CustomerDetails from "@/views/customer-detail";
+import VerifyLayoutWrapper from "@/layouts/verifyLayout";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,
@@ -94,7 +95,9 @@ const mainRoutes = {
       path: "/messages",
       element: (
         <PermissionLayout role={["customer", "servicing", "resource"]}>
-          <Messages />
+          <VerifyLayoutWrapper>
+            <Messages />
+          </VerifyLayoutWrapper>
         </PermissionLayout>
       ),
     },
@@ -102,7 +105,9 @@ const mainRoutes = {
       path: "/membership",
       element: (
         <PermissionLayout role={["customer"]}>
-          <Membership />
+          <VerifyLayoutWrapper>
+            <Membership />
+          </VerifyLayoutWrapper>
         </PermissionLayout>
       ),
     },
@@ -118,7 +123,9 @@ const mainRoutes = {
       path: "/business-hub",
       element: (
         <PermissionLayout role={["customer"]}>
-          <BusinessHub />
+          <VerifyLayoutWrapper>
+            <BusinessHub />
+          </VerifyLayoutWrapper>
         </PermissionLayout>
       ),
     },
@@ -174,7 +181,9 @@ const mainRoutes = {
       path: "/payments/success",
       element: (
         <PermissionLayout role={["customer"]}>
-          <PaymentSuccess />
+          <VerifyLayoutWrapper>
+            <PaymentSuccess />
+          </VerifyLayoutWrapper>
         </PermissionLayout>
       ),
     },
@@ -182,7 +191,9 @@ const mainRoutes = {
       path: "/payments/failed",
       element: (
         <PermissionLayout role={["customer"]}>
-          <PaymentCancel />
+          <VerifyLayoutWrapper>
+            <PaymentCancel />
+          </VerifyLayoutWrapper>
         </PermissionLayout>
       ),
     },

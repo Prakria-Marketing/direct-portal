@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import SearchBar from "../search";
 import LoadingWrapper from "../global/loadingWrapper";
+import TableEmty from "../notfound/tableEmty";
 
 function CustomerProjectLogs() {
   const { user } = useAuth();
@@ -53,7 +54,7 @@ function CustomerProjectLogs() {
           </Link>
         ))}
       </Grid>
-      {filteredData?.length === 0 ? <Text>No Project Found</Text> : null}
+      {filteredData?.length === 0 ? <TableEmty text="No projects yet" /> : null}
     </LoadingWrapper>
   );
 }

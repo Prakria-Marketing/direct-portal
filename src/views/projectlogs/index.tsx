@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import WrapperLayout from "../../layouts/wrapperLayout";
 import ManagerProjectLogs from "@/components/projectLogs/managerProjectLogs";
 import { useAuth } from "@/hooks/auth";

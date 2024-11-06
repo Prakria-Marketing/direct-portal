@@ -13,7 +13,15 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
+
 import {
   CloseIcon,
   useChannelStateContext,
@@ -25,6 +33,8 @@ import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 import ServicingChatInfo from "./servisingChatInfo";
 import TaskLogsChatInfo from "./taskLogs";
 import LoadingWrapper from "@/components/global/loadingWrapper";
+import { useState } from "react";
+
 type ChatInfoType = {
   isSliderVisible: boolean;
   onToggleSlider: () => void;
@@ -111,6 +121,8 @@ function TaskTab() {
 }
 function MediaTab() {
   const { channel } = useChatContext();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedMedia, setSelectedMedia] = useState<any>(null);
 
   const mediaImages = useQuery({
     queryKey: ["media", channel?.id],
@@ -122,30 +134,60 @@ function MediaTab() {
       return response;
     },
   });
+  const onClose = () => {
+    setIsOpen(false);
+    setSelectedMedia(null);
+  }
+
   const messages = mediaImages?.data?.messages ?? null;
 
   return (
     <TabPanel>
-      <Box>
-        <LoadingWrapper isLoading={mediaImages.isLoading}>
-          {!!messages && (
-            <Grid templateColumns="repeat(4, 1fr)" gap={2}>
-              {messages?.map((message: any, index: number) => {
-                return message?.attachments?.map((images: any, ind: number) =>
-                  images.type === "image" ? (
-                    <Image
-                      key={index + ind}
-                      rounded="md"
-                      src={images?.image_url}
-                    />
-                  ) : null
-                );
-              })}
-            </Grid>
-          )}
-          {!messages?.length && <Text>No media</Text>}
-        </LoadingWrapper>
-      </Box>
+      <>
+        <Box>
+          <LoadingWrapper isLoading={mediaImages.isLoading}>
+            {!!messages && (
+              <Grid templateColumns="repeat(4, 1fr)" gap={2}>
+                {messages?.map((message: any, index: number) => {
+                  return message?.attachments?.map((images: any, ind: number) =>
+                    images.type === "image" ? (
+                      <Image
+                        key={index + ind}
+                        rounded="md"
+                        src={images?.image_url}
+                        onClick={() => {
+                          setSelectedMedia(images)
+                          setIsOpen(true);
+                        }}
+                      />
+                    ) : null
+                  );
+                })}
+              </Grid>
+            )}
+            {!messages?.length && <Text>No media</Text>}
+          </LoadingWrapper>
+        </Box>
+      </>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            {
+              selectedMedia?.type === "image" ? (
+                <Image
+                  rounded="md"
+                  src={selectedMedia?.image_url}
+                  width={"100%"}
+                  height={"100%"}
+                />
+              ) : null
+            }
+          </ModalBody>
+        </ModalContent>
+
+      </Modal>
     </TabPanel>
   );
 }
