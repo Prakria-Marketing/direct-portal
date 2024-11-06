@@ -2,6 +2,7 @@ import Account from "@/components/settings/Account";
 import Details from "@/components/settings/Details";
 import EditOrganization from "@/components/settings/EditOrganization";
 import Security from "@/components/settings/Security";
+import { useAuth } from "@/hooks/auth";
 import WrapperLayout from "@/layouts/wrapperLayout";
 import {
   Box,
@@ -15,6 +16,9 @@ import {
 } from "@chakra-ui/react";
 
 function Settings() {
+  const { provider } = useAuth();
+  console.log("user ", provider)
+  const isCredentialLogin = provider === "password"
   return (
     <WrapperLayout>
       <Flex my={10}>
@@ -29,7 +33,9 @@ function Settings() {
             <TabList>
               <Tab>Details</Tab>
               <Tab>Account</Tab>
-              <Tab>Security</Tab>
+              {isCredentialLogin &&
+                <Tab>Security</Tab>
+              }
               <Tab>Edit Organization</Tab>
             </TabList>
 
@@ -40,9 +46,12 @@ function Settings() {
               <TabPanel>
                 <Account />
               </TabPanel>
-              <TabPanel>
-                <Security />
-              </TabPanel>
+              {
+                isCredentialLogin &&
+                <TabPanel>
+                  <Security />
+                </TabPanel>
+              }
               <TabPanel>
                 <EditOrganization />
               </TabPanel>

@@ -13,7 +13,6 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { FiHelpCircle } from "react-icons/fi";
@@ -29,7 +28,6 @@ import {
   HiOutlineCheckBadge,
   HiOutlineCog8Tooth,
   HiOutlineHome,
-  HiOutlineTicket,
   HiOutlineUser,
   HiUserGroup,
 } from "react-icons/hi2";
@@ -42,7 +40,6 @@ import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 import {
   FaDollarSign,
   FaHandsHelping,
-  FaUsers,
   FaUserSecret,
 } from "react-icons/fa";
 import { TbUserScan } from "react-icons/tb";
@@ -146,12 +143,12 @@ function Header() {
     <>
       {/* Header Section */}
       <Box
-        // bg={"gray.700"}
+        position={"sticky"}
+        top={0}
         bg={"#ff0055"}
         className="header-bg"
         w="100vw"
         left={0}
-        top={0}
         px={4}
         zIndex={1000}
       >
@@ -204,6 +201,7 @@ function Header() {
                     <Avatar
                       w="40px"
                       h="40px"
+                      bg={"#EDF2F7"}
                       name={user?.displayName}
                       src={user?.user?.image}
                     />

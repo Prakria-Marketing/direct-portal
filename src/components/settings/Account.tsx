@@ -42,9 +42,6 @@ function Account() {
     formData.append("contact", data.contact as any);
     formData.append("country", data?.country as any);
     formData.append("state", data?.state as any);
-    const response = await fetch("/prakria_direct_logo.png");
-    const blob = await response.blob(); // Convert the response to a Blob
-    formData.append("image", blob, "image.jpg");
     updateUser.mutate({ firebaseId: user.uid, body: formData });
   };
   return (
