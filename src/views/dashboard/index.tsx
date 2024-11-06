@@ -25,12 +25,18 @@ import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 // import { HTML5Backend } from "react-dnd-html5-backend";
 // import { KanbanBoard } from "@/components/tasks/KanbanBoard";
 import KanbanBoardDashboard from "@/components/resource/home";
+import { getMyRelationShipManagerChat } from "@/api/chat";
+import { useEffect } from "react";
 
 function Dashboard() {
   const { user } = useAuth();
   const { data, isLoading } = useQuery({
     queryKey: ["category"],
     queryFn: getCategory,
+  });
+  const res = useQuery({
+    queryFn: getMyRelationShipManagerChat,
+    queryKey: ["my-rm", user?.userId],
   });
   const categoryList: CategroyProps[] | null = data?.data;
   return (

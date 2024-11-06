@@ -30,9 +30,7 @@ function Categories() {
               <GridItem key={index?.toString()}>
                 <Link
                   to={
-                    "/messages?active=" +
-                    user?.userId +
-                    `&text=Hi there, I want to know about ${category?.title} Service`
+                    "/messages?" + `text=Hi there, I want to know about ${category?.title} Service`
                   }
                 >
                   <CategoryCard data={category} />
