@@ -106,7 +106,7 @@ export const CustomChannelHeader = ({
               <IoMdMore size={"24px"} />
             </HStack>
           </MenuButton>
-          <MenuList zIndex={999}>
+          <MenuList zIndex={999}width={"auto"}>
             <PermissionWrapper role={["customer"]}>
               {data?.room_type === "personal" && <ClientRequirements />}
             </PermissionWrapper>

@@ -16,6 +16,7 @@ import {
   Select,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -27,12 +28,17 @@ import { disableUserFunc, enableUserFunc } from "@/api/users";
 import { useNavigate } from "react-router-dom";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 import MyDrawer from "../global/Drawer";
-import { fetchStaff, IStaffData } from "@/api/staffs";
+import {
+  assignManager,
+  AssignManagerType,
+  fetchStaff,
+  IStaffData,
+} from "@/api/staffs";
+import { useForm } from "react-hook-form";
 
 function CustomerList() {
   const [filterText, setFilterText] = useState("");
-  const [customer, setCustomer] = useState<ICustomerData | null>(null);
-
+  const toast = useToast();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const drawerRef = useRef<HTMLButtonElement>(null);
@@ -155,7 +161,7 @@ function CustomerList() {
               <MenuItem
                 ref={drawerRef}
                 onClick={() => {
-                  setCustomer(row);
+                  reset({ customerId: row._id });
                   onOpen();
                 }}
               >
@@ -197,6 +203,34 @@ function CustomerList() {
         .includes(filterText.toLowerCase())
     );
   });
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm<AssignManagerType>();
+
+  const assignMangerMutate = useMutation({
+    mutationFn: assignManager,
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ["customerlist"] });
+    },
+  });
+
+  const assignManagerFunc = async (data: {
+    customerId: string;
+    staffId: string;
+  }) => {
+    try {
+      await assignMangerMutate.mutateAsync(data);
+      reset();
+    } catch (err) {
+    } finally {
+      reset({});
+      onClose?.();
+    }
+  };
 
   return (
     <Box mb="4" bg="#fff" rounded={"md"}>
@@ -241,21 +275,32 @@ function CustomerList() {
         onClose={onClose}
         title={"Assign a Manager"}
       >
-        <Box as="form">
+        <Box as="form" onSubmit={handleSubmit(assignManagerFunc)}>
           <FormControl>
             <LoadingWrapper isLoading={isStaffLoading}>
-              <Select placeholder="Select manager">
+              <Select
+                placeholder="Select a manager"
+                isDisabled={assignMangerMutate.isPending}
+                {...register("staffId", {
+                  required: { value: true, message: "Required" },
+                })}
+              >
                 {staff &&
-                  staff?.data?.map((item: IStaffData, index: number) => {
-                    return (
-                      <option key={index?.toString()}>
-                        {item?.userId?.name} {item?.userId?.email}
-                      </option>
-                    );
-                  })}
+                  staff?.data
+                    ?.filter((el: IStaffData) => el.userId?.role == "servicing")
+                    .map((item: IStaffData, index: number) => {
+                      return (
+                        <option key={index?.toString()} value={item?._id}>
+                          {item?.userId?.name} {item?.userId?.email}
+                        </option>
+                      );
+                    })}
               </Select>
             </LoadingWrapper>
           </FormControl>
+          <Button mt={4} colorScheme="teal" type="submit">
+            Submit
+          </Button>
         </Box>
       </MyDrawer>
     </Box>

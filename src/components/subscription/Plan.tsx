@@ -54,7 +54,7 @@ function Plan() {
   const query = useQueryClient();
   const SubscriptionCancelMutation = useMutation({
     mutationFn: CancelSubscriptionFunc,
-    onSuccess: () =>
+    onSettled: () =>
       query.invalidateQueries({ queryKey: ["user-subscriptions"] }),
   });
 

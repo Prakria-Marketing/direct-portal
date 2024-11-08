@@ -20,7 +20,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
 import "./membership.css";
@@ -59,6 +59,7 @@ function PriceWrapper(props: Props) {
 }
 export default function CustomerPlanCard() {
   const [duration, setDuration] = useState("monthly");
+  const queryClient = useQueryClient();
 
   const { data: Packages } = useQuery({
     queryKey: ["package"],
@@ -77,6 +78,9 @@ export default function CustomerPlanCard() {
   //UPdate Plan
   const UpatePlanMutation = useMutation({
     mutationFn: UpatePlanFunc,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-subscriptions"] });
+    },
   });
 
   //Cancel Subscription
@@ -87,6 +91,9 @@ export default function CustomerPlanCard() {
   //CReate Subscription for existing Customer
   const CreateSubscriptionMutation = useMutation({
     mutationFn: CreateSubscriptionFunc,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-subscriptions"] });
+    },
   });
 
   useEffect(() => {

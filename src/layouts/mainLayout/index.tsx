@@ -9,15 +9,10 @@ import { useAuth } from "@/hooks/auth";
 function MainLayout() {
   const { user } = useAuth();
   return (
-
     <Flex flexDirection={"column"} minHeight={"100dvh"}>
-      {
-        !user.emailVerified &&
-        <SweetAlert text="Email is not verified peleace verifiey it" />
-      }
-      {/* <Alert status="info" title="This is the alert title" /> */}
       <Header />
       <Box flex={1} height="100%">
+        {!user.emailVerified && <SweetAlert />}
         <Outlet />
       </Box>
       <Footer />

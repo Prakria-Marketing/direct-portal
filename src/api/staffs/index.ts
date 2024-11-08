@@ -18,10 +18,20 @@ export type IStaffData = {
   designation: string;
 };
 
+export type AssignManagerType = {
+  customerId: string;
+  staffId: string;
+};
+
+export async function assignManager(data: AssignManagerType) {
+  const response = await axiosInstance.post("/staff/assign-manager", data);
+  return response.data;
+}
 export async function addStaff(data: IStaffData) {
   const response = await axiosInstance.post("/staff", data);
   return response.data;
 }
+
 export async function updateStaff(data: Partial<IStaffData>) {
   const response = await axiosInstance.post(`/staff/update/${data?._id}`, data);
   return response.data;

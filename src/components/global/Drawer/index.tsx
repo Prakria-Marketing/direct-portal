@@ -23,6 +23,7 @@ function MyDrawer({
 }) {
   return (
     <Drawer
+    size={"sm"}
       isOpen={isOpen}
       placement="right"
       onClose={onClose}

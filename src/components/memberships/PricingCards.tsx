@@ -129,7 +129,7 @@ function PricingCards() {
                             bg={"#f1ff00"}
                             px={3}
                             py={1}
-                            color={useColorModeValue("gray.900", "gray.300")}
+                            // color={useColorModeValue("gray.900", "gray.300")}
                             fontSize="xs"
                             fontWeight="600"
                             rounded="xl"

@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import RequirementForm from "./RequirementForm";
+import MembershipWrapper from "@/layouts/protectedLayout/membershipWrapper";
 
 export default function CreateRequirementModal() {
   const {
@@ -21,14 +22,16 @@ export default function CreateRequirementModal() {
 
   return (
     <>
-      <MenuItem
-        fontSize="14px"
-        fontFamily={"Unbounded"}
-        gap={1}
-        onClick={onModalOpen}
-      >
-        <BiPlus fontSize={20} /> Create Requirement
-      </MenuItem>
+      <MembershipWrapper>
+        <MenuItem
+          fontSize="14px"
+          fontFamily={"Unbounded"}
+          gap={1}
+          onClick={onModalOpen}
+        >
+          <BiPlus fontSize={20} /> Create Requirement
+        </MenuItem>
+      </MembershipWrapper>
 
       {/* Modal for Create Project */}
       <Modal
