@@ -46,6 +46,12 @@ export const CustomChannelHeader = ({
   if (members.length === 2 && data?.room_type !== "group")
     userId = members?.find((member) => member.user_id !== user?.userId)?.user
       ?.id as string;
+
+  let userImage = ""
+  members.length === 2 && data?.room_type !== "group"
+    ? (userImage = members?.find((member) => member.user_id !== user?.userId)?.user
+      ?.displayImage as string)
+    : (userImage = "");
   const chatUser = useQuery({
     queryKey: ["users", userId],
     queryFn: async (qk) => await getUserById(qk.queryKey[1] as string),
@@ -71,7 +77,7 @@ export const CustomChannelHeader = ({
   let name = "";
   members.length === 2 && data?.room_type !== "group"
     ? (name = members?.find((member) => member.user_id !== user?.userId)?.user
-        ?.name as string)
+      ?.name as string)
     : (name = data?.name as string);
   return (
     <Flex
@@ -85,7 +91,7 @@ export const CustomChannelHeader = ({
       border={"1px"}
       borderColor={"gray.200"}
     >
-      <Avatar name={name} src={""} size={"sm"} />
+      <Avatar name={name} src={userImage} size={"sm"} />
       <Flex flexDirection={"column"} flex={1} gap={2} justifyContent={"center"}>
         <div className="header-item">
           <Heading size={"xs"} fontWeight={"500"} fontSize={"12px"}>

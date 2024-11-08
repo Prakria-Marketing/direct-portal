@@ -20,6 +20,8 @@ import { useAuth } from "@/hooks/auth";
 import { Avatar, Text } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { getMyRelationShipManagerChat } from "@/api/chat";
+import { useQuery } from "@tanstack/react-query";
 
 export default function InboxContact({
   displayImage,
@@ -32,13 +34,24 @@ export default function InboxContact({
   const { data, state } = channel;
   const { channel: activeChannel, setActiveChannel } = useChatContext();
   const { channels } = useChannelListContext();
+  const res = useQuery({
+    queryKey: ["my-rm", user?.userId],
+    queryFn: getMyRelationShipManagerChat,
+  });
   const members = Object.values(state.members);
   let name = "";
   members.length === 2 && data?.room_type !== "group"
     ? (name = members?.find((member) => member.user_id !== user?.userId)?.user
-        ?.name as string)
+      ?.name as string)
     : (name = data?.name as string);
+
+
   const isActive = activeChannel === channel;
+  let userImage = ""
+  members.length === 2 && data?.room_type !== "group"
+    ? (userImage = members?.find((member) => member.user_id !== user?.userId)?.user
+      ?.displayImage as string)
+    : (userImage = displayImage as string);
 
   const handleChangeChat = async () => {
     setActiveChannel(channel);
@@ -53,17 +66,27 @@ export default function InboxContact({
       body: event?.message?.text,
     });
   }, []);
+
+  useEffect(() => {
+    const text = searchParams.get("text");
+    if (text) {
+      const paramsChannel = channels.find((ch) => ch.id === res?.data?.data?.channelId);
+      if (paramsChannel) {
+        setActiveChannel(paramsChannel);
+      }
+    }
+  }, [channels, res.data]);
   useEffect(() => {
     channel.watch();
 
     // Listen for new messages
     channel.on("message.new", onNewMessageRecived);
-    const channelId = searchParams.get("active");
-    if (!channelId) return;
-    const paramsChannel = channels.find((ch) => ch.id === channelId);
-    if (paramsChannel) {
-      setActiveChannel(paramsChannel);
-    }
+    // const channelId = searchParams.get("active");
+    // if (!channelId) return;
+    // const paramsChannel = channels.find((ch) => ch.id === channelId);
+    // if (paramsChannel) {
+    // setActiveChannel(paramsChannel);
+    // }
 
     return () => {
       channel.off("message.new", onNewMessageRecived);
@@ -73,7 +96,7 @@ export default function InboxContact({
   return (
     <Contact isActive={isActive} onClick={handleChangeChat} width={"100%"}>
       <AvatarWrapper>
-        <Avatar name={name} src={displayImage} size={"sm"} />
+        <Avatar name={name} src={userImage || displayImage} size={"sm"} />
       </AvatarWrapper>
       <Content>
         <TopContent>
