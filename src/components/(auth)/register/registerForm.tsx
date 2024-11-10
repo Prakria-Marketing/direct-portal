@@ -1,6 +1,6 @@
-import { URL } from "@/api/axiosinstance";
-import { doCreateUserWithEmailAndPassword } from "@/firebase/auth";
-import { auth } from "@/firebase/firebase";
+// import { URL } from "@/api/axiosinstance";
+import {  doSignInWithEmailAndPassword } from "@/firebase/auth";
+// import { auth } from "@/firebase/firebase";
 import {
   Button,
   Flex,
@@ -10,11 +10,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { updateProfile } from "firebase/auth";
+// import axios from "axios";
+// import { updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "@/api/auth";
 
 type RegisterFormFields = {
   email: string;
@@ -32,15 +33,16 @@ function RegisterForm() {
     formState: { errors },
   } = useForm<RegisterFormFields>();
   const registerMutation = useMutation({
-    mutationFn: async ({ token }: { token: string }) => {
-      try {
-        return await axios.post(URL + "/auth/register", null, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-      } catch (err) {}
-    },
+    mutationFn: registerUser
+    // async ({ token }: { token: string }) => {
+    //   try {
+    //     return await axios.post(URL + "/auth/register", null, {
+    //       headers: {
+    //         Authorization: "Bearer " + token,
+    //       },
+    //     });
+    //   } catch (err) {}
+    // },
   });
   useEffect(() => {
     if (registerMutation.isSuccess) {
@@ -58,13 +60,16 @@ function RegisterForm() {
   ) => {
     setLoading(true);
     try {
-      const response = await doCreateUserWithEmailAndPassword(
-        data.email,
-        data.password
-      );
-      await updateProfile(response.user, { displayName: data.name });
-      const token = await auth.currentUser?.getIdToken(true);
-      registerMutation.mutate({ token: token as string });
+      
+     await registerMutation.mutateAsync(data);
+     await doSignInWithEmailAndPassword(data.email,data.password)
+      // const response = await doCreateUserWithEmailAndPassword(
+      //   data.email,
+      //   data.password
+      // );
+      // await updateProfile(response.user, { displayName: data.name });
+      // const token = await auth.currentUser?.getIdToken(true);
+      // registerMutation.mutate({ token: token as string });
       // await doSendEmailVerification();
       navigate("/");
     } catch (err) {
