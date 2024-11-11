@@ -13,10 +13,12 @@ import {
 export const doCreateUserWithEmailAndPassword = async (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password);
 };
+
 // for login user
 export const doSignInWithEmailAndPassword = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);
 };
+
 // auth with google
 export const doSignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();

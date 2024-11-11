@@ -3,7 +3,7 @@ import { useState } from "react";
 import { doSendEmailVerification } from "@/firebase/auth";
 
 const alternateText = "Email sent";
-export default function SweetAlert() {
+export default function VerifyAlert() {
   const [isEmailSend, setIsEmailSend] = useState(false);
   const toast = useToast();
 

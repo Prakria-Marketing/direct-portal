@@ -7,36 +7,17 @@ import {
   onAuthStateChanged,
   User,
 } from "firebase/auth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/api/axiosinstance";
-import axios from "axios";
 function AuthInitilizer() {
   const { setProvider, setUser, user } = useAuth();
-  // const queryClient = useQueryClient();
-
-  // const registerMutation = useMutation({
-  //   mutationFn: async ({ token }: { token: string }) => {
-  //     try {
-  //       return await axios.post(URL + "/auth/register", null, {
-  //         headers: {
-  //           Authorization: "Bearer " + token,
-  //         },
-  //       });
-  //     } catch (err) {}
-  //   },
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["auth"] });
-  //   },
-  // });
   const query = useQuery({
     queryKey: ["auth"],
-    queryFn: async () => (await axiosInstance.get("/auth/verify")).data,
+    queryFn: async () => (await axiosInstance.get("/auth/verify"))?.data,
     enabled: !!user,
-    
   });
   const initializeUser: NextOrObserver<User> = async (user) => {
     if (user) {
-      // await registerMutation.mutateAsync({ token: (user as any).accessToken });
       setUser({ ...user });
       const emailProvider = user.providerData.some(
         (provider) => provider.providerId === "password"
@@ -52,6 +33,7 @@ function AuthInitilizer() {
       setProvider(null);
     }
   };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
     return unsubscribe;

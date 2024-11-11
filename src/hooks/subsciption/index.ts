@@ -1,7 +1,6 @@
 import {
   CheckoutSessionFunc,
   CreateSubscriptionFunc,
-  fetchMembershipPlans,
   UpatePlanFunc,
   UserSubscriptionFunc,
 } from "@/api/membership";
@@ -76,8 +75,8 @@ export function useSubscription(props: SubscriptionType) {
   return {
     UserSubscription: UserSubscription?.data,
     UserSubscriptionLoading: UserSubscriptionLoading,
-    checkOutSessionPending : checkOutSessionMutation.isPending,
-    createSubscriptionPending : CreateSubscriptionMutation.isPending,
-    upatePlanPending : UpatePlanMutation.isPending
+    checkOutSessionPending: checkOutSessionMutation.isPending,
+    createSubscriptionPending: CreateSubscriptionMutation.isPending,
+    upatePlanPending: UpatePlanMutation.isPending,
   };
 }
