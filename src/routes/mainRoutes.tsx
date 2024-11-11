@@ -106,9 +106,9 @@ const mainRoutes = {
       path: "/membership",
       element: (
         <PermissionLayout role={["customer"]}>
-          <VerifyLayoutWrapper>
-            <Membership />
-          </VerifyLayoutWrapper>
+          {/* <VerifyLayoutWrapper> */}
+          <Membership />
+          {/* </VerifyLayoutWrapper> */}
         </PermissionLayout>
       ),
     },

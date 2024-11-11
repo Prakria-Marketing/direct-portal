@@ -12,7 +12,7 @@ import axiosInstance from "@/api/axiosinstance";
 function AuthInitilizer() {
   const { setProvider, setUser, user } = useAuth();
   const query = useQuery({
-    queryKey: ["auth"],
+    queryKey: ["auth", user?.email],
     queryFn: async () => (await axiosInstance.get("/auth/verify"))?.data,
     enabled: !!user,
   });

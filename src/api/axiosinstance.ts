@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { auth } from "@/firebase/firebase";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 export const URL = import.meta.env.VITE_api_url;
 const axiosInstance: AxiosInstance = axios.create({
   // withCredentials: true,
@@ -22,14 +22,15 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => {
     // Handle success
-    if (response.config.method !== 'get') {
-      toast.success(response?.data?.message)
+    if (response.config.method !== "get") {
+      toast.success(response?.data?.message);
     }
     return response;
   },
   (error) => {
-    toast.error(error.response?.data?.message)
-    return error
+    if (error.config?.method !== "get")
+      toast.error(error.response?.data?.message);
+    return error;
   }
 );
 
