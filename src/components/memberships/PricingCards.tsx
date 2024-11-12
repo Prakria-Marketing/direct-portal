@@ -103,6 +103,7 @@ function PricingCards() {
                 );
                 return (
                   <Box
+                    key={index?.toString()}
                     my={4}
                     alignSelf={{ base: "center", lg: "flex-start" }}
                     borderRadius={"lg"}

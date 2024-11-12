@@ -33,6 +33,10 @@ export async function UpatePlanFunc(priceId: string) {
   );
   return response.data;
 }
+export async function InvoiceHistoryFunc() {
+  const response = await axiosInstance.get("/subscription/invoice-history");
+  return response.data;
+}
 export async function CancelSubscriptionFunc() {
   const response = await axiosInstance.get("/subscription/cancel-subscription");
   return response.data;

@@ -37,11 +37,7 @@ import { auth } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/auth";
 import React from "react";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
-import {
-  FaDollarSign,
-  FaHandsHelping,
-  FaUserSecret,
-} from "react-icons/fa";
+import { FaDollarSign, FaHandsHelping, FaUserSecret } from "react-icons/fa";
 import { TbUserScan } from "react-icons/tb";
 const NavList = [
   {
@@ -138,6 +134,7 @@ function Header() {
   const { user } = useAuth();
   const logout = async () => {
     await auth.signOut();
+    window.location.replace("/login");
   };
   return (
     <>
@@ -196,19 +193,27 @@ function Header() {
               {/* User Profile Dropdown */}
               <Menu>
                 <MenuButton as={IconButton} variant="link" cursor="pointer">
-                  <HStack spacing={2}>
+                  <HStack
+                    spacing={2}
+                    justifyContent={"start"}
+                    alignItems={"center"}
+                  >
                     {/* Avatar */}
                     <Avatar
                       w="40px"
                       h="40px"
-                      bg={"#EDF2F7"}
+                      // bg={"#EDF2F7"}
                       name={user?.displayName}
                       src={user?.user?.image}
                     />
-                    {/* User Name */}
-                    <Text fontSize="12px" color="#fff" fontWeight="medium">
-                      {user?.displayName}
-                    </Text>
+                    <Box textAlign={"left"}>
+                      <Text fontSize="12px" color="#fff" fontWeight="medium">
+                        {user?.displayName}
+                      </Text>
+                      <Text fontSize="10px" color="#fff" fontWeight="medium">
+                        {user?.email}
+                      </Text>
+                    </Box>
                     <ChevronDownIcon color="#fff" />
                   </HStack>
                 </MenuButton>
@@ -218,7 +223,7 @@ function Header() {
                       nav.permissions.includes(user?.role) ||
                       nav.permissions.includes("all")
                   ).map((nav, index) => (
-                    <Link to={nav.link}>
+                    <Link to={nav.link} key={index?.toString()}>
                       <MenuItem key={index?.toString()} fontSize="14px" gap={2}>
                         {nav.icon}
                         {nav.text}
@@ -255,27 +260,16 @@ function Header() {
             {/* Second Column: Add Button */}
             <PermissionWrapper role={["customer"]}>
               <Box>
-                <Button
-                  fontSize="14px"
-                  fontWeight={500}
-                  me={3}
-                  bg="yellow"
-                  _hover={{ bg: "yellow.400" }}
-                  size="md"
-                >
-                  <BiPlus />
-                  Start Project
-                </Button>
                 <Link to="/categories">
                   <Button
-                    fontWeight={500}
                     fontSize="14px"
-                    variant="solid"
-                    borderColor="gray.600"
-                    bg="black"
-                    _hover={{ bg: "gray.600" }} // Optional hover effect
-                    color="white" // Text color
+                    fontWeight={500}
+                    me={3}
+                    bg="yellow"
+                    _hover={{ bg: "yellow.400" }}
+                    size="md"
                   >
+                    <BiPlus />
                     Explore Categories
                   </Button>
                 </Link>

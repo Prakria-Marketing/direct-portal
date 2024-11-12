@@ -30,6 +30,7 @@ export function useSubscription(props: SubscriptionType) {
     mutationFn: UpatePlanFunc,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-subscriptions"] });
+      queryClient.invalidateQueries({ queryKey: ["invoice-history"] });
     },
   });
 
@@ -38,6 +39,7 @@ export function useSubscription(props: SubscriptionType) {
     mutationFn: CreateSubscriptionFunc,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-subscriptions"] });
+      queryClient.invalidateQueries({ queryKey: ["invoice-history"] });
     },
   });
 

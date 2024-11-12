@@ -1,4 +1,3 @@
-import AutoRenewal from "@/components/subscription/AutoRenewal";
 import BillingHistory from "@/components/subscription/BillingHistory";
 import PaymentMethod from "@/components/subscription/PaymentMethod";
 import Plan from "@/components/subscription/Plan";
@@ -12,12 +11,12 @@ function Subscription() {
     <Elements stripe={stripeInitiate}>
       <WrapperLayout>
         <Flex my={10}>
-          <Box w="30%">
+          <Box w="20%">
             <Heading as="h5" size="md">
               My Subscription
             </Heading>
           </Box>
-          <Box rounded="lg" w="100%" bg={"#fff"} p={10}>
+          <Box rounded="lg" w="80%" bg={"#fff"} p={10}>
             <Plan />
             {/* <AutoRenewal /> */}
             <PaymentMethod />
