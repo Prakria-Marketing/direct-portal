@@ -50,7 +50,7 @@ function CustomerRequirements({ customerId }: { customerId: string }) {
     {
       name: "#",
       width: "70px",
-      cell: (row: IRequirement, index: number) => <p>{index + 1}</p>,
+      cell: (row: IRequirement, index: number) => <p key={row?.title}>{index + 1}</p>,
     },
     {
       name: "Title",

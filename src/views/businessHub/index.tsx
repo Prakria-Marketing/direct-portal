@@ -3,15 +3,12 @@ import CreateBusinessForm from "@/components/businessHub/CreateBusinessForm";
 import People from "@/components/businessHub/People";
 import Loading from "@/components/Loading";
 import WrapperLayout from "@/layouts/wrapperLayout";
-import { EditIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Flex,
   Grid,
   GridItem,
   Heading,
-  HStack,
   Image,
   Text,
 } from "@chakra-ui/react";

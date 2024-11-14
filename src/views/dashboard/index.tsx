@@ -20,13 +20,9 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingWrapper from "@/components/global/loadingWrapper";
 import { Link } from "react-router-dom";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
-// import TaskCards from "@/components/dashboard/TaskCards";
-// import { DndProvider } from "react-dnd";
-// import { HTML5Backend } from "react-dnd-html5-backend";
-// import { KanbanBoard } from "@/components/tasks/KanbanBoard";
 import KanbanBoardDashboard from "@/components/resource/home";
+import { CustomerProjectCountFunc } from "@/api/dashboard";
 import { getMyRelationShipManagerChat } from "@/api/chat";
-import { useEffect } from "react";
 
 function Dashboard() {
   const { user } = useAuth();
@@ -34,10 +30,15 @@ function Dashboard() {
     queryKey: ["category"],
     queryFn: getCategory,
   });
-  const res = useQuery({
+  const { data: projectCount, isLoading: isProjectCountLoading } = useQuery({
+    queryKey: ["customer-project-count"],
+    queryFn: CustomerProjectCountFunc,
+  });
+  useQuery({
     queryFn: getMyRelationShipManagerChat,
     queryKey: ["my-rm", user?.userId],
   });
+
   const categoryList: CategroyProps[] | null = data?.data;
   return (
     <WrapperLayout>
@@ -49,23 +50,25 @@ function Dashboard() {
           <KanbanBoardDashboard />
         </PermissionWrapper>
         <PermissionWrapper role={["customer"]}>
-          <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-            <HeroBannerCard
-              bg={"#d8d8d8"}
-              title="Total no. of Projects"
-              number={124}
-            />
-            <HeroBannerCard
-              bg={"#f0d7ed"}
-              title="Total no. of Completed projects"
-              number={100}
-            />
-            <HeroBannerCard
-              bg={"#eaefe8"}
-              title="Total no. of Ongoing projects"
-              number={24}
-            />
-          </Grid>
+          <LoadingWrapper isLoading={isProjectCountLoading}>
+            <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+              <HeroBannerCard
+                bg={"#d8d8d8"}
+                title="Total no. of Projects"
+                number={projectCount?.data?.total}
+              />
+              <HeroBannerCard
+                bg={"#f0d7ed"}
+                title="Total no. of Completed projects"
+                number={projectCount?.data?.closed}
+              />
+              <HeroBannerCard
+                bg={"#eaefe8"}
+                title="Total no. of Ongoing projects"
+                number={projectCount?.data?.onGoing}
+              />
+            </Grid>
+          </LoadingWrapper>
         </PermissionWrapper>
       </Box>
       <PermissionWrapper role={["customer"]}>

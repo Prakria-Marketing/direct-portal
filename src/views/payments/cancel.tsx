@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { BiErrorCircle } from "react-icons/bi";
-import { PiSealCheckFill } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
 
 function PaymentFailed() {

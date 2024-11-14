@@ -1,4 +1,3 @@
-import stripeInitiate from "@/utils/stripeInitiate";
 import {
   Button,
   FormControl,
@@ -11,12 +10,7 @@ import {
   ModalOverlay,
   useToast,
 } from "@chakra-ui/react";
-import {
-  CardElement,
-  Elements,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

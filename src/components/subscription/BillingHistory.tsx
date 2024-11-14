@@ -15,7 +15,7 @@ import { HiDocumentArrowDown } from "react-icons/hi2";
 function BillingHistory() {
   const [filterText, setFilterText] = useState("");
 
-  const { data: invoiceHistory, isLoading } = useQuery({
+  const { data: invoiceHistory } = useQuery({
     queryKey: ["invoice-history"],
     queryFn: async () => await InvoiceHistoryFunc(),
   });
@@ -45,12 +45,12 @@ function BillingHistory() {
     {
       name: "#",
       width: "70px",
-      cell: (row: InvoiceData, index: number) => <p>{index + 1}</p>,
+      cell: (row: InvoiceData, index: number) => <p key={row?.invoice_id}>{index + 1}</p>,
     },
     {
       name: "Item",
       width: "500px",
-      cell: (row: InvoiceData, index: number) =>
+      cell: (row: InvoiceData) =>
         row?.line_item?.map((el, index) => {
           return (
             <Box key={index?.toString()}>
@@ -72,7 +72,9 @@ function BillingHistory() {
       selector: (row: InvoiceData) => row?.invoice_pdf_url || "",
       cell: (row: InvoiceData) => (
         <a href={row?.invoice_url}>
-          <Button colorScheme="green" size="sm">Pay Online</Button>
+          <Button colorScheme="green" size="sm">
+            Pay Online
+          </Button>
         </a>
       ),
     },

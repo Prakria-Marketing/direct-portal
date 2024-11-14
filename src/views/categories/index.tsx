@@ -8,10 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import LoadingWrapper from "@/components/global/loadingWrapper";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/auth";
 
 function Categories() {
-  const { user } = useAuth();
   const { data, isLoading } = useQuery({
     queryKey: ["category"],
     queryFn: getCategory,
@@ -30,7 +28,8 @@ function Categories() {
               <GridItem key={index?.toString()}>
                 <Link
                   to={
-                    "/messages?" + `text=Hi there, I want to know about ${category?.title} Service`
+                    "/messages?" +
+                    `text=Hi there, I want to know about ${category?.title} Service`
                   }
                 >
                   <CategoryCard data={category} />

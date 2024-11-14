@@ -1,7 +1,7 @@
 import { getCustomerProjects, ProjectBody } from "@/api/project";
 import { useAuth } from "@/hooks/auth";
 import { useQuery } from "@tanstack/react-query";
-import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading } from "@chakra-ui/react";
 import LogCard from "./logCard";
 import { Link } from "react-router-dom";
 import { useState } from "react";

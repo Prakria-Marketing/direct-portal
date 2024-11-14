@@ -8,6 +8,7 @@ import VerifyAlert from "@/components/global/VerifyAlert";
 
 function MainLayout() {
   const { user } = useAuth();
+  console.log("user ", user);
   return (
     <Flex flexDirection={"column"} minHeight={"100dvh"}>
       <Header />

@@ -19,13 +19,7 @@ interface ILogCard {
   projectInfo: ProjectBody;
   type: "customer" | "servicing";
 }
-function LogCard({
-  bg,
-  border,
-  borderColor,
-  projectInfo,
-  type = "servicing",
-}: ILogCard) {
+function LogCard({ bg, border, borderColor, projectInfo }: ILogCard) {
   return (
     <GridItem w="100%">
       <Card rounded={"lg"} bg={bg} border={border} borderColor={borderColor}>

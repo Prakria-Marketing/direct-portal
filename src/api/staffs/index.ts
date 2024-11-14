@@ -1,5 +1,4 @@
 import axiosInstance from "../axiosinstance";
-import { UserInfo } from "../users";
 
 export type IStaffData = {
   _id: string;

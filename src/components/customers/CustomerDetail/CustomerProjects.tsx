@@ -23,8 +23,7 @@ function CustomerProjects({ customerId }: { customerId: string }) {
   const {
     data: clientProjectList,
     isLoading,
-    isFetching,
-    isError,
+    isFetching
   } = useQuery({
     queryKey: ["projects", customerId],
     queryFn: async () => await getCustomerProjects(customerId as string),
@@ -41,7 +40,7 @@ function CustomerProjects({ customerId }: { customerId: string }) {
     {
       name: "#",
       width: "70px",
-      cell: (row: ProjectBody, index: number) => <p>{index + 1}</p>,
+      cell: (row: ProjectBody, index: number) => <p key={row?.title}>{index + 1}</p>,
     },
     {
       name: "Title",

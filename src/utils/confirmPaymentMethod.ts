@@ -1,4 +1,22 @@
-import stripe from "./stripeInitiate";
+import { useEffect, useState } from "react";
+import stripeInitiate from "@/utils/stripeInitiate";
+import { Stripe } from "@stripe/stripe-js";
+
+const [stripe, setStripe] = useState<Stripe | null>(null); // State to hold Stripe instance
+
+useEffect(() => {
+  const loadStripe = async () => {
+    // Check if stripeInitiate is callable
+    if (stripeInitiate) {
+      const stripeInstance = await stripeInitiate(); // Wait for Stripe to be initialized
+      setStripe(stripeInstance); // Set the Stripe instance in state
+    } else {
+      console.error("stripeInitiate is not callable");
+    }
+  };
+
+  loadStripe();
+}, []);
 
 const confirmPaymentMethod = async (clientSecret: string) => {
   if (!clientSecret) {

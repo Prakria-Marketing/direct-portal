@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { FiHelpCircle } from "react-icons/fi";
-import { BiBell, BiPlus } from "react-icons/bi";
+import { BiPlus } from "react-icons/bi";
 import "./Header.css";
 import { GoTasklist } from "react-icons/go";
 
@@ -39,6 +39,7 @@ import React from "react";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 import { FaDollarSign, FaHandsHelping, FaUserSecret } from "react-icons/fa";
 import { TbUserScan } from "react-icons/tb";
+import Notification from "./Notification";
 const NavList = [
   {
     text: "Dashboard",
@@ -177,11 +178,7 @@ function Header() {
             {/* Notification and Profile Section */}
             <HStack spacing={6}>
               {/* Notification Icon */}
-              <IconButton
-                aria-label="Notifications"
-                icon={<BiBell />}
-                rounded={100}
-              />
+              <Notification />
 
               {/* Vertical Line Divider */}
               <Box

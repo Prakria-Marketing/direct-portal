@@ -7,7 +7,6 @@ import {
   Box,
   Flex,
   Heading,
-  IconButton,
   Image,
   Menu,
   MenuButton,
