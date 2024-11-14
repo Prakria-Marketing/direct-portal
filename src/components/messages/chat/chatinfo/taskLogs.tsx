@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useChannelStateContext } from "stream-chat-react";
 import { getChatUser } from "../components/utils/getChatUser";
 import { useAuth } from "@/hooks/auth";
-import { ServiceCard, TaskCard } from "../../ServiceCard";
+import { TaskCard } from "../../ServiceCard";
 function TaskLogsChatInfo() {
   const { user } = useAuth();
   const { channel } = useChannelStateContext();

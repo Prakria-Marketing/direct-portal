@@ -42,7 +42,7 @@ function CustomerPlan({
     {
       name: "#",
       width: "70px",
-      cell: (row: ISUbscriptions, index: number) => <p>{index + 1}</p>,
+      cell: (row: ISUbscriptions, index: number) => <p key={row?.planId}>{index + 1}</p>,
     },
     {
       name: "Customer ID",

@@ -46,7 +46,7 @@ function StaffList() {
     {
       name: "#",
       width: "70px",
-      cell: (row: IStaffData, index: number) => <p>{index + 1}</p>,
+      cell: (row: IStaffData, index: number) => <p key={row?._id}>{index + 1}</p>,
     },
     {
       name: "Staff",

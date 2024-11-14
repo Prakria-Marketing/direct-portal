@@ -5,7 +5,6 @@ import {
   Button,
   Flex,
   FormControl,
-  FormLabel,
   Heading,
   HStack,
   Input,
@@ -16,7 +15,6 @@ import {
   Select,
   Text,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -38,7 +36,6 @@ import { useForm } from "react-hook-form";
 
 function CustomerList() {
   const [filterText, setFilterText] = useState("");
-  const toast = useToast();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const drawerRef = useRef<HTMLButtonElement>(null);
@@ -78,7 +75,7 @@ function CustomerList() {
     {
       name: "#",
       width: "70px",
-      cell: (row: ICustomerData, index: number) => <p>{index + 1}</p>,
+      cell: (row: ICustomerData, index: number) => <p key={row?._id}>{index + 1}</p>,
     },
     {
       name: "Customer",
@@ -204,12 +201,7 @@ function CustomerList() {
     );
   });
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    reset,
-  } = useForm<AssignManagerType>();
+  const { handleSubmit, register, reset } = useForm<AssignManagerType>();
 
   const assignMangerMutate = useMutation({
     mutationFn: assignManager,

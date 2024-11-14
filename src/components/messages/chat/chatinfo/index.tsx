@@ -16,8 +16,6 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
@@ -137,7 +135,7 @@ function MediaTab() {
   const onClose = () => {
     setIsOpen(false);
     setSelectedMedia(null);
-  }
+  };
 
   const messages = mediaImages?.data?.messages ?? null;
 
@@ -156,7 +154,7 @@ function MediaTab() {
                         rounded="md"
                         src={images?.image_url}
                         onClick={() => {
-                          setSelectedMedia(images)
+                          setSelectedMedia(images);
                           setIsOpen(true);
                         }}
                       />
@@ -174,19 +172,16 @@ function MediaTab() {
         <ModalContent>
           <ModalCloseButton />
           <ModalBody>
-            {
-              selectedMedia?.type === "image" ? (
-                <Image
-                  rounded="md"
-                  src={selectedMedia?.image_url}
-                  width={"100%"}
-                  height={"100%"}
-                />
-              ) : null
-            }
+            {selectedMedia?.type === "image" ? (
+              <Image
+                rounded="md"
+                src={selectedMedia?.image_url}
+                width={"100%"}
+                height={"100%"}
+              />
+            ) : null}
           </ModalBody>
         </ModalContent>
-
       </Modal>
     </TabPanel>
   );

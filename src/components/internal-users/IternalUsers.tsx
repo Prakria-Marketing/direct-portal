@@ -68,7 +68,7 @@ function InternalUsersList() {
     {
       name: "#",
       width: "150px",
-      cell: (row: UserInfo, index: number) => <p>{index + 1}</p>,
+      cell: (row: UserInfo, index: number) => <p key={row?._id}>{index + 1}</p>,
     },
     {
       name: "Full Name",

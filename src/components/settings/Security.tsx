@@ -34,7 +34,7 @@ function Security() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSubmit = async (data: ChangePasswordFields) => {
     try {
-      const res = await changePassword(data.currentPassword, data.newPassword);
+      await changePassword(data.currentPassword, data.newPassword);
     } catch (err) {
     } finally {
       setIsLoading(false);

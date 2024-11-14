@@ -10,7 +10,6 @@ import {
   ListItem,
   Stack,
   Text,
-  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";

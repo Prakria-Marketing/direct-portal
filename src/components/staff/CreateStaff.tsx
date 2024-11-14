@@ -1,5 +1,5 @@
 import { addStaff, IStaffData } from "@/api/staffs";
-import { addInternalUser, fetchInternalUsers, UserInfo } from "@/api/users";
+import { fetchInternalUsers } from "@/api/users";
 import {
   Button,
   FormControl,
@@ -95,7 +95,7 @@ const specializations: OptionType[] = [
 ];
 
 function CreateStaff({ isOpen, onClose }: ModalProps) {
-  const { data: users, isLoading: isUserLoading } = useQuery({
+  const { data: users } = useQuery({
     queryKey: ["internalusers"],
     queryFn: fetchInternalUsers,
   });

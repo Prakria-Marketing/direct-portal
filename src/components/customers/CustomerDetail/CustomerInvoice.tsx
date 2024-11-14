@@ -28,7 +28,7 @@ function CustomerInvoice({
     {
       name: "#",
       width: "70px",
-      cell: (row: IInvoice, index: number) => <p>{index + 1}</p>,
+      cell: (row: IInvoice, index: number) => <p key={row?.invoiceId}>{index + 1}</p>,
     },
     {
       name: "Invoice ID",

@@ -23,7 +23,6 @@ import Pricing from "@/views/pricing";
 import InternalUsers from "@/views/internal-users";
 import CustomerDetails from "@/views/customer-detail";
 import VerifyLayoutWrapper from "@/layouts/verifyLayout";
-import MembershipLayout from "@/layouts/protectedLayout/membershipLayout";
 const mainRoutes = {
   path: "/",
   element: <MainLayout />,

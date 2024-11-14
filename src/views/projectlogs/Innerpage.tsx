@@ -34,12 +34,6 @@ import moment from "moment";
 import { useEffect } from "react";
 import PermissionWrapper from "@/layouts/protectedLayout/permissionWrapper";
 
-interface IStep {
-  title: string;
-  slug: string;
-  date?: string; // Make 'date' optional
-}
-
 const steps = [
   {
     title: " Planning",
@@ -60,7 +54,6 @@ function Innerpage() {
   const {
     data: projectInfo,
     isLoading: isProjectLoading,
-    isError: isProjectError,
   } = useQuery({
     queryKey: ["projects", id],
     queryFn: async () => await getProjectById(id as string),
@@ -70,7 +63,6 @@ function Innerpage() {
     data: logs,
     isLoading: isLogsLoading,
     isFetching: isLogsFetching,
-    isError: isLogsError,
   } = useQuery({
     queryKey: ["logs", id],
     queryFn: async () => await getProjectLogsByIdFunc(id as string),

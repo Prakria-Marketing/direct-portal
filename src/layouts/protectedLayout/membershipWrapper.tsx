@@ -2,10 +2,9 @@ import React from "react";
 import Loading from "@/components/Loading"; // Assuming Loading is a component to show a loading state
 import { useQuery } from "@tanstack/react-query"; // React Query hook for fetching data
 import { UserSubscriptionFunc } from "@/api/membership"; // Your function to fetch user subscription data
-import { BsLockFill } from "react-icons/bs"; // Lock icon from react-icons
-import { Button, useToast } from "@chakra-ui/react"; // Import Chakra UI's toast hook
-import { TbDisabled, TbDisabledOff } from "react-icons/tb";
-import { LockIcon, NotAllowedIcon } from "@chakra-ui/icons";
+
+import { useToast } from "@chakra-ui/react"; // Import Chakra UI's toast hook
+import { NotAllowedIcon } from "@chakra-ui/icons";
 
 function MembershipWrapper({ children }: { children: React.ReactNode }) {
   const { data: UserSubscription, isLoading } = useQuery({
