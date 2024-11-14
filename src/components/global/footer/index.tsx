@@ -4,7 +4,6 @@ import {
   Box,
   chakra,
   Container,
-  Flex,
   HStack,
   Stack,
   Text,
@@ -49,10 +48,10 @@ const SocialButton = ({
 export default function SmallCentered() {
   return (
     <Box
-      bg={useColorModeValue("#eaeaea", "gray.900")}
-      color={useColorModeValue("gray.700", "gray.200")}
+      bg={useColorModeValue("gray.800", "gray.800")}
+      color={useColorModeValue("gray.300", "gray.300")}
     >
-      <Container
+      {/* <Container
         as={Stack}
         maxW={"6xl"}
         py={4}
@@ -74,7 +73,7 @@ export default function SmallCentered() {
             Contact
           </Box>
         </Stack>
-      </Container>
+      </Container> */}
 
       <Box
         borderTopWidth={1}
@@ -84,7 +83,7 @@ export default function SmallCentered() {
         py={4}
       >
         <HStack justifyContent="space-between">
-          <Text>© 2022 Chakra Templates. All rights reserved</Text>
+          <Text>© 2024 Designzo | All rights reserved</Text>
           <Stack direction={"row"} spacing={6}>
             <SocialButton label={"Twitter"} href={"#"}>
               <FaTwitter />

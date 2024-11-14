@@ -2,14 +2,16 @@ import { Card, CardBody, GridItem, Heading, Text } from "@chakra-ui/react";
 
 interface IHeroBanner {
   bg: string;
+  title: string;
+  number: number;
 }
-function HeroBannerCard({ bg }: IHeroBanner) {
+function HeroBannerCard({ bg, title, number }: IHeroBanner) {
   return (
     <GridItem w="100%">
-      <Card rounded={"3xl"} bg={bg} shadow="none">
+      <Card rounded={"lg"} bg={bg} shadow="none">
         <CardBody>
-          <Text>Total No. of Projects</Text>
-          <Heading>1200</Heading>
+          <Text>{title}</Text>
+          <Heading>{number}</Heading>
         </CardBody>
       </Card>
     </GridItem>

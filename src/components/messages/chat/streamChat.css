@@ -1,0 +1,45 @@
+.str-chat {
+    --str-chat__primary-color: #26a69a;
+    --str-chat__active-primary-color: #00796b;
+    --str-chat__primary-surface-color: #dbf8c6;
+    --str-chat__own-message-bubble-color: #000;
+
+    /* --str-chat__surface-color: #424242; */
+    /* --str-chat__secondary-surface-color: hsl(0, 0%, 100%); */
+    --str-chat__primary-surface-color-low-emphasis: #004d40;
+    /* --str-chat__avatar-background-color: #ff7043; */
+}
+
+.bg-wall {
+    border: 1px solid red;
+
+    position: absolute;
+    /* overflow: hidden; */
+    /* z-index: -1; */
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0.05;
+    z-index: -1;
+    background: url(/images/bg-chat-room.png) #e4dcd4
+}
+
+.str-chat__list {
+    background-color: transparent;
+
+}
+
+.str-chat__message-input {
+    background-color: #ededed;
+}
+
+.str-chat__message-list-scroll {
+    /* height: 100%; */
+    z-index: 1;
+    background-color: transparent;
+}
+
+.str-chat__message-input {
+    background-color: #f9f9f9;
+}

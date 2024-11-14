@@ -1,5 +1,5 @@
 .header-bg {
-  background: linear-gradient(180deg, #fc5158, #ba070f);
+  /* background: linear-gradient(180deg, #f05, rgb(201, 3, 69)); */
   padding: 20px 0 !important;
   background-position: center;
   background-size: cover;
@@ -9,7 +9,7 @@
 }
 .menu-btn button {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .menu-btn button:hover {
   text-decoration: none;

@@ -1,0 +1,8 @@
+.chakra-accordion__item{
+    background: #fff;
+    margin-bottom: 20px;
+    border: none;
+}
+.chakra-accordion__panel{
+    border-top: 1px solid #dfdfdf;
+}
