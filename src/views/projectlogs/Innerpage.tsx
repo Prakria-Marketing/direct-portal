@@ -224,7 +224,7 @@ function Innerpage() {
                   onClick={() =>
                     updateLogStatus.mutate({
                       projectId: id!!,
-                      customerId: projectInfo?.data?.userId as string,
+                      customerId: projectInfo?.data?.user?._id as string,
                       stage: steps[logs?.data?.length]?.slug as string,
                     })
                   }
